@@ -1,0 +1,32 @@
+<!-- MainView.ui.xml -->
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+  <ui:style>
+  </ui:style>
+
+	<g:HTMLPanel>
+  
+	<div id="header-wrapper">
+		<div id="header">GInvoicing - Invoicing system</div>
+	</div>
+			
+	<div id="container">
+		<div id="center" class="column">
+			<div class="Application-content-title">test</div>
+			<g:HorizontalPanel ui:field="content" width="100%" />
+		</div>
+				
+		<div id="left" class="column"></div>
+		<div id="right" class="column"></div>
+	</div>
+	
+	<div id="footer-wrapper">
+		<br /><br /><br /><br />
+		<div id="footer">-= ginvoices =-</div>
+	</div>
+
+  </g:HTMLPanel>
+  
+</ui:UiBinder>

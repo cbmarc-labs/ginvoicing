@@ -1,0 +1,173 @@
+/** Add css rules here for your application. */
+
+	/* SOURCE: http://www.alistapart.com/articles/holygrail/ */
+	body {
+	  min-width: 630px;      /* 2x (LC fullwidth +
+	                            CC padding) + RC fullwidth */
+	}
+	#container {
+	  padding-left: 30px;    /* LC fullwidth */
+	  padding-right: 70px;  /* RC fullwidth + CC padding */
+	}
+	#container .column {
+	  position: relative;
+	  float: left;
+	}
+	#center {
+	  padding: 10px 20px;    /* CC padding */
+	  width: 100%;
+	}
+	#left {
+	  width: 10px;           /* LC width */
+	  padding: 0 10px;       /* LC padding */
+	  right: 70px;           /* LC fullwidth + CC padding */
+	  margin-left: -100%;
+	}
+	#right {
+	  width: 10px;          /* RC width */
+	  padding: 0 10px;       /* RC padding */
+	  margin-right: -70px;  /* RC fullwidth + CC padding */
+	}
+	#footer {
+	  clear: both;
+	}
+	
+	/*** IE Fix ***/
+	* html #left {
+	  left: 150px;           /* RC fullwidth */
+	}
+	
+	/*** Equal-height Columns ***/
+	
+	#container {
+		overflow: hidden;
+	}
+	
+	#container .column {
+	}
+	
+	/*** Footer Fix ***/
+	
+	* html body {
+		overflow: hidden;
+	}
+	
+	* html #footer-wrapper {
+		float: left;
+		position: relative;
+		width: 100%;
+		background: #FFF;         /*** Same as body background ***/
+	}
+	
+	/*** Just for Looks ***/
+	/*
+	body {
+		margin: 0;
+		padding: 0;
+		background: #FFF;
+	}
+	
+	#header, #footer {
+		font-size: large;
+		text-align: center;
+		padding: 0.3em 0;
+		background: #999;
+	}
+	
+	#left {
+		background: #66F;
+	}
+	
+	#center {
+		background: #DDD;
+	}
+	
+	#right {
+		background: #F66;
+	}
+	
+	#container .column {
+		padding-top: 1em;
+		text-align: justify;
+	}
+	*/
+
+		
+
+
+#header {
+	padding: .5em;
+	font-size: 24px;
+	color: #fff;
+	background: #4E7DD1;
+	margin: 10px;
+}
+
+.flexTableHeader {
+	background: #ddd;
+}
+
+.section {
+	border-top: 1px solid #aaa;
+	background: #eee;
+	margin: 5px 0;
+	padding: 5px;
+	font-weight: bolder;
+	color: #aaa;
+}
+
+.toolbar {
+	background: #d9e7f8;
+	width: 100%;
+}
+
+.toolbar div {
+	padding: 5px;
+}
+
+.Application-content-title {
+  padding: 4px 0px 3px 6px;
+  text-align: left;
+  background: #e3e8f3 url(ginvoicing/gwt/standard/images/hborder.png) repeat-x 0px -2003px;
+  border-bottom: 2px solid #bbcdf3;
+}
+
+#footer {
+	padding: 1.3em 0;
+	text-align: center;
+	border-top: 1px solid #eee;
+	margin: 10px;
+}
+
+
+/** Example rules used by the template application (remove for your app) */
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #777777;
+  margin: 40px 0px 70px;
+  text-align: center;
+}
+
+.sendButton {
+  display: block;
+  font-size: 16pt;
+}
+
+/** Most GWT widgets already have a style name defined */
+.gwt-DialogBox {
+  width: 400px;
+}
+
+.dialogVPanel {
+  margin: 5px;
+}
+
+.serverResponseLabelError {
+  color: red;
+}
+
+/** Set ids using widget.getElement().setId("idOfElement") */
+#closeButton {
+  margin: 15px 6px 6px;
+}
