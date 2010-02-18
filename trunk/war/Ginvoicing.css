@@ -103,27 +103,45 @@
 	margin: 10px;
 }
 
-.flexTableHeader {
-	background: #ddd;
-}
+	.sectionPanel {
+		width: 100%;
+		border-top: 1px solid #aaa;
+		background: #eee;
+		margin: 5px 0;
+		padding: 5px;
+		font-weight: bolder;
+		color: #aaa;
+	}
 
-.section {
-	border-top: 1px solid #aaa;
-	background: #eee;
-	margin: 5px 0;
-	padding: 5px;
-	font-weight: bolder;
-	color: #aaa;
-}
+	.toolbarPanel {
+		background: #d9e7f8;
+		width: 100%;
+	}
+	
+	.buttonsPanel {
+		background: #ddd;
+		width: 100%;
+	}
 
-.toolbar {
-	background: #d9e7f8;
-	width: 100%;
-}
+	.content {
+		padding: 10px;
+		background: #eee;
+	}
+	
 
-.toolbar div {
-	padding: 5px;
-}
+	.menuPanel {
+		margin: 10px 0;
+	}
+	
+	.formPanel {
+		width: 100%;
+		background: #eee;
+		padding: 5px;
+	}
+	
+	.listPanel {
+		width: 100%;
+	}
 
 .Application-content-title {
   padding: 4px 0px 3px 6px;
@@ -132,12 +150,34 @@
   border-bottom: 2px solid #bbcdf3;
 }
 
-#footer {
-	padding: 1.3em 0;
-	text-align: center;
-	border-top: 1px solid #eee;
-	margin: 10px;
-}
+	.listHeader {
+		width: 100%;
+		text-align: right;
+	}
+	
+	.listContent {
+		width: 100%;
+		background: #eee;
+		text-align: left;
+		border: 1px solid #eee;
+	}
+	
+	.listContentHeader {
+		font-weight: bolder;
+		background: #bbb;
+	}
+	
+	.listFooter {
+		width: 100%;
+		background: #ddd;
+	}
+
+	#footer {
+		padding: 1.3em 0;
+		text-align: center;
+		border-top: 1px solid #eee;
+		margin: 10px;
+	}
 
 
 /** Example rules used by the template application (remove for your app) */
