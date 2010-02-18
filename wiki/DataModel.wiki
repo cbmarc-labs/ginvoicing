@@ -1,0 +1,53 @@
+#summary datamodel of ginvoicing
+
+= Introduction =
+
+This page explain the datamodel of ginvoicing project.
+
+= Datamodel =
+|| *Categories||||||||
+||id||String||PK||Encoded primary key||
+||name||String||*||Category name||
+||description||String||*||Category description||
+
+|| *Customers||||||||
+||id||String||PK||Encoded primary key||
+||name||String||*||Customer name||
+||address||String||*||Customer address||
+||country||String||*||Customer country||
+||phone||String||*||Customer phone||
+||email||String||*||Customer email||
+||notes||String||*||Customer general notes||
+||enabled||Boolean||*||Customer enabled||
+
+|| *Invoices||||||||
+||id||String||PK||Encoded primary key||
+||customer||Customers||*||Invoice customer object||
+||date||Date||*||Invoice created date||
+||amount||Float||*||Total amount of the invoice||
+||invoicesLine||List||*||List of the invoicesLines object||
+
+|| *InvoicesLines||||||||
+||id||String||PK||Encoded primary key||
+||product||Products||*||Invoice product object||
+||price||Float||*||Unit price of the product||
+||quantity||Integer||*||Quantity of products||
+
+|| *Products||||||||
+||id||String||PK||Encoded primary key||
+||name||String||*||Product name||
+||description||String||*||Product description||
+||price||Float||*||Product unit price||
+||category||Categories||*||Product category object||
+||supplier||Suppliers||*||Product supplier object||
+
+|| *Suppliers||||||||
+||id||String||PK||Encoded primary key||
+||name||String||*||Supplier name||
+||address||String||*||Supplier address||
+||country||String||*||Supplier country||
+||phone||String||*||Supplier phone||
+||email||String||*||Supplier email||
+||notes||String||*||Supplier general notes||
+||payment||String||*||Supplier payment terms||
+||enabled||Boolean||*||Supplier enabled||
