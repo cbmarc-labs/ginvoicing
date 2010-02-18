@@ -3,6 +3,7 @@
  */
 package cbmarc.ginvoicing.client.mvp.categories;
 
+import cbmarc.ginvoicing.client.i18n.AppConstants;
 import cbmarc.ginvoicing.client.mvp.Presenter;
 import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesAddEvent;
 import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesAddEventHandler;
@@ -42,6 +43,8 @@ public class CategoriesPresenter implements Presenter {
 		Widget asWidget();
 	}
 	
+	final private AppConstants appConstants;
+	
 	private final CategoriesServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	protected final Display display;
@@ -58,9 +61,10 @@ public class CategoriesPresenter implements Presenter {
 	    this.display = view;
 	    this.rpcService = GWT.create(CategoriesService.class);
 	    
-		this.list = new CategoriesListPresenter(
+	    appConstants = GWT.create(AppConstants.class);
+		list = new CategoriesListPresenter(
 				rpcService, eventBus, new CategoriesListView());
-		this.edit = new CategoriesEditPresenter(
+		edit = new CategoriesEditPresenter(
 				rpcService, eventBus, new CategoriesEditView());
 		
 	    bind();
@@ -144,7 +148,7 @@ public class CategoriesPresenter implements Presenter {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("NO SE HA PODIDO");
+				Window.alert(appConstants.errorFeching());
 			}
 
 			@Override
@@ -153,7 +157,7 @@ public class CategoriesPresenter implements Presenter {
 					edit.setBean(bean);
 					edit.go(display.getContent());
 				} else {
-					Window.alert("NO SE HA PODIDO");
+					Window.alert(appConstants.errorFeching());
 				}
 			}
 			

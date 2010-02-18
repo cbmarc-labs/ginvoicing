@@ -3,13 +3,13 @@
  */
 package cbmarc.ginvoicing.client.mvp.categories.view;
 
-
 import cbmarc.ginvoicing.client.mvp.categories.presenter.CategoriesEditPresenter;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.TextBox;
@@ -21,10 +21,11 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CategoriesEditView extends Composite 
 		implements CategoriesEditPresenter.Display {
+		
 	interface uiBinder extends UiBinder<Widget, CategoriesEditView> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 	
-	@UiField HasClickHandlers listButton;
+	@UiField Button listButton;
 	
 	@UiField TextBox name;
 	@UiField HasValue<String> description;

@@ -6,7 +6,7 @@ package cbmarc.ginvoicing.client.mvp.categories.view;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import cbmarc.ginvoicing.client.mvp.categories.i18n.CategoriesConstants;
 import cbmarc.ginvoicing.client.mvp.categories.presenter.CategoriesListPresenter;
 import cbmarc.ginvoicing.shared.entity.Categories;
 
@@ -30,27 +30,29 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CategoriesListView extends Composite 
 		implements CategoriesListPresenter.Display {
+	
+	final private CategoriesConstants constants;
+	
 	interface uiBinder extends UiBinder<Widget, CategoriesListView> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 	
+	@UiField Button reloadButton;
 	@UiField Button addButton;
 	@UiField Button deleteButton;
 	
 	@UiField FlexTable table;
-	@UiField Label tableLabel;
+	
+	@UiField Label noDataLabel;
+	@UiField Label loadingLabel;
+	@UiField Label errorLabel;
 	@UiField Label listheaderLabel;
 	
 	public CategoriesListView() {
+		constants = GWT.create(CategoriesConstants.class);
+		
 		initWidget(uiBinder.createAndBindUi(this));
 
 		table.getColumnFormatter().setWidth(0, "15px");
-	}
-	
-	/**
-	 * @param e
-	 */
-	@UiHandler("addButton")
-	void onAddButtonClick(ClickEvent e) {
 	}
 	
 	/**
@@ -61,11 +63,10 @@ public class CategoriesListView extends Composite
 		int size = data.size();
 		
 		table.removeAllRows();
-		
 		table.setWidget(0, 0, new CheckBox());
-		table.setText(0, 1, "Name");
-		table.setText(0, 2, "Description");
-		table.getRowFormatter().addStyleName(0, "flexTableHeader");
+		table.setText(0, 1, constants.listName());
+		table.setText(0, 2, constants.listDescription());
+		table.getRowFormatter().addStyleName(0, "listContentHeader");
 
 		if (data != null) {
 			for (int i = 0; i < size; ++i) {
@@ -76,11 +77,7 @@ public class CategoriesListView extends Composite
 		}
 		
 		listheaderLabel.setText(size + " Items");
-		
-		if(size==0) {
-			tableLabel.setText("No data.");
-			tableLabel.setVisible(true);
-		}
+		noDataLabel.setVisible(data.isEmpty());
 	}
 	
 	/**
@@ -89,7 +86,7 @@ public class CategoriesListView extends Composite
 	public List<Integer> getSelectedRows() {
 		List<Integer> selectedRows = new ArrayList<Integer>();
 		
-		for (int i = 0; i < table.getRowCount(); ++i) {
+		for (int i = 1; i < table.getRowCount(); ++i) {
 			CheckBox checkBox = (CheckBox)table.getWidget(i, 0);
 			if (checkBox.getValue()) {
 				selectedRows.add(i);
@@ -144,7 +141,17 @@ public class CategoriesListView extends Composite
 	}
 
 	@Override
-	public Label getTableLabel() {
-		return tableLabel;
+	public Label getErrorLabel() {
+		return errorLabel;
+	}
+
+	@Override
+	public Label getLoadingLabel() {
+		return loadingLabel;
+	}
+
+	@Override
+	public HasClickHandlers getReloadButton() {
+		return reloadButton;
 	}
 }

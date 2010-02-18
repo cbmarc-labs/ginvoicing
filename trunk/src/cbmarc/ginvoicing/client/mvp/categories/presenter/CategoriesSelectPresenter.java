@@ -18,6 +18,7 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -27,8 +28,12 @@ import com.google.gwt.user.client.ui.Widget;
 public class CategoriesSelectPresenter implements Presenter {
 
 	public interface Display {
+		HasClickHandlers getReloadButton();
 		HasClickHandlers getCancelButton();
 		HasClickHandlers getTable();
+		
+		Label getLoadingLabel();
+		Label getErrorLabel();
 
 		void setData(List<Categories> data);
 		
@@ -83,6 +88,15 @@ public class CategoriesSelectPresenter implements Presenter {
 			}
 			
 		});
+		
+		display.getReloadButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				getData();
+			}
+			
+		});
 	}
 	
 	/**
@@ -119,15 +133,21 @@ public class CategoriesSelectPresenter implements Presenter {
 	 * 
 	 */
 	private void getData() {
+		display.getLoadingLabel().setVisible(true);
 		rpcService.select(this.filter, new AsyncCallback<List<Categories>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Error fetching: " + caught.toString());
+				display.getLoadingLabel().setVisible(false);
+				display.getErrorLabel().setVisible(true);
+				
+				Window.alert(caught.toString());
 			}
 
 			@Override
 			public void onSuccess(List<Categories> result) {
+				display.getLoadingLabel().setVisible(false);
+				
 				setData(result);
 			}
 			

@@ -10,6 +10,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import cbmarc.ginvoicing.client.mvp.categories.rpc.CategoriesService;
+import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.Categories;
 import cbmarc.ginvoicing.shared.exception.ServerException;
 
@@ -71,8 +72,7 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Categories> select(String filter) {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
+	public List<Categories> select(String filter) {PersistenceManager pm = PMF.get().getPersistenceManager();
 		List<Categories> result;
 		
 		try {
@@ -93,6 +93,12 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 	
 	@Override
 	public Categories save(Categories bean) throws ServerException {
+		// Verify that the input is valid. 
+		if(!FieldVerifier.isValidName(bean.getName())) {
+			throw new IllegalArgumentException(
+				"Name must be at least 4 characters long");
+		}
+		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		// Is a insert statement?

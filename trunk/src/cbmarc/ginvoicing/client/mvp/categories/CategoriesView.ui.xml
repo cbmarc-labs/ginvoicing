@@ -3,11 +3,13 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
-  <ui:style>
-  </ui:style>
+  <ui:with field="constants" type="cbmarc.ginvoicing.client.mvp.categories.i18n.CategoriesConstants"/>
   
   <g:HTMLPanel>
-  	<div class="section">GINVOICING :: CATEGORIES</div>
+  	<g:HorizontalPanel styleName="sectionPanel">
+  		<g:Label text="{constants.sectionName}"></g:Label>
+  	</g:HorizontalPanel>
+  
   	<g:SimplePanel ui:field="content" />
   </g:HTMLPanel>
 

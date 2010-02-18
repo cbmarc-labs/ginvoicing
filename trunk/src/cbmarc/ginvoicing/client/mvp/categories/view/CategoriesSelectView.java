@@ -5,6 +5,7 @@ package cbmarc.ginvoicing.client.mvp.categories.view;
 
 import java.util.List;
 
+import cbmarc.ginvoicing.client.mvp.categories.i18n.CategoriesConstants;
 import cbmarc.ginvoicing.client.mvp.categories.presenter.CategoriesSelectPresenter;
 import cbmarc.ginvoicing.shared.entity.Categories;
 
@@ -26,16 +27,24 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CategoriesSelectView extends Composite 
 		implements CategoriesSelectPresenter.Display {
+	
+	final private CategoriesConstants constants;
+	
 	interface uiBinder extends UiBinder<Widget, CategoriesSelectView> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 	
+	@UiField Button reloadButton;
 	@UiField Button cancelButton;
 	
 	@UiField FlexTable table;
-	@UiField Label nodataLabel;
+	@UiField Label noDataLabel;
+	@UiField Label loadingLabel;
+	@UiField Label errorLabel;
 	@UiField Label listheaderLabel;
 	
 	public CategoriesSelectView() {
+		constants = GWT.create(CategoriesConstants.class);
+
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
@@ -48,8 +57,8 @@ public class CategoriesSelectView extends Composite
 		
 		table.removeAllRows();
 		
-		table.setText(0, 0, "Name");
-		table.setText(0, 1, "Description");
+		table.setText(0, 0, constants.listName());
+		table.setText(0, 1, constants.listDescription());
 		table.getRowFormatter().addStyleName(0, "flexTableHeader");
 
 		if (data != null) {
@@ -60,7 +69,7 @@ public class CategoriesSelectView extends Composite
 		}
 		
 		listheaderLabel.setText(size + " Items");
-		nodataLabel.setVisible(size==0?true:false);
+		noDataLabel.setVisible(data.isEmpty());
 	}
 	
 	public int getClickedRow(ClickEvent event) {
@@ -86,5 +95,20 @@ public class CategoriesSelectView extends Composite
 	
 	public Widget asWidget() {
 		  return this;
+	}
+
+	@Override
+	public Label getErrorLabel() {
+		return errorLabel;
+	}
+
+	@Override
+	public Label getLoadingLabel() {
+		return loadingLabel;
+	}
+
+	@Override
+	public HasClickHandlers getReloadButton() {
+		return reloadButton;
 	}
 }

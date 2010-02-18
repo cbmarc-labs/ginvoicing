@@ -8,6 +8,7 @@ import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesCreatedEvent;
 import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesEditCancelledEvent;
 import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesSaveEvent;
 import cbmarc.ginvoicing.client.mvp.categories.rpc.CategoriesServiceAsync;
+import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.Categories;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -45,8 +46,6 @@ public class CategoriesEditPresenter implements Presenter {
 	
 	private Categories bean;
 	
-	private final HandlerManager localEventBus;
-	
 	/**
 	 * @param rpcService
 	 * @param eventBus
@@ -59,7 +58,6 @@ public class CategoriesEditPresenter implements Presenter {
 	    this.display = view;
 	    
 	    bean = new Categories();
-	    localEventBus = new HandlerManager(null);
 	    
 	    bind();
 	}
@@ -118,6 +116,13 @@ public class CategoriesEditPresenter implements Presenter {
 	}
 
 	public boolean doSave() {
+		// First, we validate the input.
+		if (!FieldVerifier.isValidName(display.getName().getValue())) {
+			Window.alert("Please enter at least four characters on name field.");
+			
+			return false;
+		}
+		
 		fillBean();
 		
 		rpcService.save(bean, new AsyncCallback<Categories>() {

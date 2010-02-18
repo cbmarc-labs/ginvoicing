@@ -22,6 +22,7 @@ public class MainPresenter implements Presenter {
 		Widget asWidget();
 	}
 	
+	@SuppressWarnings("unused")
 	private final HandlerManager eventBus;
 	private final Display display;
 	

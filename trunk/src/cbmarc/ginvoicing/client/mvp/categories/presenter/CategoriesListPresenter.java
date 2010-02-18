@@ -30,10 +30,13 @@ import com.google.gwt.user.client.ui.Widget;
 public class CategoriesListPresenter implements Presenter {
 
 	public interface Display {
+		HasClickHandlers getReloadButton();
 		HasClickHandlers getAddButton();
 		HasClickHandlers getDeleteButton();
 		HasClickHandlers getTable();
-		Label getTableLabel();
+		
+		Label getLoadingLabel();
+		Label getErrorLabel();
 
 		void setData(List<Categories> data);
 		List<Integer> getSelectedRows();
@@ -98,6 +101,15 @@ public class CategoriesListPresenter implements Presenter {
 			}
 			
 		});
+		
+		display.getReloadButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				getData();
+			}
+			
+		});
 	}
 	
 	/**
@@ -108,9 +120,9 @@ public class CategoriesListPresenter implements Presenter {
 		ArrayList<String> ids = new ArrayList<String>();
 
 		if(selectedRows.isEmpty()) {
-			Window.alert("No hay ningun elemento seleccionado");
+			Window.alert("No items selected.");
 		} else {
-			if(Window.confirm("Borrar los elementos seleccionados ?")) {
+			if(Window.confirm("Delete selected items ?")) {
 				for (int i = 0; i < selectedRows.size(); ++i) {
 					if(selectedRows.get(i) > 0)
 						ids.add(lista.get(selectedRows.get(i) - 1).getId());
@@ -167,20 +179,21 @@ public class CategoriesListPresenter implements Presenter {
 	 * 
 	 */
 	private void getData() {
-		display.getTableLabel().setText("Loading view, please wait ...");
-		display.getTableLabel().setVisible(true);
+		display.getLoadingLabel().setVisible(true);
 		rpcService.select(this.filter, new AsyncCallback<List<Categories>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				display.getTableLabel().setVisible(true);
-				display.getTableLabel().setText("Error fetching data: " + caught.toString());
+				display.getLoadingLabel().setVisible(false);
+				display.getErrorLabel().setVisible(true);
+				
+				Window.alert(caught.toString());
 			}
 
 			@Override
 			public void onSuccess(List<Categories> result) {
-				display.getTableLabel().setText("");
-				display.getTableLabel().setVisible(false);
+				display.getLoadingLabel().setVisible(false);
+				
 				setData(result);
 			}
 			
