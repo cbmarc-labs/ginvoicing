@@ -3,11 +3,9 @@
  */
 package cbmarc.ginvoicing.client.mvp;
 
-
 import cbmarc.ginvoicing.client.mvp.categories.CategoriesPresenter;
 import cbmarc.ginvoicing.client.mvp.categories.CategoriesView;
 
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -22,18 +20,13 @@ public class MainPresenter implements Presenter {
 		Widget asWidget();
 	}
 	
-	@SuppressWarnings("unused")
-	private final HandlerManager eventBus;
 	private final Display display;
-	
 	private CategoriesPresenter categoriesPresenter;
 	
-	public MainPresenter(HandlerManager eventBus, Display view) {
-	    this.eventBus = eventBus;
+	public MainPresenter(Display view) {
 	    this.display = view;
 	    
-	    categoriesPresenter = new CategoriesPresenter(
-	    		eventBus, new CategoriesView());
+	    categoriesPresenter = new CategoriesPresenter(new CategoriesView());
 	    
 	    bind();
 	}
@@ -46,7 +39,6 @@ public class MainPresenter implements Presenter {
 		container.clear();
 		
 		categoriesPresenter.go(display.getContent());
-		
 	    container.add(display.asWidget());
 	}
 }

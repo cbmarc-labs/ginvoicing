@@ -3,18 +3,17 @@
  */
 package cbmarc.ginvoicing.client.mvp.categories;
 
+import cbmarc.ginvoicing.client.EventBus;
 import cbmarc.ginvoicing.client.i18n.AppConstants;
 import cbmarc.ginvoicing.client.mvp.Presenter;
-import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesAddEvent;
-import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesAddEventHandler;
 import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesCreatedEvent;
 import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesCreatedEventHandler;
-import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesDeleteEvent;
-import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesDeleteEventHandler;
 import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesEditCancelledEvent;
 import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesEditCancelledEventHandler;
 import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesEditEvent;
 import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesEditEventHandler;
+import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesListEvent;
+import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesListHandler;
 import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesSaveEvent;
 import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesSaveEventHandler;
 import cbmarc.ginvoicing.client.mvp.categories.presenter.CategoriesEditPresenter;
@@ -26,7 +25,6 @@ import cbmarc.ginvoicing.client.mvp.categories.view.CategoriesListView;
 import cbmarc.ginvoicing.shared.entity.Categories;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -43,10 +41,10 @@ public class CategoriesPresenter implements Presenter {
 		Widget asWidget();
 	}
 	
+	private EventBus eventBus = EventBus.getInstance();
 	final private AppConstants appConstants;
 	
 	private final CategoriesServiceAsync rpcService;
-	private final HandlerManager eventBus;
 	protected final Display display;
 	
 	protected final CategoriesListPresenter list;
@@ -56,16 +54,15 @@ public class CategoriesPresenter implements Presenter {
 	 * @param eventBus
 	 * @param view
 	 */
-	public CategoriesPresenter(HandlerManager eventBus, Display view) {
-	    this.eventBus = eventBus;
+	public CategoriesPresenter(Display view) {
 	    this.display = view;
 	    this.rpcService = GWT.create(CategoriesService.class);
 	    
 	    appConstants = GWT.create(AppConstants.class);
 		list = new CategoriesListPresenter(
-				rpcService, eventBus, new CategoriesListView());
+				rpcService, new CategoriesListView());
 		edit = new CategoriesEditPresenter(
-				rpcService, eventBus, new CategoriesEditView());
+				rpcService, new CategoriesEditView());
 		
 	    bind();
 	}
@@ -73,12 +70,33 @@ public class CategoriesPresenter implements Presenter {
 	/**
 	 * 
 	 */
-	public void bind() {		
-		eventBus.addHandler(CategoriesAddEvent.TYPE,
-				new CategoriesAddEventHandler() {
-			public void onAdd(CategoriesAddEvent event) {
-				doAdd();
-			}
+	public void bind() {
+		eventBus.addHandler(CategoriesListEvent.TYPE,
+				new CategoriesListHandler() {
+
+					@Override
+					public void onAdd(CategoriesListEvent event) {
+						Window.alert("HOLA MUNDO NUEVO");
+						//doAdd();
+					}
+
+					@Override
+					public void onDelete(CategoriesListEvent event) {
+						//list.deleteSelected();
+					}
+
+					@Override
+					public void onReload(CategoriesListEvent event) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onTableClicked(CategoriesListEvent event,
+							int row) {
+						// TODO Auto-generated method stub
+						
+					}
 	    });
 		
 		eventBus.addHandler(CategoriesEditCancelledEvent.TYPE,
@@ -107,16 +125,6 @@ public class CategoriesPresenter implements Presenter {
 			@Override
 			public void onEdit(CategoriesEditEvent event) {
 				doEdit(event.getKey());
-			}
-			
-		});
-		
-		eventBus.addHandler(CategoriesDeleteEvent.TYPE, 
-				new CategoriesDeleteEventHandler() {
-
-			@Override
-			public void onDelete(CategoriesDeleteEvent event) {
-				list.deleteSelected();
 			}
 			
 		});

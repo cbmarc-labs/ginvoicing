@@ -3,6 +3,7 @@
  */
 package cbmarc.ginvoicing.client.mvp.categories.presenter;
 
+import cbmarc.ginvoicing.client.EventBus;
 import cbmarc.ginvoicing.client.mvp.Presenter;
 import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesCreatedEvent;
 import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesEditCancelledEvent;
@@ -14,7 +15,6 @@ import cbmarc.ginvoicing.shared.entity.Categories;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -40,21 +40,19 @@ public class CategoriesEditPresenter implements Presenter {
 		Widget asWidget();
 	}
 	
+	private EventBus eventBus = EventBus.getInstance();
 	private final CategoriesServiceAsync rpcService;
-	private final HandlerManager eventBus;
 	private final Display display;
 	
 	private Categories bean;
 	
 	/**
 	 * @param rpcService
-	 * @param eventBus
 	 * @param view
 	 */
 	public CategoriesEditPresenter(CategoriesServiceAsync rpcService, 
-			HandlerManager eventBus, Display view) {
+			Display view) {
 		this.rpcService = rpcService;
-	    this.eventBus = eventBus;
 	    this.display = view;
 	    
 	    bean = new Categories();

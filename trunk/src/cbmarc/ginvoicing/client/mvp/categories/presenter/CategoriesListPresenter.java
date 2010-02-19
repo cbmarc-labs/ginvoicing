@@ -6,17 +6,16 @@ package cbmarc.ginvoicing.client.mvp.categories.presenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import cbmarc.ginvoicing.client.EventBus;
 import cbmarc.ginvoicing.client.mvp.Presenter;
-import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesAddEvent;
-import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesDeleteEvent;
 import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesEditEvent;
+import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesListEvent;
+import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesListHandler;
 import cbmarc.ginvoicing.client.mvp.categories.rpc.CategoriesServiceAsync;
 import cbmarc.ginvoicing.shared.entity.Categories;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -27,14 +26,10 @@ import com.google.gwt.user.client.ui.Widget;
  * @author MCOSTA
  * 
  */
-public class CategoriesListPresenter implements Presenter {
+public class CategoriesListPresenter 
+		implements Presenter, CategoriesListHandler {
 
 	public interface Display {
-		HasClickHandlers getReloadButton();
-		HasClickHandlers getAddButton();
-		HasClickHandlers getDeleteButton();
-		HasClickHandlers getTable();
-		
 		Label getLoadingLabel();
 		Label getErrorLabel();
 
@@ -42,74 +37,24 @@ public class CategoriesListPresenter implements Presenter {
 		List<Integer> getSelectedRows();
 		
 		int getClickedRow(ClickEvent event);
-
+		
+		public HandlerRegistration addHandler(CategoriesListHandler handler);
 		Widget asWidget();
 	}
-
+	
+	private EventBus eventBus = EventBus.getInstance();
 	private final CategoriesServiceAsync rpcService;
-	private final HandlerManager eventBus;
 	private final Display display;
 	
 	private String filter = null;
 	private List<Categories> lista;
-
-	/**
-	 * @param eventBus
-	 * @param view
-	 */
+	
 	public CategoriesListPresenter(CategoriesServiceAsync rpcService, 
-			HandlerManager eventBus, Display view) {
+			Display display) {
 		this.rpcService = rpcService;
-		this.eventBus = eventBus;
-		this.display = view;
+		this.display = display;
 		
-		bind();
-	}
-
-	/**
-	 * 
-	 */
-	public void bind() {
-		display.getAddButton().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new CategoriesAddEvent());
-			}
-
-		});
-		
-		display.getDeleteButton().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new CategoriesDeleteEvent());
-			}
-			
-		});
-		
-		display.getTable().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				int selectedRow = display.getClickedRow(event);
-				
-				if(selectedRow > 0) {
-					String id = lista.get(selectedRow - 1).getId();
-					eventBus.fireEvent(new CategoriesEditEvent(id));
-				}
-			}
-			
-		});
-		
-		display.getReloadButton().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				getData();
-			}
-			
-		});
+		display.addHandler(this);
 	}
 	
 	/**
@@ -198,5 +143,28 @@ public class CategoriesListPresenter implements Presenter {
 			}
 			
 		});
+	}
+
+	@Override
+	public void onAdd(CategoriesListEvent event) {
+		eventBus.fireEvent(CategoriesListEvent.add());
+	}
+
+	@Override
+	public void onDelete(CategoriesListEvent event) {
+		eventBus.fireEvent(CategoriesListEvent.delete());
+	}
+
+	@Override
+	public void onReload(CategoriesListEvent event) {
+		getData();
+	}
+
+	@Override
+	public void onTableClicked(CategoriesListEvent event, int row) {
+		if(row > 0) {
+			String id = lista.get(row - 1).getId();
+			eventBus.fireEvent(new CategoriesEditEvent(id));
+		}
 	}
 }

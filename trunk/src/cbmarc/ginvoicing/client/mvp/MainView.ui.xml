@@ -14,7 +14,7 @@
 			
 	<div id="container">
 		<div id="center" class="column">
-			<div class="Application-content-title">test</div>
+			<div class="Application-content-title">Menu</div>
 			<g:HorizontalPanel ui:field="content" width="100%" />
 		</div>
 				
@@ -24,7 +24,7 @@
 	
 	<div id="footer-wrapper">
 		<br /><br /><br /><br />
-		<div id="footer">-= ginvoices =-</div>
+		<div id="footer">-= ginvoicing =-</div>
 	</div>
 
   </g:HTMLPanel>

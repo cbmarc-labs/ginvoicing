@@ -44,7 +44,7 @@ public class CategoriesSelectView extends Composite
 	
 	public CategoriesSelectView() {
 		constants = GWT.create(CategoriesConstants.class);
-
+		
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	

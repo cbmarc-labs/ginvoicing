@@ -1,8 +1,7 @@
 <!-- ListView.ui.xml -->
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-    xmlns:g='urn:import:com.google.gwt.user.client.ui'
-    xmlns:ginvoicing="urn:import:cbmarc.ginvoicing.client.ui">
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
     
   <ui:with field="appCnt" type="cbmarc.ginvoicing.client.i18n.AppConstants"/>
 
@@ -23,8 +22,7 @@
 			</g:cell>
 		</g:HorizontalPanel>
 		
-		<ginvoicing:CFlexTable ui:field="table" styleName="listContent">
-		</ginvoicing:CFlexTable>
+		<g:FlexTable ui:field="table" styleName="listContent" />
 		
 		<g:Label text="{appCnt.noData}" visible="false" ui:field="noDataLabel" />
 		<g:Label text="{appCnt.loading}" visible="false" ui:field="loadingLabel" />

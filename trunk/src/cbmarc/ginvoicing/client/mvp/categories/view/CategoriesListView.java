@@ -6,17 +6,18 @@ package cbmarc.ginvoicing.client.mvp.categories.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesListEvent;
+import cbmarc.ginvoicing.client.mvp.categories.event.CategoriesListHandler;
 import cbmarc.ginvoicing.client.mvp.categories.i18n.CategoriesConstants;
 import cbmarc.ginvoicing.client.mvp.categories.presenter.CategoriesListPresenter;
 import cbmarc.ginvoicing.shared.entity.Categories;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -35,10 +36,6 @@ public class CategoriesListView extends Composite
 	
 	interface uiBinder extends UiBinder<Widget, CategoriesListView> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
-	
-	@UiField Button reloadButton;
-	@UiField Button addButton;
-	@UiField Button deleteButton;
 	
 	@UiField FlexTable table;
 	
@@ -61,6 +58,7 @@ public class CategoriesListView extends Composite
 	@Override
 	public void setData(List<Categories> data) {
 		int size = data.size();
+		int p;
 		
 		table.removeAllRows();
 		table.setWidget(0, 0, new CheckBox());
@@ -70,9 +68,13 @@ public class CategoriesListView extends Composite
 
 		if (data != null) {
 			for (int i = 0; i < size; ++i) {
-				table.setWidget(i+1, 0, new CheckBox());
-				table.setText(i+1, 1, data.get(i).getName());
-				table.setText(i+1, 2, data.get(i).getDescription());
+				p = i+1;
+				
+				table.setWidget(p, 0, new CheckBox());
+				table.setText(p, 1, data.get(i).getName());
+				table.setText(p, 2, data.get(i).getDescription());
+				table.getRowFormatter().addStyleName(
+						p, (p%2)==0?"listContentLineA":"listContentLineB");
 			}
 		}
 		
@@ -120,20 +122,25 @@ public class CategoriesListView extends Composite
 	    
 		return selectedRow;
 	}
-
-	@Override
-	public HasClickHandlers getAddButton() {
-		return addButton;
+	
+	@UiHandler("reloadButton")
+	protected void reloadClicked(ClickEvent event) {
+		fireEvent(CategoriesListEvent.reload());
 	}
-
-	@Override
-	public HasClickHandlers getDeleteButton() {
-		return deleteButton;
+	
+	@UiHandler("addButton")
+	protected void addClicked(ClickEvent event) {
+		fireEvent(CategoriesListEvent.add());
 	}
-
-	@Override
-	public HasClickHandlers getTable() {
-		return table;
+	
+	@UiHandler("deleteButton")
+	protected void deleteClicked(ClickEvent event) {
+		fireEvent(CategoriesListEvent.delete());
+	}
+	
+	@UiHandler("table")
+	protected void tableClicked(ClickEvent event) {
+		fireEvent(CategoriesListEvent.table(getClickedRow(event)));
 	}
 
 	public Widget asWidget() {
@@ -151,7 +158,7 @@ public class CategoriesListView extends Composite
 	}
 
 	@Override
-	public HasClickHandlers getReloadButton() {
-		return reloadButton;
+	public HandlerRegistration addHandler(CategoriesListHandler handler) {
+		return addHandler(handler, CategoriesListEvent.getType());
 	}
 }
