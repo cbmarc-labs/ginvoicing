@@ -9,7 +9,7 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import cbmarc.ginvoicing.client.mvp.categories.rpc.CategoriesService;
+import cbmarc.ginvoicing.client.categories.rpc.CategoriesService;
 import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.Categories;
 import cbmarc.ginvoicing.shared.exception.ServerException;

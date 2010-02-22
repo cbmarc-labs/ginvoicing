@@ -1,7 +1,8 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.mvp.categories;
+package cbmarc.ginvoicing.client;
+
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -15,14 +16,13 @@ import com.google.gwt.user.client.ui.Widget;
  * @author MCOSTA
  *
  */
-public class CategoriesView extends Composite 
-		implements CategoriesPresenter.Display {
-	interface uiBinder extends UiBinder<Widget, CategoriesView> {}
+public class MainView extends Composite implements MainPresenter.Display {
+	interface uiBinder extends UiBinder<Widget, MainView> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
-
+	
 	@UiField Panel content;
 	
-	public CategoriesView() {
+	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	

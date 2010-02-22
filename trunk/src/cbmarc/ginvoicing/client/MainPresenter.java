@@ -1,10 +1,10 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.mvp;
+package cbmarc.ginvoicing.client;
 
-import cbmarc.ginvoicing.client.mvp.categories.CategoriesPresenter;
-import cbmarc.ginvoicing.client.mvp.categories.CategoriesView;
+import cbmarc.ginvoicing.client.categories.presenter.CategoriesPresenter;
+import cbmarc.ginvoicing.client.categories.view.CategoriesView;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
@@ -27,11 +27,6 @@ public class MainPresenter implements Presenter {
 	    this.display = view;
 	    
 	    categoriesPresenter = new CategoriesPresenter(new CategoriesView());
-	    
-	    bind();
-	}
-	
-	public void bind() {
 	}
 
 	@Override

@@ -1,25 +1,26 @@
 package cbmarc.ginvoicing.client;
 
-import cbmarc.ginvoicing.client.mvp.MainPresenter;
-import cbmarc.ginvoicing.client.mvp.MainView;
-import cbmarc.ginvoicing.client.mvp.Presenter;
-
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 
-public class AppController implements Presenter {
+public class AppController implements Presenter, ValueChangeHandler<String> {
 	private final MainPresenter main;
   
 	public AppController() {
 		this.main = new MainPresenter(new MainView());
 		
-		bind();
-	}
-	
-	private void bind() {
+		History.addValueChangeHandler(this);
+		History.fireCurrentHistoryState();
 	}
 	
 	public void go(final HasWidgets container) {
 		container.clear();
 		main.go(container);
+	}
+
+	@Override
+	public void onValueChange(ValueChangeEvent<String> event) {
 	}
 }

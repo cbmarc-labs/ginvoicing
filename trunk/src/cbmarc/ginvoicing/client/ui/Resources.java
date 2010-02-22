@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client;
+package cbmarc.ginvoicing.client.ui;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;

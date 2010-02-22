@@ -14,9 +14,7 @@ public class Ginvoicing implements EntryPoint {
 	public void onModuleLoad() {
 	    AppController appViewer = new AppController();
 	    
-	    //RootPanel.get().setStyleName("body");
 	    appViewer.go(RootPanel.get());
-	    //appViewer.go(RootLayoutPanel.get());
 	}
 	
 }
