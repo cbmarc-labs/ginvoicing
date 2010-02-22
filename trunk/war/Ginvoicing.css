@@ -157,14 +157,34 @@
 	
 	.listContent {
 		width: 100%;
-		background: #eee;
 		text-align: left;
-		border: 1px solid #eee;
+		color: #284b72;
 	}
 	
 	.listContentHeader {
 		font-weight: bolder;
-		background: #bbb;
+		background: #b6c7db;
+		color: #1d3652;
+	}
+	
+	.listContentLineA {
+		background: #f1f4f7;
+	}
+	
+	.listContentLineB {
+		background: #fafbfc;
+	}
+	
+	.listContentLineA:hover {
+		background: #e4ebf2;
+		cursor: pointer;
+		cursor: hand;
+	}
+	
+	.listContentLineB:hover {
+		background: #e4ebf2;
+		cursor: pointer;
+		cursor: hand;
 	}
 	
 	.listFooter {
