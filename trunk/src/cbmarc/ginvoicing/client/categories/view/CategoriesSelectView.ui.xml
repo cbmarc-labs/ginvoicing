@@ -1,0 +1,38 @@
+<!-- SelectView.ui.xml -->
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+  <ui:with field="appCnt" type="cbmarc.ginvoicing.client.i18n.AppConstants"/>
+  
+  <g:HTMLPanel styleName="content">
+  
+  	<g:HorizontalPanel styleName="toolbarPanel">
+		<g:FlowPanel styleName="toolbarPanelInner">
+			<g:Button ui:field="reloadButton" text="{appCnt.reloadButton}" />
+  			<g:Button ui:field="cancelButton" text="{appCnt.cancelButton}" />
+  		</g:FlowPanel>
+  	</g:HorizontalPanel>
+	
+	<g:VerticalPanel styleName="listPanel">
+		<g:HorizontalPanel styleName="listHeader">
+			<g:cell horizontalAlignment='ALIGN_RIGHT'>
+				<g:Label ui:field="listheaderLabel" />			
+			</g:cell>
+		</g:HorizontalPanel>
+		
+		<g:FlexTable ui:field="table" styleName="listContent" />
+		
+		<g:Label text="{appCnt.noData}" visible="false" ui:field="noDataLabel" />
+		<g:Label text="{appCnt.loading}" visible="false" ui:field="loadingLabel" />
+		<g:Label text="{appCnt.errorFeching}" visible="false" ui:field="errorLabel" />
+  		
+		<g:HorizontalPanel styleName="listFooter">
+			<g:cell horizontalAlignment='ALIGN_RIGHT'>
+				<g:Label ui:field="listfooterLabel" />			
+			</g:cell>
+		</g:HorizontalPanel>
+  	</g:VerticalPanel>
+  	
+  </g:HTMLPanel>
+</ui:UiBinder>

@@ -1,0 +1,16 @@
+<!-- View.ui.xml -->
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+  <ui:with field="constants" type="cbmarc.ginvoicing.client.categories.i18n.CategoriesConstants"/>
+  
+  <g:HTMLPanel>
+  	<g:HorizontalPanel styleName="sectionPanel">
+  		<g:Label text="{constants.sectionName}"></g:Label>
+  	</g:HorizontalPanel>
+  
+  	<g:SimplePanel ui:field="content" />
+  </g:HTMLPanel>
+
+</ui:UiBinder>
