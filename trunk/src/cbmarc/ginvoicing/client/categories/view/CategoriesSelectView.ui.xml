@@ -8,10 +8,10 @@
   <g:HTMLPanel styleName="content">
   
   	<g:HorizontalPanel styleName="toolbarPanel">
-		<g:FlowPanel styleName="toolbarPanelInner">
+		<g:HorizontalPanel spacing="5">
 			<g:Button ui:field="reloadButton" text="{appCnt.reloadButton}" />
   			<g:Button ui:field="cancelButton" text="{appCnt.cancelButton}" />
-  		</g:FlowPanel>
+  		</g:HorizontalPanel>
   	</g:HorizontalPanel>
 	
 	<g:VerticalPanel styleName="listPanel">
@@ -21,7 +21,7 @@
 			</g:cell>
 		</g:HorizontalPanel>
 		
-		<g:FlexTable ui:field="table" styleName="listContent" />
+		<g:FlexTable ui:field="table" />
 		
 		<g:Label text="{appCnt.noData}" visible="false" ui:field="noDataLabel" />
 		<g:Label text="{appCnt.loading}" visible="false" ui:field="loadingLabel" />

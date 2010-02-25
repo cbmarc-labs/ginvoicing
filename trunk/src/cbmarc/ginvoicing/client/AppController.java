@@ -6,21 +6,44 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
-	private final MainPresenter main;
+	
+	private HasWidgets container;
+	private MainPresenter mainPresenter;
   
 	public AppController() {
-		this.main = new MainPresenter(new MainView());
+		mainPresenter = new MainPresenter(new MainView());
 		
+		bind();
+	}
+	
+	private void bind() {
 		History.addValueChangeHandler(this);
-		History.fireCurrentHistoryState();
 	}
 	
 	public void go(final HasWidgets container) {
-		container.clear();
-		main.go(container);
+		this.container = container;
+		
+		if("".equals(History.getToken())) {
+			History.newItem("main");
+		} else {
+			History.fireCurrentHistoryState();
+		}
 	}
 
 	@Override
 	public void onValueChange(ValueChangeEvent<String> event) {
+		String token = event.getValue();
+		
+		if(token != null) {
+			Presenter presenter = mainPresenter;
+			
+			if(token.equals("main")) {
+				presenter = mainPresenter;
+			}
+
+			if(presenter != null) {
+				presenter.go(container);
+			}
+		}
 	}
 }

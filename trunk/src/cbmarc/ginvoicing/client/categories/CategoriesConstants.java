@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.categories.i18n;
+package cbmarc.ginvoicing.client.categories;
 
 import com.google.gwt.i18n.client.Constants;
 

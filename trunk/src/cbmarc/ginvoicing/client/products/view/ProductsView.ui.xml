@@ -3,7 +3,7 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
-  <ui:with field="constants" type="cbmarc.ginvoicing.client.categories.CategoriesConstants"/>
+  <ui:with field="constants" type="cbmarc.ginvoicing.client.products.ProductsConstants"/>
   
   <g:HTMLPanel>
   	<g:HorizontalPanel styleName="sectionPanel">

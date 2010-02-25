@@ -72,6 +72,9 @@ public class CategoriesEditView extends Composite
 		return description;
 	}
 
+	/* (non-Javadoc)
+	 * @see cbmarc.ginvoicing.client.categories.presenter.CategoriesEditPresenter.Display#addHandler(cbmarc.ginvoicing.client.categories.event.CategoriesEditHandler)
+	 */
 	@Override
 	public HandlerRegistration addHandler(CategoriesEditHandler handler) {
 		return addHandler(handler, CategoriesEditEvent.getType());

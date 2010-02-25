@@ -22,7 +22,7 @@
 			</g:cell>
 		</g:HorizontalPanel>
 		
-		<g:FlexTable ui:field="table" styleName="listContent" />
+		<g:FlexTable ui:field="table" />
 		
 		<g:Label text="{appCnt.noData}" visible="false" ui:field="noDataLabel" />
 		<g:Label text="{appCnt.loading}" visible="false" ui:field="loadingLabel" />

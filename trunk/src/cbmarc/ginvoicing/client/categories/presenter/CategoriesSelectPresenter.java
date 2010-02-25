@@ -6,12 +6,14 @@ package cbmarc.ginvoicing.client.categories.presenter;
 import java.util.List;
 
 import cbmarc.ginvoicing.client.Presenter;
+import cbmarc.ginvoicing.client.categories.CategoriesServiceAsync;
 import cbmarc.ginvoicing.client.categories.event.CategoriesEventBus;
 import cbmarc.ginvoicing.client.categories.event.CategoriesSelectEvent;
 import cbmarc.ginvoicing.client.categories.event.CategoriesSelectHandler;
 import cbmarc.ginvoicing.shared.entity.Categories;
 
-import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -28,34 +30,32 @@ public class CategoriesSelectPresenter
 	public interface Display {		
 		Label getLoadingLabel();
 		Label getErrorLabel();
-
-		void setData(List<Categories> data);
 		
-		int getClickedRow(ClickEvent event);
+		void setData(List<Categories> data);
+		public HandlerRegistration addHandler(CategoriesSelectHandler handler);
 
 		Widget asWidget();
 	}
 
-	private CategoriesEventBus eventBus = CategoriesEventBus.getInstance();
+	private HandlerManager eventBus;
+	private CategoriesServiceAsync service = CategoriesEventBus.getService();
 	private final Display display;
 	
 	private String filter = null;
 	private List<Categories> lista;
 
-	/**
-	 * @param eventBus
-	 * @param view
-	 */
-	public CategoriesSelectPresenter(Display view) { 
-		this.display = view;
+	public CategoriesSelectPresenter(Display display) { 
+		this.display = display;
+		this.eventBus = CategoriesEventBus.getInstance();
+		
+		display.addHandler(this);
 	}
-
-	/**
-	 * @param result
-	 */
-	private void setData(List<Categories> result) {		
-		lista = result;
-		display.setData(lista);
+	
+	public CategoriesSelectPresenter(HandlerManager eventBus, Display display) { 
+		this.display = display;
+		this.eventBus = eventBus;
+		
+		display.addHandler(this);
 	}
 
 	@Override
@@ -63,30 +63,21 @@ public class CategoriesSelectPresenter
 		container.clear();
 		container.add(display.asWidget());
 
-		getData();
+		doReload();
 	}
 	
-	/**
-	 * @return the numParte
-	 */
 	public String getFilter() {
 		return filter;
 	}
 
-	/**
-	 * @param numParte the numParte to set
-	 */
 	public void setFilter(String filter) {
 		this.filter = filter;
 	}
 
-	/**
-	 * 
-	 */
-	private void getData() {
+	public void doReload() {
 		display.getLoadingLabel().setVisible(true);
-		CategoriesEventBus.getService().select(
-				this.filter, new AsyncCallback<List<Categories>>() {
+		
+		service.select(this.filter, new AsyncCallback<List<Categories>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -100,11 +91,15 @@ public class CategoriesSelectPresenter
 			public void onSuccess(List<Categories> result) {
 				display.getLoadingLabel().setVisible(false);
 				
-				setData(result);
+				lista = result;
+				display.setData(lista);
 			}
 			
 		});
 	}
+	
+	public void updateDataFromDisplay() {}
+	public void updateDisplayFromData() {}
 
 	@Override
 	public void onCancel(CategoriesSelectEvent event) {
@@ -113,11 +108,12 @@ public class CategoriesSelectPresenter
 
 	@Override
 	public void onReload(CategoriesSelectEvent event) {
-		getData();
+		eventBus.fireEvent(CategoriesSelectEvent.reload());
 	}
 
 	@Override
 	public void onTableClicked(CategoriesSelectEvent event, int row) {
-		eventBus.fireEvent(CategoriesSelectEvent.table(row));
+		//Window.alert(" desde select presenter " + row);
+		//eventBus.fireEvent(CategoriesSelectEvent.table(10));
 	}
 }

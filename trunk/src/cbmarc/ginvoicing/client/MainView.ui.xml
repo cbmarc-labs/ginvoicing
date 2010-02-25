@@ -7,6 +7,14 @@
   </ui:style>
 
 	<g:HTMLPanel>
+	
+	<div style="text-align: right; border-bottom: 1px solid #aaa; margin: 0 10px;">
+		<div>
+			<g:Anchor href="#">Español</g:Anchor>&nbsp;|&nbsp;
+			<g:Anchor href="#">English</g:Anchor>&nbsp;|&nbsp;
+			<g:Anchor href="#">Français</g:Anchor>
+		</div>
+	</div>
   
 	<div id="header-wrapper">
 		<div id="header">GInvoicing - Invoicing system</div>
@@ -14,7 +22,12 @@
 			
 	<div id="container">
 		<div id="center" class="column">
-			<div class="Application-content-title">Menu</div>
+			<div class="Application-content-title">
+			
+				<g:Anchor href="#categories">Categories</g:Anchor>&nbsp;|&nbsp;
+				<g:Anchor href="#products">Products</g:Anchor>
+			
+			</div>
 			<g:HorizontalPanel ui:field="content" width="100%" />
 		</div>
 				

@@ -1,14 +1,11 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.categories.view;
+package cbmarc.ginvoicing.client.products.view;
 
-import cbmarc.ginvoicing.client.categories.event.CategoriesEvent;
-import cbmarc.ginvoicing.client.categories.event.CategoriesHandler;
-import cbmarc.ginvoicing.client.categories.presenter.CategoriesPresenter;
+import cbmarc.ginvoicing.client.products.presenter.ProductsPresenter;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -20,24 +17,20 @@ import com.google.gwt.user.client.ui.Widget;
  * @author MCOSTA
  *
  */
-public class CategoriesView extends Composite 
-		implements CategoriesPresenter.Display {
+public class ProductsView extends Composite 
+		implements ProductsPresenter.Display {
 	
-	interface uiBinder extends UiBinder<Widget, CategoriesView> {}
+	interface uiBinder extends UiBinder<Widget, ProductsView> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 
 	@UiField Panel content;
 	
-	public CategoriesView() {
+	public ProductsView() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
 	public Widget asWidget() {
 		  return this;
-	}
-	
-	public HandlerRegistration addHandler(CategoriesHandler handler) {
-		return addHandler(handler, CategoriesEvent.getType());
 	}
 
 	@Override

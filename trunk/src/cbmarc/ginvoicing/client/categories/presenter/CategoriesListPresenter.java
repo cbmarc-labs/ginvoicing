@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cbmarc.ginvoicing.client.Presenter;
+import cbmarc.ginvoicing.client.categories.CategoriesServiceAsync;
 import cbmarc.ginvoicing.client.categories.event.CategoriesEvent;
 import cbmarc.ginvoicing.client.categories.event.CategoriesEventBus;
 import cbmarc.ginvoicing.client.categories.event.CategoriesListEvent;
@@ -25,7 +26,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author MCOSTA
  * 
  */
-public class CategoriesListPresenter implements Presenter, CategoriesListHandler {
+public class CategoriesListPresenter 
+		implements Presenter, CategoriesListHandler {
 
 	public interface Display {
 		Label getLoadingLabel();
@@ -41,6 +43,7 @@ public class CategoriesListPresenter implements Presenter, CategoriesListHandler
 	}
 	
 	private CategoriesEventBus eventBus = CategoriesEventBus.getInstance();
+	private CategoriesServiceAsync service = CategoriesEventBus.getService();
 	private final Display display;
 	
 	private String filter = null;
@@ -55,7 +58,7 @@ public class CategoriesListPresenter implements Presenter, CategoriesListHandler
 	/**
 	 * 
 	 */
-	public void deleteSelected() {
+	public void deleteSelectedRows() {
 		List<Integer> selectedRows = display.getSelectedRows();
 		ArrayList<String> ids = new ArrayList<String>();
 
@@ -68,8 +71,7 @@ public class CategoriesListPresenter implements Presenter, CategoriesListHandler
 						ids.add(lista.get(selectedRows.get(i) - 1).getId());
 				}
 		
-				CategoriesEventBus.getService().delete(
-						ids, new AsyncCallback<Void>() {
+				service.delete(ids, new AsyncCallback<Void>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
@@ -121,8 +123,7 @@ public class CategoriesListPresenter implements Presenter, CategoriesListHandler
 	 */
 	public void getData() {
 		display.getLoadingLabel().setVisible(true);
-		CategoriesEventBus.getService().select(
-				this.filter, new AsyncCallback<List<Categories>>() {
+		service.select(this.filter, new AsyncCallback<List<Categories>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -141,6 +142,9 @@ public class CategoriesListPresenter implements Presenter, CategoriesListHandler
 			
 		});
 	}
+	
+	public void updateDataFromDisplay() {}
+	public void updateDisplayFromData() {}
 
 	@Override
 	public void onAdd(CategoriesListEvent event) {

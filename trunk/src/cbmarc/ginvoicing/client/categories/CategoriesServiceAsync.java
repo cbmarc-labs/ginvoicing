@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.categories.rpc;
+package cbmarc.ginvoicing.client.categories;
 
 import java.util.ArrayList;
 import java.util.List;

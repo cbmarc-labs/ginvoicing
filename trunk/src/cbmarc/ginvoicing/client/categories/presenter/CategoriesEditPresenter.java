@@ -4,11 +4,11 @@
 package cbmarc.ginvoicing.client.categories.presenter;
 
 import cbmarc.ginvoicing.client.Presenter;
+import cbmarc.ginvoicing.client.categories.CategoriesServiceAsync;
 import cbmarc.ginvoicing.client.categories.event.CategoriesEditEvent;
 import cbmarc.ginvoicing.client.categories.event.CategoriesEditHandler;
 import cbmarc.ginvoicing.client.categories.event.CategoriesEvent;
 import cbmarc.ginvoicing.client.categories.event.CategoriesEventBus;
-import cbmarc.ginvoicing.client.categories.rpc.CategoriesServiceAsync;
 import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.Categories;
 
@@ -39,7 +39,7 @@ public class CategoriesEditPresenter
 	private CategoriesServiceAsync service = CategoriesEventBus.getService();
 	private final Display display;
 	
-	private Categories bean = new Categories();
+	private Categories categories = new Categories();
 	
 	public CategoriesEditPresenter(Display view) {
 	    this.display = view;
@@ -50,25 +50,21 @@ public class CategoriesEditPresenter
 	/**
 	 * @return
 	 */
-	public Categories getBean() {
-		return bean;
+	public Categories getCategories() {
+		return categories;
 	}
 
 	/**
 	 * @param bean
 	 */
-	public void setBean(Categories bean) {
-		this.bean = bean;
+	public void setCategories(Categories categories) {
+		this.categories = categories;
 	}
 	
 	/**
-	 * 
+	 * @return
 	 */
-	private void updateDataFromDisplay() {
-		this.bean.setName(display.getName().getValue());
-	}
-	
-	public boolean validateInput() {
+	protected boolean hasValidInput() {
 		boolean valid = true;
 		
 		// First, we validate the input.
@@ -81,12 +77,15 @@ public class CategoriesEditPresenter
 		return valid;
 	}
 
+	/**
+	 * @return
+	 */
 	public boolean doSave() {
-		if(!validateInput()) return false;
+		if(!hasValidInput()) return false;
 		
 		updateDataFromDisplay();
 		
-		service.save(bean, new AsyncCallback<Categories>() {
+		service.save(categories, new AsyncCallback<Categories>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -95,7 +94,7 @@ public class CategoriesEditPresenter
 
 			@Override
 			public void onSuccess(Categories result) {
-				History.newItem("categorieslist");
+				eventBus.fireEvent(CategoriesEditEvent.submit());
 			}
 			
 		});
@@ -103,22 +102,37 @@ public class CategoriesEditPresenter
 		return true;
 	}
 	
-	/**
-	 * 
+	/* (non-Javadoc)
+	 * @see cbmarc.ginvoicing.client.Presenter#go(com.google.gwt.user.client.ui.HasWidgets)
 	 */
-	private void updateDisplayFromData() {
-		display.getName().setValue(bean.getName());
-	}
-	
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
 
 		display.reset();
-		if(bean.getId() != null) updateDisplayFromData();
+		if(categories.getId() != null)
+			updateDisplayFromData();
 		
 	    container.add(display.asWidget());
 	    display.getName().setFocus(true);
+	}
+	
+	/**
+	 * 
+	 */
+	public void updateDataFromDisplay() {
+		categories.setName(display.getName().getValue());
+		// TODO
+		// bean.setName(display.getName());
+	}
+	
+	/**
+	 * 
+	 */
+	public void updateDisplayFromData() {
+		display.getName().setValue(categories.getName());
+		// TODO
+		// display.setName(bean.getName());
 	}
 
 	@Override

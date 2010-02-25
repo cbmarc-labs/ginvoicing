@@ -5,7 +5,7 @@
     xmlns:d="urn:import:com.google.gwt.user.datepicker.client">
   
   <ui:with field="appCnt" type="cbmarc.ginvoicing.client.i18n.AppConstants"/>
-  <ui:with field="cnt" type="cbmarc.ginvoicing.client.categories.i18n.CategoriesConstants"/>
+  <ui:with field="cnt" type="cbmarc.ginvoicing.client.categories.CategoriesConstants"/>
   
   <g:HTMLPanel styleName="content">
   

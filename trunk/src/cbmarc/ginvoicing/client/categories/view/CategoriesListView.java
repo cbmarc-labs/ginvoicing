@@ -6,9 +6,10 @@ package cbmarc.ginvoicing.client.categories.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import cbmarc.ginvoicing.client.categories.CategoriesConstants;
+import cbmarc.ginvoicing.client.categories.event.CategoriesEventBus;
 import cbmarc.ginvoicing.client.categories.event.CategoriesListEvent;
 import cbmarc.ginvoicing.client.categories.event.CategoriesListHandler;
-import cbmarc.ginvoicing.client.categories.i18n.CategoriesConstants;
 import cbmarc.ginvoicing.client.categories.presenter.CategoriesListPresenter;
 import cbmarc.ginvoicing.shared.entity.Categories;
 
@@ -32,7 +33,12 @@ import com.google.gwt.user.client.ui.Widget;
 public class CategoriesListView extends Composite 
 		implements CategoriesListPresenter.Display {
 	
-	final private CategoriesConstants constants;
+	private static final String STYLE_LIST  = "listContent";
+	private static final String STYLE_LIST_HEADER  = "listContentHeader";
+	private static final String STYLE_LIST_ROWA = "listContentLineA";
+	private static final String STYLE_LIST_ROWB = "listContentLineB";
+	
+	private CategoriesConstants constants = CategoriesEventBus.getConstants();
 	
 	interface uiBinder extends UiBinder<Widget, CategoriesListView> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
@@ -45,10 +51,9 @@ public class CategoriesListView extends Composite
 	@UiField Label listheaderLabel;
 	
 	public CategoriesListView() {
-		constants = GWT.create(CategoriesConstants.class);
-		
 		initWidget(uiBinder.createAndBindUi(this));
 
+		table.addStyleName(STYLE_LIST);
 		table.getColumnFormatter().setWidth(0, "15px");
 	}
 	
@@ -64,7 +69,7 @@ public class CategoriesListView extends Composite
 		table.setWidget(0, 0, new CheckBox());
 		table.setText(0, 1, constants.listName());
 		table.setText(0, 2, constants.listDescription());
-		table.getRowFormatter().addStyleName(0, "listContentHeader");
+		table.getRowFormatter().addStyleName(0, STYLE_LIST_HEADER);
 
 		if (data != null) {
 			for (int i = 0; i < size; ++i) {
@@ -74,7 +79,7 @@ public class CategoriesListView extends Composite
 				table.setText(p, 1, data.get(i).getName());
 				table.setText(p, 2, data.get(i).getDescription());
 				table.getRowFormatter().addStyleName(
-						p, (p%2)==0?"listContentLineA":"listContentLineB");
+						p, (p%2)==0?STYLE_LIST_ROWA:STYLE_LIST_ROWB);
 			}
 		}
 		
