@@ -10,7 +10,7 @@ import cbmarc.ginvoicing.client.categories.CategoriesServiceAsync;
 import cbmarc.ginvoicing.client.categories.event.CategoriesEventBus;
 import cbmarc.ginvoicing.client.categories.event.CategoriesSelectEvent;
 import cbmarc.ginvoicing.client.categories.event.CategoriesSelectHandler;
-import cbmarc.ginvoicing.shared.entity.Categories;
+import cbmarc.ginvoicing.shared.entity.Category;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -31,7 +31,7 @@ public class CategoriesSelectPresenter
 		Label getLoadingLabel();
 		Label getErrorLabel();
 		
-		void setData(List<Categories> data);
+		void setData(List<Category> data);
 		public HandlerRegistration addHandler(CategoriesSelectHandler handler);
 
 		Widget asWidget();
@@ -42,7 +42,7 @@ public class CategoriesSelectPresenter
 	private final Display display;
 	
 	private String filter = null;
-	private List<Categories> lista;
+	private List<Category> lista;
 
 	public CategoriesSelectPresenter(Display display) { 
 		this.display = display;
@@ -77,7 +77,7 @@ public class CategoriesSelectPresenter
 	public void doReload() {
 		display.getLoadingLabel().setVisible(true);
 		
-		service.select(this.filter, new AsyncCallback<List<Categories>>() {
+		service.select(this.filter, new AsyncCallback<List<Category>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -88,7 +88,7 @@ public class CategoriesSelectPresenter
 			}
 
 			@Override
-			public void onSuccess(List<Categories> result) {
+			public void onSuccess(List<Category> result) {
 				display.getLoadingLabel().setVisible(false);
 				
 				lista = result;

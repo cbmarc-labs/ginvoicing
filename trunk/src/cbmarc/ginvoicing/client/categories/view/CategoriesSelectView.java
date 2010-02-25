@@ -10,7 +10,7 @@ import cbmarc.ginvoicing.client.categories.event.CategoriesEventBus;
 import cbmarc.ginvoicing.client.categories.event.CategoriesSelectEvent;
 import cbmarc.ginvoicing.client.categories.event.CategoriesSelectHandler;
 import cbmarc.ginvoicing.client.categories.presenter.CategoriesSelectPresenter;
-import cbmarc.ginvoicing.shared.entity.Categories;
+import cbmarc.ginvoicing.shared.entity.Category;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -60,7 +60,7 @@ public class CategoriesSelectView extends Composite
 	 * @param data
 	 */
 	@Override
-	public void setData(List<Categories> data) {
+	public void setData(List<Category> data) {
 		int size = data.size();
 		int p;
 		

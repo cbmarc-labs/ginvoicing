@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import cbmarc.ginvoicing.shared.entity.Categories;
+import cbmarc.ginvoicing.shared.entity.Category;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -17,11 +17,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface CategoriesServiceAsync {
 	public void delete(String id, AsyncCallback<Boolean> callback);
-	public void save(Categories bean, AsyncCallback<Categories> callback);
+	public void save(Category bean, AsyncCallback<Category> callback);
 	
 	public void count(AsyncCallback<Integer> callback);
 	
 	public void delete(ArrayList<String> keys, AsyncCallback<Void> callback);
-	public void select(String filter, AsyncCallback<List<Categories>> callback);
-	public void selectById(String id, AsyncCallback<Categories> callback);
+	public void select(String filter, AsyncCallback<List<Category>> callback);
+	public void selectById(String id, AsyncCallback<Category> callback);
 }

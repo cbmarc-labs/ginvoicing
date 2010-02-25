@@ -12,7 +12,8 @@ import cbmarc.ginvoicing.client.categories.event.CategoriesEvent;
 import cbmarc.ginvoicing.client.categories.event.CategoriesEventBus;
 import cbmarc.ginvoicing.client.categories.event.CategoriesListEvent;
 import cbmarc.ginvoicing.client.categories.event.CategoriesListHandler;
-import cbmarc.ginvoicing.shared.entity.Categories;
+import cbmarc.ginvoicing.client.event.EventBus;
+import cbmarc.ginvoicing.shared.entity.Category;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -33,7 +34,7 @@ public class CategoriesListPresenter
 		Label getLoadingLabel();
 		Label getErrorLabel();
 
-		void setData(List<Categories> data);
+		void setData(List<Category> data);
 		List<Integer> getSelectedRows();
 		
 		int getClickedRow(ClickEvent event);
@@ -42,16 +43,20 @@ public class CategoriesListPresenter
 		Widget asWidget();
 	}
 	
-	private CategoriesEventBus eventBus = CategoriesEventBus.getInstance();
-	private CategoriesServiceAsync service = CategoriesEventBus.getService();
 	private final Display display;
+	private EventBus eventBus = EventBus.getEventBus();
+	private CategoriesServiceAsync service = CategoriesEventBus.getService();
 	
 	private String filter = null;
-	private List<Categories> lista;
+	private List<Category> lista;
 	
 	public CategoriesListPresenter(Display display) {
 		this.display = display;
 		
+		bind();
+	}
+	
+	private void bind() {
 		display.addHandler(this);
 	}
 	
@@ -91,7 +96,7 @@ public class CategoriesListPresenter
 	/**
 	 * @param result
 	 */
-	private void setData(List<Categories> result) {		
+	private void setData(List<Category> result) {		
 		lista = result;
 		display.setData(lista);
 	}
@@ -123,7 +128,7 @@ public class CategoriesListPresenter
 	 */
 	public void getData() {
 		display.getLoadingLabel().setVisible(true);
-		service.select(this.filter, new AsyncCallback<List<Categories>>() {
+		service.select(this.filter, new AsyncCallback<List<Category>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -134,7 +139,7 @@ public class CategoriesListPresenter
 			}
 
 			@Override
-			public void onSuccess(List<Categories> result) {
+			public void onSuccess(List<Category> result) {
 				display.getLoadingLabel().setVisible(false);
 				
 				setData(result);

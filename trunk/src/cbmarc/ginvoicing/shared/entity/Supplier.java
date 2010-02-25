@@ -17,7 +17,7 @@ import javax.jdo.annotations.PrimaryKey;
  *
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class Suppliers implements Serializable {
+public class Supplier implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@PrimaryKey
@@ -28,7 +28,7 @@ public class Suppliers implements Serializable {
 	/**
 	 * 
 	 */
-	public Suppliers() {
+	public Supplier() {
 	}
 
 	/**

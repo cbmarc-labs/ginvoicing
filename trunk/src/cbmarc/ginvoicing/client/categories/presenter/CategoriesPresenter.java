@@ -4,18 +4,14 @@
 package cbmarc.ginvoicing.client.categories.presenter;
 
 import cbmarc.ginvoicing.client.Presenter;
-import cbmarc.ginvoicing.client.categories.event.CategoriesEventBus;
+import cbmarc.ginvoicing.client.categories.event.CategoriesEvent;
 import cbmarc.ginvoicing.client.categories.event.CategoriesHandler;
-import cbmarc.ginvoicing.client.categories.event.CategoriesListEvent;
-import cbmarc.ginvoicing.client.categories.event.CategoriesListHandler;
-import cbmarc.ginvoicing.client.categories.event.CategoriesSelectEvent;
-import cbmarc.ginvoicing.client.categories.event.CategoriesSelectHandler;
 import cbmarc.ginvoicing.client.categories.view.CategoriesEditView;
 import cbmarc.ginvoicing.client.categories.view.CategoriesListView;
 import cbmarc.ginvoicing.client.categories.view.CategoriesSelectView;
+import cbmarc.ginvoicing.client.event.EventBus;
 
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -23,8 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author MCOSTA
  *
  */
-public class CategoriesPresenter 
-		implements Presenter, CategoriesSelectHandler, CategoriesListHandler {
+public class CategoriesPresenter implements Presenter, CategoriesHandler {
 	
 	public interface Display {
 		public HandlerRegistration addHandler(CategoriesHandler handler);
@@ -34,12 +29,8 @@ public class CategoriesPresenter
 		Widget asWidget();
 	}
 	
-	private CategoriesEventBus eventBus = CategoriesEventBus.getInstance();
+	private EventBus eventBus = EventBus.getEventBus();
 	protected final Display display;
-	
-	private CategoriesListView categoriesListView;
-	private CategoriesEditView categoriesEditView;
-	private CategoriesSelectView categoriesSelectView;
 	
 	private CategoriesListPresenter categoriesListPresenter;
 	private CategoriesEditPresenter categoriesEditPresenter;
@@ -48,66 +39,38 @@ public class CategoriesPresenter
 	public CategoriesPresenter(Display display) {
 	    this.display = display;
 	    
-	    categoriesListView = new CategoriesListView();
-	    categoriesEditView = new CategoriesEditView();
-	    categoriesSelectView = new CategoriesSelectView();
-	    
-	    categoriesListPresenter = new CategoriesListPresenter(categoriesListView);
-	    categoriesEditPresenter = new CategoriesEditPresenter(categoriesEditView);
-	    categoriesSelectPresenter = new CategoriesSelectPresenter(categoriesSelectView);
+	    categoriesListPresenter = new CategoriesListPresenter(new CategoriesListView());
+	    categoriesEditPresenter = new CategoriesEditPresenter(new CategoriesEditView());
+	    categoriesSelectPresenter = new CategoriesSelectPresenter(new CategoriesSelectView());
 		
-	    eventBus.addHandler(CategoriesSelectEvent.getType(), this);
+	    bind();
 	}
-
-	@Override
-	public void go(HasWidgets container) {
-		container.clear();
+	
+	private void bind() {
+		display.addHandler(this);
 		
-		//categoriesListPresenter.go(display.getContent());
-		categoriesSelectPresenter.go(display.getContent());
-	    container.add(display.asWidget());
+		eventBus.addHandler(CategoriesEvent.getType(), this);
 	}
 	
 	public void updateDataFromDisplay() {}
 	public void updateDisplayFromData() {}
 
 	@Override
-	public void onCancel(CategoriesSelectEvent event) {
-		Window.alert("CANCELADO DESDE CATEGORIESPRESENTER");
-	}
-
-	@Override
-	public void onReload(CategoriesSelectEvent event) {
-		Window.alert("onReload DESDE CATEGORIESPRESENTER");
-	}
-
-	@Override
-	public void onTableClicked(CategoriesSelectEvent event, int row) {
-		Window.alert(" ==> " + row);
-	}
-
-	@Override
-	public void onAdd(CategoriesListEvent event) {
-		// TODO Auto-generated method stub
+	public void go(HasWidgets container) {
+		container.clear();
 		
+		categoriesListPresenter.go(display.getContent());
+	    container.add(display.asWidget());
 	}
 
 	@Override
-	public void onDelete(CategoriesListEvent event) {
-		// TODO Auto-generated method stub
-		
+	public void onEdit(CategoriesEvent event) {
+		categoriesEditPresenter.go(display.getContent());
 	}
 
 	@Override
-	public void onReload(CategoriesListEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onTableClicked(CategoriesListEvent event, int row) {
-		// TODO Auto-generated method stub
-		
+	public void onList(CategoriesEvent event) {
+		categoriesListPresenter.go(display.getContent());
 	}
 
 }

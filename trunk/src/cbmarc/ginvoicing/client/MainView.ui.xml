@@ -23,9 +23,10 @@
 	<div id="container">
 		<div id="center" class="column">
 			<div class="Application-content-title">
-			
-				<g:Anchor href="#categories">Categories</g:Anchor>&nbsp;|&nbsp;
-				<g:Anchor href="#products">Products</g:Anchor>
+
+				<g:Anchor ui:field="homeAnchor" href="#main/home">Home</g:Anchor>&nbsp;&nbsp;
+				<g:Anchor ui:field="categoriesAnchor" href="#main/categories">Categories</g:Anchor>&nbsp;&nbsp;
+				<g:Anchor ui:field="productsAnchor" href="#main/products">Products</g:Anchor>
 			
 			</div>
 			<g:HorizontalPanel ui:field="content" width="100%" />

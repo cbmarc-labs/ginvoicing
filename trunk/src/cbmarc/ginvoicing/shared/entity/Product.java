@@ -17,7 +17,7 @@ import javax.jdo.annotations.PrimaryKey;
  *
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class Categories implements Serializable {
+public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@PrimaryKey
@@ -30,25 +30,32 @@ public class Categories implements Serializable {
 	
 	@Persistent
 	private String description;
+	
+	@Persistent
+	private Integer price;
+	
+	@Persistent
+	private Category category;
 
 	/**
 	 * 
 	 */
-	public Categories() {
+	public Product() {
 	}
-	
-	
 
 	/**
 	 * @param name
 	 * @param description
+	 * @param price
+	 * @param category
 	 */
-	public Categories(String name, String description) {
+	public Product(String name, String description, Integer price,
+			Category category) {
 		this.name = name;
 		this.description = description;
+		this.price = price;
+		this.category = category;
 	}
-
-
 
 	/**
 	 * @return the id
@@ -83,5 +90,33 @@ public class Categories implements Serializable {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * @return the price
+	 */
+	public Integer getPrice() {
+		return price;
+	}
+
+	/**
+	 * @param price the price to set
+	 */
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+
+	/**
+	 * @return the category
+	 */
+	public Category getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 }

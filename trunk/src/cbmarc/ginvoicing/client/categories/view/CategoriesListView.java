@@ -11,7 +11,7 @@ import cbmarc.ginvoicing.client.categories.event.CategoriesEventBus;
 import cbmarc.ginvoicing.client.categories.event.CategoriesListEvent;
 import cbmarc.ginvoicing.client.categories.event.CategoriesListHandler;
 import cbmarc.ginvoicing.client.categories.presenter.CategoriesListPresenter;
-import cbmarc.ginvoicing.shared.entity.Categories;
+import cbmarc.ginvoicing.shared.entity.Category;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -61,7 +61,7 @@ public class CategoriesListView extends Composite
 	 * @param data
 	 */
 	@Override
-	public void setData(List<Categories> data) {
+	public void setData(List<Category> data) {
 		int size = data.size();
 		int p;
 		
@@ -136,7 +136,6 @@ public class CategoriesListView extends Composite
 	@UiHandler("addButton")
 	protected void addClicked(ClickEvent event) {
 		fireEvent(CategoriesListEvent.add());
-		//fireEvent(CategoriesEvent.editPanel());
 	}
 	
 	@UiHandler("deleteButton")

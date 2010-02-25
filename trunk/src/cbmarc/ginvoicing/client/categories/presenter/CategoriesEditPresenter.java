@@ -10,10 +10,9 @@ import cbmarc.ginvoicing.client.categories.event.CategoriesEditHandler;
 import cbmarc.ginvoicing.client.categories.event.CategoriesEvent;
 import cbmarc.ginvoicing.client.categories.event.CategoriesEventBus;
 import cbmarc.ginvoicing.shared.FieldVerifier;
-import cbmarc.ginvoicing.shared.entity.Categories;
+import cbmarc.ginvoicing.shared.entity.Category;
 
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -39,7 +38,7 @@ public class CategoriesEditPresenter
 	private CategoriesServiceAsync service = CategoriesEventBus.getService();
 	private final Display display;
 	
-	private Categories categories = new Categories();
+	private Category categories = new Category();
 	
 	public CategoriesEditPresenter(Display view) {
 	    this.display = view;
@@ -50,14 +49,14 @@ public class CategoriesEditPresenter
 	/**
 	 * @return
 	 */
-	public Categories getCategories() {
+	public Category getCategories() {
 		return categories;
 	}
 
 	/**
 	 * @param bean
 	 */
-	public void setCategories(Categories categories) {
+	public void setCategories(Category categories) {
 		this.categories = categories;
 	}
 	
@@ -85,7 +84,7 @@ public class CategoriesEditPresenter
 		
 		updateDataFromDisplay();
 		
-		service.save(categories, new AsyncCallback<Categories>() {
+		service.save(categories, new AsyncCallback<Category>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -93,7 +92,7 @@ public class CategoriesEditPresenter
 			}
 
 			@Override
-			public void onSuccess(Categories result) {
+			public void onSuccess(Category result) {
 				eventBus.fireEvent(CategoriesEditEvent.submit());
 			}
 			

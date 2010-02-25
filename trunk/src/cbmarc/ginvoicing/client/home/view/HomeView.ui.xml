@@ -1,0 +1,19 @@
+<!-- View.ui.xml -->
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+  <ui:with field="constants" type="cbmarc.ginvoicing.client.home.HomeConstants"/>
+  
+  <g:HTMLPanel>
+  	<g:HorizontalPanel styleName="sectionPanel">
+  		<g:Label text="{constants.sectionName}"></g:Label>
+  	</g:HorizontalPanel>
+  	
+  	<g:Anchor ui:field="homeAnchor" href="#main/home">Home</g:Anchor>&nbsp;&nbsp;
+	<g:Anchor ui:field="categoriesAnchor" href="#main/categories">Categories</g:Anchor>&nbsp;&nbsp;
+	<g:Anchor ui:field="productsAnchor" href="#main/products">Products</g:Anchor>
+  
+  </g:HTMLPanel>
+
+</ui:UiBinder>

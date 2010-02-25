@@ -11,7 +11,7 @@ import javax.jdo.Query;
 
 import cbmarc.ginvoicing.client.categories.CategoriesService;
 import cbmarc.ginvoicing.shared.FieldVerifier;
-import cbmarc.ginvoicing.shared.entity.Categories;
+import cbmarc.ginvoicing.shared.entity.Category;
 import cbmarc.ginvoicing.shared.exception.ServerException;
 
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
@@ -37,7 +37,7 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 		
 		try {
 			pm.currentTransaction().begin();
-			Categories bean = pm.getObjectById(Categories.class, id);
+			Category bean = pm.getObjectById(Category.class, id);
 			pm.deletePersistent(bean);
 			
 			pm.currentTransaction().commit();
@@ -63,26 +63,26 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public Categories selectById(String id) {
+	public Category selectById(String id) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Categories bean = pm.getObjectById(Categories.class, id);
+		Category bean = pm.getObjectById(Category.class, id);
 
 		return bean;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Categories> select(String filter) {PersistenceManager pm = PMF.get().getPersistenceManager();
-		List<Categories> result;
+	public List<Category> select(String filter) {PersistenceManager pm = PMF.get().getPersistenceManager();
+		List<Category> result;
 		
 		try {
-			Query query = pm.newQuery(Categories.class);
+			Query query = pm.newQuery(Category.class);
 			
 			query.setFilter(filter);
 			query.setOrdering("name asc");
 			//query.setRange(first, first + count);
 			
-			result = (List<Categories>) query.execute();
+			result = (List<Category>) query.execute();
 			result = Lists.newArrayList(pm.detachCopyAll(result));
 		} finally {
 			pm.close();
@@ -92,7 +92,7 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 	}
 	
 	@Override
-	public Categories save(Categories bean) throws ServerException {
+	public Category save(Category bean) throws ServerException {
 		// Verify that the input is valid. 
 		if(!FieldVerifier.isValidName(bean.getName())) {
 			throw new IllegalArgumentException(
@@ -103,7 +103,7 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 		
 		// Is a insert statement?
 		if(bean.getId() == null) {
-			Query query = pm.newQuery(Categories.class);
+			Query query = pm.newQuery(Category.class);
 			query.setResult("count(this)");
 			Integer count = (Integer)query.execute();
 			
@@ -129,7 +129,7 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 	@Override
 	public Integer count() {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		final Query query = pm.newQuery(Categories.class);
+		final Query query = pm.newQuery(Category.class);
 		Integer res;
 
 		query.setResult("count(this)");
