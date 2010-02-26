@@ -167,21 +167,21 @@
 		color: #1d3652;
 	}
 	
-	.listContentLineA {
+	.listContentLine0 {
 		background: #f1f4f7;
 	}
 	
-	.listContentLineB {
+	.listContentLine1 {
 		background: #fafbfc;
 	}
 	
-	.listContentLineA:hover {
+	.listContentLine0:hover {
 		background: #e4ebf2;
 		cursor: pointer;
 		cursor: hand;
 	}
 	
-	.listContentLineB:hover {
+	.listContentLine1:hover {
 		background: #e4ebf2;
 		cursor: pointer;
 		cursor: hand;
