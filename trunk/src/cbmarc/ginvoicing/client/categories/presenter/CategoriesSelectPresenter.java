@@ -10,9 +10,9 @@ import cbmarc.ginvoicing.client.categories.CategoriesServiceAsync;
 import cbmarc.ginvoicing.client.categories.event.CategoriesEventBus;
 import cbmarc.ginvoicing.client.categories.event.CategoriesSelectEvent;
 import cbmarc.ginvoicing.client.categories.event.CategoriesSelectHandler;
+import cbmarc.ginvoicing.client.event.EventBus;
 import cbmarc.ginvoicing.shared.entity.Category;
 
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class CategoriesSelectPresenter 
 		implements Presenter, CategoriesSelectHandler {
 
-	public interface Display {		
+	public interface Display {
 		Label getLoadingLabel();
 		Label getErrorLabel();
 		
@@ -37,7 +37,7 @@ public class CategoriesSelectPresenter
 		Widget asWidget();
 	}
 
-	private HandlerManager eventBus;
+	private EventBus eventBus = EventBus.getEventBus();
 	private CategoriesServiceAsync service = CategoriesEventBus.getService();
 	private final Display display;
 	
@@ -46,15 +46,11 @@ public class CategoriesSelectPresenter
 
 	public CategoriesSelectPresenter(Display display) { 
 		this.display = display;
-		this.eventBus = CategoriesEventBus.getInstance();
 		
-		display.addHandler(this);
+		bind();
 	}
 	
-	public CategoriesSelectPresenter(HandlerManager eventBus, Display display) { 
-		this.display = display;
-		this.eventBus = eventBus;
-		
+	private void bind() {
 		display.addHandler(this);
 	}
 
@@ -103,6 +99,7 @@ public class CategoriesSelectPresenter
 
 	@Override
 	public void onCancel(CategoriesSelectEvent event) {
+		Window.alert("POR AQUI NO DEBERIA PASAR");
 		eventBus.fireEvent(CategoriesSelectEvent.cancel());
 	}
 

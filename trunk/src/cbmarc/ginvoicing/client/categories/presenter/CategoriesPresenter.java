@@ -12,6 +12,7 @@ import cbmarc.ginvoicing.client.categories.view.CategoriesSelectView;
 import cbmarc.ginvoicing.client.event.EventBus;
 
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -25,7 +26,6 @@ public class CategoriesPresenter implements Presenter, CategoriesHandler {
 		public HandlerRegistration addHandler(CategoriesHandler handler);
 		
 		HasWidgets getContent();
-		
 		Widget asWidget();
 	}
 	
@@ -34,14 +34,12 @@ public class CategoriesPresenter implements Presenter, CategoriesHandler {
 	
 	private CategoriesListPresenter categoriesListPresenter;
 	private CategoriesEditPresenter categoriesEditPresenter;
-	private CategoriesSelectPresenter categoriesSelectPresenter;
 	
 	public CategoriesPresenter(Display display) {
 	    this.display = display;
 	    
 	    categoriesListPresenter = new CategoriesListPresenter(new CategoriesListView());
 	    categoriesEditPresenter = new CategoriesEditPresenter(new CategoriesEditView());
-	    categoriesSelectPresenter = new CategoriesSelectPresenter(new CategoriesSelectView());
 		
 	    bind();
 	}

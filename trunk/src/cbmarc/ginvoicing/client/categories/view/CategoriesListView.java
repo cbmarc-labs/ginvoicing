@@ -11,6 +11,7 @@ import cbmarc.ginvoicing.client.categories.event.CategoriesEventBus;
 import cbmarc.ginvoicing.client.categories.event.CategoriesListEvent;
 import cbmarc.ginvoicing.client.categories.event.CategoriesListHandler;
 import cbmarc.ginvoicing.client.categories.presenter.CategoriesListPresenter;
+import cbmarc.ginvoicing.client.ui.CFlexTable;
 import cbmarc.ginvoicing.shared.entity.Category;
 
 import com.google.gwt.core.client.GWT;
@@ -33,7 +34,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class CategoriesListView extends Composite 
 		implements CategoriesListPresenter.Display {
 	
-	private static final String STYLE_LIST  = "listContent";
 	private static final String STYLE_LIST_HEADER  = "listContentHeader";
 	private static final String STYLE_LIST_ROWA = "listContentLineA";
 	private static final String STYLE_LIST_ROWB = "listContentLineB";
@@ -43,7 +43,7 @@ public class CategoriesListView extends Composite
 	interface uiBinder extends UiBinder<Widget, CategoriesListView> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 	
-	@UiField FlexTable table;
+	@UiField CFlexTable table;
 	
 	@UiField Label noDataLabel;
 	@UiField Label loadingLabel;
@@ -53,7 +53,6 @@ public class CategoriesListView extends Composite
 	public CategoriesListView() {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		table.addStyleName(STYLE_LIST);
 		table.getColumnFormatter().setWidth(0, "15px");
 	}
 	
@@ -78,8 +77,8 @@ public class CategoriesListView extends Composite
 				table.setWidget(p, 0, new CheckBox());
 				table.setText(p, 1, data.get(i).getName());
 				table.setText(p, 2, data.get(i).getDescription());
-				table.getRowFormatter().addStyleName(
-						p, (p%2)==0?STYLE_LIST_ROWA:STYLE_LIST_ROWB);
+				//table.getRowFormatter().addStyleName(
+				//		p, (p%2)==0?STYLE_LIST_ROWA:STYLE_LIST_ROWB);
 			}
 		}
 		

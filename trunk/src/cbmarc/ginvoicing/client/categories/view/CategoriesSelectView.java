@@ -10,6 +10,7 @@ import cbmarc.ginvoicing.client.categories.event.CategoriesEventBus;
 import cbmarc.ginvoicing.client.categories.event.CategoriesSelectEvent;
 import cbmarc.ginvoicing.client.categories.event.CategoriesSelectHandler;
 import cbmarc.ginvoicing.client.categories.presenter.CategoriesSelectPresenter;
+import cbmarc.ginvoicing.client.ui.CFlexTable;
 import cbmarc.ginvoicing.shared.entity.Category;
 
 import com.google.gwt.core.client.GWT;
@@ -19,7 +20,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -31,7 +31,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class CategoriesSelectView extends Composite 
 		implements CategoriesSelectPresenter.Display {
 	
-	private static final String STYLE_LIST  = "listContent";
 	private static final String STYLE_LIST_HEADER  = "listContentHeader";
 	private static final String STYLE_LIST_ROWA = "listContentLineA";
 	private static final String STYLE_LIST_ROWB = "listContentLineB";
@@ -41,7 +40,7 @@ public class CategoriesSelectView extends Composite
 	interface uiBinder extends UiBinder<Widget, CategoriesSelectView> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 		
-	@UiField FlexTable table;
+	@UiField CFlexTable table;
 	@UiField Label noDataLabel;
 	@UiField Label loadingLabel;
 	@UiField Label errorLabel;
@@ -52,8 +51,6 @@ public class CategoriesSelectView extends Composite
 	 */
 	public CategoriesSelectView() {
 		initWidget(uiBinder.createAndBindUi(this));
-		
-		table.addStyleName(STYLE_LIST);
 	}
 	
 	/**

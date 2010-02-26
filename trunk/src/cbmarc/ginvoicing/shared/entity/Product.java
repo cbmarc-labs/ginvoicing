@@ -32,7 +32,7 @@ public class Product implements Serializable {
 	private String description;
 	
 	@Persistent
-	private Integer price;
+	private String price;
 	
 	@Persistent
 	private Category category;
@@ -49,7 +49,7 @@ public class Product implements Serializable {
 	 * @param price
 	 * @param category
 	 */
-	public Product(String name, String description, Integer price,
+	public Product(String name, String description, String price,
 			Category category) {
 		this.name = name;
 		this.description = description;
@@ -95,14 +95,14 @@ public class Product implements Serializable {
 	/**
 	 * @return the price
 	 */
-	public Integer getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
 	/**
 	 * @param price the price to set
 	 */
-	public void setPrice(Integer price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 
