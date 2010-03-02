@@ -39,9 +39,9 @@ public class ProductsPresenter implements Presenter {
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
+	    container.add(display.asWidget());
 		
 		productsEditPresenter.go(display.getContent());
-	    container.add(display.asWidget());
 	}
 	
 	public void updateDataFromDisplay() {}

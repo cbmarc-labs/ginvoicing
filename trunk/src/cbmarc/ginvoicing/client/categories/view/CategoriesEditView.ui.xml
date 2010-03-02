@@ -20,7 +20,7 @@
   	
 		<table>
 		<tr><td><g:Label text="{cnt.formName}" /></td><td><g:TextBox ui:field="name" /></td></tr>
-		<tr><td><g:Label text="{cnt.formDescription}" /></td><td><g:TextBox ui:field="description" /></td></tr>
+		<tr><td><g:Label text="{cnt.formDescription}" /></td><td><g:TextBox ui:field="description" width="20em" /></td></tr>
 		</table>
 
   	</g:HTMLPanel>

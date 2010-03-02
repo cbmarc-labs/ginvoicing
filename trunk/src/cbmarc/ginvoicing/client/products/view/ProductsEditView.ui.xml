@@ -1,8 +1,7 @@
 <!-- EditView.ui.xml -->
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-    xmlns:g='urn:import:com.google.gwt.user.client.ui'
-    xmlns:d="urn:import:com.google.gwt.user.datepicker.client">
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   
   <ui:with field="appCnt" type="cbmarc.ginvoicing.client.i18n.AppConstants"/>
   <ui:with field="cnt" type="cbmarc.ginvoicing.client.products.ProductsConstants"/>
@@ -21,23 +20,9 @@
 		<table>
 		<tr><td><g:Label text="{cnt.formName}" /></td><td><g:TextBox ui:field="name" /></td></tr>
 		<tr><td><g:Label text="{cnt.formDescription}" /></td><td><g:TextBox ui:field="description" /></td></tr>
+		<tr><td><g:Label text="{cnt.formCategory}" /></td><td><g:ListBox ui:field="category" /></td></tr>
 		<tr><td><g:Label text="{cnt.formPrice}" /></td><td><g:TextBox ui:field="price" /></td></tr>
 		</table>
-		
-		<g:HTMLPanel ui:field="formCategoryPanel">
-			<g:VerticalPanel styleName="toolbarPanel">
-	  			<g:HorizontalPanel spacing="5">
-					<g:Button ui:field="listCategoryButton" text="Select Category" />
-	  			</g:HorizontalPanel>
-	  		</g:VerticalPanel>
-			
-			<table>
-			<tr><td><g:Label text="{cnt.formNameCategory}" /></td><td><g:TextBox ui:field="nameCategory" readOnly="true" /></td></tr>
-			<tr><td><g:Label text="{cnt.formDescriptionCategory}" /></td><td><g:TextBox ui:field="descriptionCategory" readOnly="true" /></td></tr>
-			</table>
-		</g:HTMLPanel>
-		
-		<g:HorizontalPanel width="100%" ui:field="listCategoryPanel" />
 
   	</g:HTMLPanel>
   </g:VerticalPanel>

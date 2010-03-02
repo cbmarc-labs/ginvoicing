@@ -6,6 +6,7 @@ package cbmarc.ginvoicing.client.categories.presenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import cbmarc.ginvoicing.client.AppAsyncCallback;
 import cbmarc.ginvoicing.client.Presenter;
 import cbmarc.ginvoicing.client.categories.CategoriesServiceAsync;
 import cbmarc.ginvoicing.client.categories.event.CategoriesEvent;
@@ -13,14 +14,12 @@ import cbmarc.ginvoicing.client.categories.event.CategoriesEventBus;
 import cbmarc.ginvoicing.client.categories.event.CategoriesListEvent;
 import cbmarc.ginvoicing.client.categories.event.CategoriesListHandler;
 import cbmarc.ginvoicing.client.event.EventBus;
+import cbmarc.ginvoicing.client.i18n.AppConstants;
 import cbmarc.ginvoicing.shared.entity.Category;
 
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -31,24 +30,23 @@ public class CategoriesListPresenter
 		implements Presenter, CategoriesListHandler {
 
 	public interface Display {
-		Label getLoadingLabel();
-		Label getErrorLabel();
-
-		void setData(List<Category> data);
-		List<Integer> getSelectedRows();
+		public void setListContentLabel(String msg);
 		
-		int getClickedRow(ClickEvent event);
+		List<Integer> getSelectedRows();
+		void setData(List<Category> data);
 		
 		public HandlerRegistration addHandler(CategoriesListHandler handler);
 		Widget asWidget();
 	}
+	
+	private AppConstants appCnt = EventBus.getConstants();
 	
 	private final Display display;
 	private EventBus eventBus = EventBus.getEventBus();
 	private CategoriesServiceAsync service = CategoriesEventBus.getService();
 	
 	private String filter = null;
-	private List<Category> lista;
+	private List<Category> list;
 	
 	public CategoriesListPresenter(Display display) {
 		this.display = display;
@@ -66,39 +64,28 @@ public class CategoriesListPresenter
 	public void deleteSelectedRows() {
 		List<Integer> selectedRows = display.getSelectedRows();
 		ArrayList<String> ids = new ArrayList<String>();
+		int row;
 
 		if(selectedRows.isEmpty()) {
-			Window.alert("No items selected.");
+			Window.alert(appCnt.noItemsSelected());
 		} else {
-			if(Window.confirm("Delete selected items ?")) {
-				for (int i = 0; i < selectedRows.size(); ++i) {
-					if(selectedRows.get(i) > 0)
-						ids.add(lista.get(selectedRows.get(i) - 1).getId());
+			if(Window.confirm(appCnt.areYouSure())) {
+				
+				for(Integer i : selectedRows) {
+					row = selectedRows.get(i);
+					if(row > 0) ids.add(list.get(row - 1).getId());
 				}
 		
-				service.delete(ids, new AsyncCallback<Void>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert(caught.toString());
-					}
+				service.delete(ids, new AppAsyncCallback<Void>() {
 
 					@Override
 					public void onSuccess(Void result) {
-						getData();
+						updateDisplayFromData();
 					}
 			
 				});
 			}
 		}
-	}
-	
-	/**
-	 * @param result
-	 */
-	private void setData(List<Category> result) {		
-		lista = result;
-		display.setData(lista);
 	}
 
 	@Override
@@ -106,7 +93,7 @@ public class CategoriesListPresenter
 		container.clear();
 		container.add(display.asWidget());
 
-		getData();
+		updateDisplayFromData();
 	}
 	
 	/**
@@ -122,52 +109,57 @@ public class CategoriesListPresenter
 	public void setFilter(String filter) {
 		this.filter = filter;
 	}
-
+	
 	/**
 	 * 
 	 */
-	public void getData() {
-		display.getLoadingLabel().setVisible(true);
-		service.select(this.filter, new AsyncCallback<List<Category>>() {
+	public void updateDataFromDisplay() {
+		// Nothing to do
+	}
+	
+	/**
+	 * 
+	 */
+	public void updateDisplayFromData() {
+		display.setListContentLabel(appCnt.loading());
+		
+		service.select(this.filter, new AppAsyncCallback<List<Category>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				display.getLoadingLabel().setVisible(false);
-				display.getErrorLabel().setVisible(true);
-				
-				Window.alert(caught.toString());
+				display.setListContentLabel(caught.toString());
 			}
-
+			
 			@Override
 			public void onSuccess(List<Category> result) {
-				display.getLoadingLabel().setVisible(false);
+				display.setListContentLabel(null);
 				
-				setData(result);
+				list = result;
+				display.setData(list);
 			}
 			
 		});
 	}
-	
-	public void updateDataFromDisplay() {}
-	public void updateDisplayFromData() {}
 
 	@Override
 	public void onAdd(CategoriesListEvent event) {
-		eventBus.fireEvent(CategoriesEvent.editPanel());
+		eventBus.fireEvent(CategoriesEvent.editPanel(null));
 	}
 
 	@Override
 	public void onDelete(CategoriesListEvent event) {
-		Window.alert("onDelete");
+		deleteSelectedRows();
 	}
 
 	@Override
 	public void onReload(CategoriesListEvent event) {
-		Window.alert("onReload");
+		updateDisplayFromData();
 	}
 
 	@Override
-	public void onTableClicked(CategoriesListEvent event, int row) {
-		Window.alert("onTableClicked");
+	public void onList(CategoriesListEvent event, int row) {
+		String id = list.get(row).getId();
+		
+		eventBus.fireEvent(CategoriesEvent.editPanel(id));
 	}
 }

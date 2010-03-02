@@ -8,15 +8,12 @@ import cbmarc.ginvoicing.client.categories.view.CategoriesView;
 import cbmarc.ginvoicing.client.event.EventBus;
 import cbmarc.ginvoicing.client.event.MainEvent;
 import cbmarc.ginvoicing.client.event.MainHandler;
-import cbmarc.ginvoicing.client.home.event.HomeEvent;
-import cbmarc.ginvoicing.client.home.event.HomeHandler;
 import cbmarc.ginvoicing.client.home.presenter.HomePresenter;
 import cbmarc.ginvoicing.client.home.view.HomeView;
 import cbmarc.ginvoicing.client.products.presenter.ProductsPresenter;
 import cbmarc.ginvoicing.client.products.view.ProductsView;
 
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 

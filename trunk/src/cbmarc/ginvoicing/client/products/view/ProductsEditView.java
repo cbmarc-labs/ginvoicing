@@ -15,7 +15,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
-import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -31,17 +31,17 @@ public class ProductsEditView extends Composite
 		
 	@UiField TextBox name;
 	@UiField HasValue<String> description;
+	@UiField ListBox category;
 	@UiField HasValue<String> price;
-	
-	@UiField Panel formCategoryPanel;
-	@UiField Panel listCategoryPanel;
 	
 	public ProductsEditView() {
 		initWidget(uiBinder.createAndBindUi(this));
+		category.addItem("uno", "1");
+		category.addItem("dos", "2");
 	}
 	
 	public Widget asWidget() {
-		  return this;
+		return this;
 	}
 
 	@UiHandler("listButton")
@@ -59,35 +59,39 @@ public class ProductsEditView extends Composite
 		fireEvent(ProductsEditEvent.cancel());
 	}
 
-	@UiHandler("listCategoryButton")
-	protected void listCategoryClicked(ClickEvent event) {
-		//fireEvent(ProductsEditEvent.listCategory());
-	}
-	
-	/**
-	 * @return the listCategoryPanel
-	 */
-	public Panel getListCategoryPanel() {
-		return listCategoryPanel;
-	}
-
 	@Override
 	public void reset() {
-		this.name.setValue("");
-		this.description.setValue("");
+		name.setValue("");
+		description.setValue("");
 	}
 
 	@Override
-	public TextBox getName() {
-		return this.name;
+	public String getName() {
+		return this.name.getValue();
 	}
 
-	public final HasValue<String> getDescription() {
-		return description;
+	@Override
+	public String getDescription() {
+		return description.getValue();
 	}
 
 	@Override
 	public HandlerRegistration addHandler(ProductsEditHandler handler) {
 		return addHandler(handler, ProductsEditEvent.getType());
+	}
+
+	@Override
+	public void focus() {
+		name.setFocus(true);
+	}
+
+	@Override
+	public void setDescription(String value) {
+		description.setValue(value);
+	}
+
+	@Override
+	public void setName(String value) {
+		name.setValue(value);
 	}
 }

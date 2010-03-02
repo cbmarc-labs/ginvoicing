@@ -7,7 +7,6 @@ import cbmarc.ginvoicing.client.i18n.AppConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.i18n.client.Constants;
 
 /**
  * @author MCOSTA
@@ -16,7 +15,7 @@ import com.google.gwt.i18n.client.Constants;
 public class EventBus extends HandlerManager {
 
 	private static EventBus instance = new EventBus();
-	private static Constants constants = GWT.create(AppConstants.class);
+	private static AppConstants constants = GWT.create(AppConstants.class);
 	
 	private EventBus() {
 		super(null);
@@ -26,7 +25,7 @@ public class EventBus extends HandlerManager {
 		return instance;
 	}
 	
-	public static Constants getConstants() {
+	public static AppConstants getConstants() {
 		return constants;
 	}
 }

@@ -12,6 +12,7 @@ import javax.jdo.Query;
 import cbmarc.ginvoicing.client.categories.CategoriesService;
 import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.Category;
+import cbmarc.ginvoicing.shared.entity.CategoryDisplay;
 import cbmarc.ginvoicing.shared.exception.ServerException;
 
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
@@ -72,7 +73,8 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Category> select(String filter) {PersistenceManager pm = PMF.get().getPersistenceManager();
+	public List<Category> select(String filter) throws ServerException {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
 		List<Category> result;
 		
 		try {
@@ -84,11 +86,19 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 			
 			result = (List<Category>) query.execute();
 			result = Lists.newArrayList(pm.detachCopyAll(result));
+		} catch(Exception e) {
+			throw new ServerException(e.toString());
 		} finally {
 			pm.close();
 		}
 		
 		return result;
+	}
+	
+	public List<CategoryDisplay> selectDisplay(String filter) 
+			throws ServerException {
+		
+		return null;
 	}
 	
 	@Override

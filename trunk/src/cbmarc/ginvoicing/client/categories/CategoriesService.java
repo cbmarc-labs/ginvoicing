@@ -23,7 +23,7 @@ public interface CategoriesService extends RemoteService {
 	Category save(Category bean) throws ServerException;
 	
 	void delete(ArrayList<String> ids);
-	List<Category> select(String filter);
+	List<Category> select(String filter) throws ServerException;
 	
 	Integer count();
 	Category selectById(String id);

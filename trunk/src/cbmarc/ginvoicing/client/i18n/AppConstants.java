@@ -23,6 +23,10 @@ public interface AppConstants extends Constants {
 	String submitButton();
 	String cancelButton();
 	
-	String errorFeching();
+	String errorServer();
+	
+	String areYouSure();
+	
+	String noItemsSelected();
 	String noData();
 }

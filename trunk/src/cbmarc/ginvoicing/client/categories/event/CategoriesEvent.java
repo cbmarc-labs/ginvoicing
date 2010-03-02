@@ -8,17 +8,23 @@ public class CategoriesEvent extends GwtEvent<CategoriesHandler> {
 	private enum Operation {LIST, EDIT};
 	
 	private Operation operation;
+	private String id;
 	
 	public static CategoriesEvent listPanel() {
 		return new CategoriesEvent(Operation.LIST);
 	}
 	
-	public static CategoriesEvent editPanel() {
-		return new CategoriesEvent(Operation.EDIT);
+	public static CategoriesEvent editPanel(String id) {
+		return new CategoriesEvent(Operation.EDIT, id);
 	}
 	
 	private CategoriesEvent(Operation operation) {
 		this.operation = operation;
+	}
+	
+	private CategoriesEvent(Operation operation, String id) {
+		this.operation = operation;
+		this.id = id;
 	}
 
 	public static Type<CategoriesHandler> getType() {
@@ -32,7 +38,7 @@ public class CategoriesEvent extends GwtEvent<CategoriesHandler> {
 			handler.onList(this);
 			break;
 		case EDIT:
-			handler.onEdit(this);
+			handler.onEdit(this, id);
 			break;
 		}
 	}

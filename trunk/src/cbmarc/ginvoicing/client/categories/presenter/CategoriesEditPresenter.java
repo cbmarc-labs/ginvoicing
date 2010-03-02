@@ -3,6 +3,7 @@
  */
 package cbmarc.ginvoicing.client.categories.presenter;
 
+import cbmarc.ginvoicing.client.AppAsyncCallback;
 import cbmarc.ginvoicing.client.Presenter;
 import cbmarc.ginvoicing.client.categories.CategoriesServiceAsync;
 import cbmarc.ginvoicing.client.categories.event.CategoriesEditEvent;
@@ -15,9 +16,7 @@ import cbmarc.ginvoicing.shared.entity.Category;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -28,9 +27,15 @@ public class CategoriesEditPresenter
 		implements Presenter, CategoriesEditHandler {
 	
 	public interface Display {
-		TextBox getName();
+		String getName();
+		void setName(String value);
 		
-		void reset();
+		String getDescription();
+		void setDescription(String value);
+		
+		public void focus();
+		public void reset();
+		
 		public HandlerRegistration addHandler(CategoriesEditHandler handler);
 		Widget asWidget();
 	}
@@ -73,7 +78,7 @@ public class CategoriesEditPresenter
 		
 		// TODO validate all fields
 		// First, we validate the input.
-		if (!FieldVerifier.isValidName(display.getName().getValue())) {
+		if (!FieldVerifier.isValidName(display.getName())) {
 			Window.alert("Please enter at least four characters on name field.");
 			
 			return false;
@@ -85,17 +90,10 @@ public class CategoriesEditPresenter
 	/**
 	 * @return
 	 */
-	public boolean doSave() {
-		if(!hasValidInput()) return false;
-		
+	public void doSave() {
 		updateDataFromDisplay();
 		
-		service.save(category, new AsyncCallback<Category>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("Save failed: " + caught.toString());
-			}
+		service.save(category, new AppAsyncCallback<Category>() {
 
 			@Override
 			public void onSuccess(Category result) {
@@ -103,38 +101,32 @@ public class CategoriesEditPresenter
 			}
 			
 		});
-		
-		return true;
 	}
 	
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
-
-		display.reset();
-		if(category.getId() != null)
-			updateDisplayFromData();
-		
 	    container.add(display.asWidget());
-	    display.getName().setFocus(true);
+
+		updateDisplayFromData();
+		display.focus();
 	}
 	
 	/**
 	 * 
 	 */
 	public void updateDataFromDisplay() {
-		category.setName(display.getName().getValue());
-		// TODO
-		// bean.setName(display.getName());
+		category.setName(display.getName());
+		category.setDescription(display.getDescription());
 	}
 	
 	/**
 	 * 
 	 */
 	public void updateDisplayFromData() {
-		display.getName().setValue(category.getName());
-		// TODO
-		// display.setName(bean.getName());
+		display.reset();
+		display.setName(category.getName());
+		display.setDescription(category.getDescription());
 	}
 
 	@Override
@@ -149,7 +141,7 @@ public class CategoriesEditPresenter
 
 	@Override
 	public void onSubmit(CategoriesEditEvent event) {
-		doSave();
+		if(hasValidInput()) doSave();
 	}
 
 }

@@ -5,7 +5,7 @@ import com.google.gwt.event.shared.GwtEvent;
 public class CategoriesListEvent extends GwtEvent<CategoriesListHandler> {
 	public static final Type<CategoriesListHandler> TYPE = 
 		new Type<CategoriesListHandler>();
-	private enum Operation {RELOAD, ADD, DELETE, TABLE};
+	private enum Operation {RELOAD, ADD, DELETE, LIST};
 	
 	private Operation operation;
 	private int row;
@@ -22,8 +22,8 @@ public class CategoriesListEvent extends GwtEvent<CategoriesListHandler> {
 		return new CategoriesListEvent(Operation.DELETE);
 	}
 	
-	public static CategoriesListEvent table(int row) {
-		return new CategoriesListEvent(Operation.TABLE, row);
+	public static CategoriesListEvent list(int row) {
+		return new CategoriesListEvent(Operation.LIST, row);
 	}
 	
 	private CategoriesListEvent(Operation operation) {
@@ -51,8 +51,8 @@ public class CategoriesListEvent extends GwtEvent<CategoriesListHandler> {
 		case DELETE:
 			handler.onDelete(this);
 			break;
-		case TABLE:
-			handler.onTableClicked(this, row);
+		case LIST:
+			handler.onList(this, row);
 			break;
 		}
 	}

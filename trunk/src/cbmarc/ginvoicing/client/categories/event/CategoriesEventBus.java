@@ -17,16 +17,14 @@ import com.google.gwt.event.shared.HandlerManager;
 public class CategoriesEventBus extends HandlerManager {
 
 	private static CategoriesEventBus instance = new CategoriesEventBus();
-	private static CategoriesServiceAsync service = 
-		GWT.create(CategoriesService.class);
-	private static CategoriesConstants constants = 
-		GWT.create(CategoriesConstants.class);
+	private static CategoriesServiceAsync service = GWT.create(CategoriesService.class);
+	private static CategoriesConstants constants = GWT.create(CategoriesConstants.class);
 	
 	private CategoriesEventBus() {
 		super(null);
 	}
 	
-	public static CategoriesEventBus getInstance() {
+	public static CategoriesEventBus getEventBus() {
 		return instance;
 	}
 	

@@ -56,20 +56,8 @@ public class CategoriesEditView extends Composite
 
 	@Override
 	public void reset() {
-		this.name.setValue("");
-		this.description.setValue("");
-	}
-
-	@Override
-	public TextBox getName() {
-		return this.name;
-	}
-
-	/**
-	 * @return the nombre
-	 */
-	public final HasValue<String> getDescription() {
-		return description;
+		name.setValue("");
+		description.setValue("");
 	}
 
 	/* (non-Javadoc)
@@ -78,5 +66,30 @@ public class CategoriesEditView extends Composite
 	@Override
 	public HandlerRegistration addHandler(CategoriesEditHandler handler) {
 		return addHandler(handler, CategoriesEditEvent.getType());
+	}
+
+	@Override
+	public void focus() {
+		name.setFocus(true);
+	}
+
+	@Override
+	public String getDescription() {
+		return description.getValue();
+	}
+
+	@Override
+	public String getName() {
+		return name.getValue();
+	}
+
+	@Override
+	public void setDescription(String value) {
+		description.setValue(value);
+	}
+
+	@Override
+	public void setName(String value) {
+		name.setValue(value);
 	}
 }

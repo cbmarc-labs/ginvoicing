@@ -22,17 +22,8 @@
 			</g:cell>
 		</g:HorizontalPanel>
 		
-		<ginvoicing:CFlexTable ui:field="table"></ginvoicing:CFlexTable>
-		
-		<g:Label text="{appCnt.noData}" visible="false" ui:field="noDataLabel" />
-		<g:Label text="{appCnt.loading}" visible="false" ui:field="loadingLabel" />
-		<g:Label text="{appCnt.errorFeching}" visible="false" ui:field="errorLabel" />
-  		
-		<g:HorizontalPanel styleName="listFooter">
-			<g:cell horizontalAlignment='ALIGN_RIGHT'>
-				<g:Label ui:field="listfooterLabel" />			
-			</g:cell>
-		</g:HorizontalPanel>
+		<ginvoicing:ListFlexTable ui:field="listContent"></ginvoicing:ListFlexTable>
+		<g:Label visible="false" ui:field="listContentLabel" />
   	</g:VerticalPanel>
   	
   </g:HTMLPanel>
