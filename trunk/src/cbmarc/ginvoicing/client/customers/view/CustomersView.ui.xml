@@ -4,6 +4,7 @@
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
   <g:HTMLPanel>
+  	CUSTOMERS IN PROGRESS
   	<g:SimplePanel ui:field="content" />
   </g:HTMLPanel>
 

@@ -4,7 +4,7 @@ import com.google.gwt.event.shared.GwtEvent;
 
 public class MainEvent extends GwtEvent<MainHandler> {
 	private static final Type<MainHandler> TYPE = new Type<MainHandler>();
-	private enum Operation {HOME, CATEGORIES, PRODUCTS};
+	private enum Operation {HOME, CATEGORIES, PRODUCTS, CUSTOMERS, INVOICES};
 	
 	private Operation operation;
 	
@@ -18,6 +18,14 @@ public class MainEvent extends GwtEvent<MainHandler> {
 	
 	public static MainEvent products() {
 		return new MainEvent(Operation.PRODUCTS);
+	}
+	
+	public static MainEvent customers() {
+		return new MainEvent(Operation.CUSTOMERS);
+	}
+	
+	public static MainEvent invoices() {
+		return new MainEvent(Operation.INVOICES);
 	}
 	
 	private MainEvent(Operation operation) {
@@ -39,6 +47,12 @@ public class MainEvent extends GwtEvent<MainHandler> {
 			break;
 		case PRODUCTS:
 			handler.products(this);
+			break;
+		case CUSTOMERS:
+			handler.customers(this);
+			break;
+		case INVOICES:
+			handler.invoices(this);
 			break;
 		}
 	}

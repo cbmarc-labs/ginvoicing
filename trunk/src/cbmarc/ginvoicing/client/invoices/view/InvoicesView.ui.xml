@@ -3,8 +3,9 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
-  <g:HTMLPanel>
-  	<g:SimplePanel ui:field="content" />
-  </g:HTMLPanel>
+	<g:HTMLPanel>
+		INVOICES IN PROGRESS
+		<g:SimplePanel ui:field="content" />
+	</g:HTMLPanel>
 
 </ui:UiBinder>

@@ -2,18 +2,127 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+    
+    <ui:with field="appCnt" type="cbmarc.ginvoicing.client.i18n.AppConstants"/>
+    <ui:with field="cnt" type="cbmarc.ginvoicing.client.home.HomeConstants"/>
+    <ui:with field="res" type="cbmarc.ginvoicing.client.home.view.HomeResources"/>
+    
+    <ui:style>
+    .test {
+    	padding: 1em 5em;
+		cursor: pointer;
+		cursor: hand;
+    }
+    
+    .section {
+    	width: 100%;
+    	padding: 1em;
+    }
+    
+    .section:hover {
+    	background: #eee;
+    }
+    
+    .sectionLeft {
+    }
+    
+    .sectionRight {
+    	padding: 0 2em;
+    }
+    
+    .sectionTitle {
+    	width: 100%;
+    }
+    
+    .sectionTitleLabel {
+    	font-size: 28px;
+    	font-weight: bolder;
+    	color: #b6c7db;
+    	font-family: verdana, arial, sans-serif;
+    }
+    
+    .sectionDescription {
+    }
+    
+    .sectionDescriptionLabel {
+    	font-family: verdana, arial, sans-serif;
+    	font-size: 18px;
+    	color: #666;
+    }
+	</ui:style>
 
-  <ui:with field="constants" type="cbmarc.ginvoicing.client.home.HomeConstants"/>
-  
-  <g:HTMLPanel>
-  	<g:HorizontalPanel styleName="sectionPanel">
-  		<g:Label text="{constants.sectionName}"></g:Label>
+  	<g:HTMLPanel>
+  	
+  	<g:HorizontalPanel width="75%" styleName="{style.test}">
+  		<g:HorizontalPanel styleName="{style.section}">
+  			<g:VerticalPanel styleName="{style.sectionLeft}">
+  				<g:Image resource="{res.categories}"></g:Image>
+  			</g:VerticalPanel>
+  			<g:VerticalPanel styleName="{style.sectionRight}">
+  				<g:HorizontalPanel styleName="{style.sectionTitle}">
+  					<g:Label text="{appCnt.menuCategories}" styleName="{style.sectionTitleLabel}"/>
+  				</g:HorizontalPanel>
+  				<g:HorizontalPanel styleName="{style.sectionDescription}">
+  					<g:Label text="{cnt.categoriesDescription}" styleName="{style.sectionDescriptionLabel}"/>
+  				</g:HorizontalPanel>
+  			</g:VerticalPanel>
+  		</g:HorizontalPanel>
   	</g:HorizontalPanel>
   	
-  	<g:Anchor ui:field="homeAnchor" href="#main/home">Home</g:Anchor>&nbsp;&nbsp;
-	<g:Anchor ui:field="categoriesAnchor" href="#main/categories">Categories</g:Anchor>&nbsp;&nbsp;
-	<g:Anchor ui:field="productsAnchor" href="#main/products">Products</g:Anchor>
+  	<g:HorizontalPanel width="75%" styleName="{style.test}">
+  		<g:HorizontalPanel styleName="{style.section}">
+  			<g:VerticalPanel styleName="{style.sectionLeft}">
+  				<g:Image resource="{res.categories}"></g:Image>
+  			</g:VerticalPanel>
+  			<g:VerticalPanel styleName="{style.sectionRight}">
+  				<g:HorizontalPanel styleName="{style.sectionTitle}">
+  					<g:Label text="{appCnt.menuProducts}" styleName="{style.sectionTitleLabel}"/>
+  				</g:HorizontalPanel>
+  				<g:HorizontalPanel styleName="{style.sectionDescription}">
+  					<g:Label text="{cnt.categoriesDescription}" styleName="{style.sectionDescriptionLabel}"/>
+  				</g:HorizontalPanel>
+  			</g:VerticalPanel>
+  		</g:HorizontalPanel>
+  	</g:HorizontalPanel>
+  	
+  	<g:HorizontalPanel width="75%" styleName="{style.test}">
+  		<g:HorizontalPanel styleName="{style.section}">
+  			<g:VerticalPanel styleName="{style.sectionLeft}">
+  				<g:Image resource="{res.categories}"></g:Image>
+  			</g:VerticalPanel>
+  			<g:VerticalPanel styleName="{style.sectionRight}">
+  				<g:HorizontalPanel styleName="{style.sectionTitle}">
+  					<g:Label text="{appCnt.menuCustomers}" styleName="{style.sectionTitleLabel}"/>
+  				</g:HorizontalPanel>
+  				<g:HorizontalPanel styleName="{style.sectionDescription}">
+  					<g:Label text="{cnt.categoriesDescription}" styleName="{style.sectionDescriptionLabel}"/>
+  				</g:HorizontalPanel>
+  			</g:VerticalPanel>
+  		</g:HorizontalPanel>
+  	</g:HorizontalPanel>
+  	
+  	<g:HorizontalPanel width="75%" styleName="{style.test}">
+  		<g:HorizontalPanel styleName="{style.section}">
+  			<g:VerticalPanel styleName="{style.sectionLeft}">
+  				<g:Image resource="{res.categories}"></g:Image>
+  			</g:VerticalPanel>
+  			<g:VerticalPanel styleName="{style.sectionRight}">
+  				<g:HorizontalPanel styleName="{style.sectionTitle}">
+  					<g:Label text="{appCnt.menuInvoices}" styleName="{style.sectionTitleLabel}"/>
+  				</g:HorizontalPanel>
+  				<g:HorizontalPanel styleName="{style.sectionDescription}">
+  					<g:Label text="{cnt.categoriesDescription}" styleName="{style.sectionDescriptionLabel}"/>
+  				</g:HorizontalPanel>
+  			</g:VerticalPanel>
+  		</g:HorizontalPanel>
+  	</g:HorizontalPanel>
   
-  </g:HTMLPanel>
+		<g:Anchor ui:field="homeAnchor" href="#main/home">Home</g:Anchor>&nbsp;&nbsp;
+		<g:Anchor ui:field="categoriesAnchor" href="#main/categories">Categories</g:Anchor>&nbsp;&nbsp;
+		<g:Anchor ui:field="productsAnchor" href="#main/products">Products</g:Anchor>
+		<g:Anchor ui:field="customersAnchor" href="#main/products">Products</g:Anchor>
+		<g:Anchor ui:field="invoicesAnchor" href="#main/products">Products</g:Anchor>
+  
+	</g:HTMLPanel>
 
 </ui:UiBinder>

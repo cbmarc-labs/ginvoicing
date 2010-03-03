@@ -13,6 +13,12 @@ public interface AppConstants extends Constants {
 	String appTitle(); // application title
 	String appVersion();
 	String appCopyright();
+	
+	String menuHome();
+	String menuCategories();
+	String menuProducts();
+	String menuCustomers();
+	String menuInvoices();
 
 	String loading();
 
