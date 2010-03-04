@@ -1,0 +1,59 @@
+<!-- MainView.ui.xml -->
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+    
+    <ui:with field="cnt" type="cbmarc.ginvoicing.client.i18n.AppConstants"/>
+
+	<ui:style>  
+	</ui:style>
+
+	<g:HTMLPanel>
+	
+	<g:VerticalPanel styleName="tabPanel">
+		<g:cell horizontalAlignment='ALIGN_RIGHT'>
+			<g:HorizontalPanel>
+			
+				<g:Label ui:field="LangCA" styleName="tabItem">Català</g:Label>
+				<g:Label ui:field="LangES" styleName="tabItem">Español</g:Label>
+				<g:Label ui:field="LangEN" styleName="tabItemActive">English</g:Label>
+				<g:Label ui:field="LangFR" styleName="tabItem">Français</g:Label>
+				
+			</g:HorizontalPanel>				
+		</g:cell>
+	</g:VerticalPanel>
+  
+	<div id="header-wrapper">
+		<div id="header">GInvoicing - Invoicing system</div>
+	</div>
+			
+	<div id="container">
+		<div id="center" class="column">
+		
+			<g:VerticalPanel styleName="tabPanel">
+				<g:HorizontalPanel>
+
+					<g:Label styleName="tabItemActive" ui:field="homeTab" text="{cnt.menuHome}"></g:Label>
+					<g:Label styleName="tabItem" ui:field="categoriesTab" text="{cnt.menuCategories}"></g:Label>
+					<g:Label styleName="tabItem" ui:field="productsTab" text="{cnt.menuProducts}"></g:Label>
+					<g:Label styleName="tabItem" ui:field="customersTab" text="{cnt.menuCustomers}"></g:Label>
+					<g:Label styleName="tabItem" ui:field="invoicesTab" text="{cnt.menuInvoices}"></g:Label>
+
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+			
+			<g:HorizontalPanel ui:field="content" width="100%" />
+		</div>
+				
+		<div id="left" class="column"></div>
+		<div id="right" class="column"></div>
+	</div>
+	
+	<div id="footer-wrapper">
+		<br /><br /><br /><br />
+		<div id="footer">-= ginvoicing =-</div>
+	</div>
+
+  </g:HTMLPanel>
+  
+</ui:UiBinder>

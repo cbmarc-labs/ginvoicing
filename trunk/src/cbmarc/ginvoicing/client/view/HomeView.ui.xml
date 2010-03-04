@@ -1,0 +1,138 @@
+<!-- View.ui.xml -->
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+    
+    <ui:with field="cnt" type="cbmarc.ginvoicing.client.i18n.HomeConstants"/>
+    <ui:with field="res" type="cbmarc.ginvoicing.client.ui.HomeResources"/>
+    
+    <ui:style>
+    .test {
+    	padding: 1em;
+		width: 100%;
+    }
+    
+    .section {
+    	width: 100%;
+    	padding: 1em;
+		cursor: pointer;
+		cursor: hand;
+		border-right: 1px solid #eee;
+		border-bottom: 1px solid #eee;
+    }
+    
+    .section:hover {
+    	background: #eee;
+    }
+    
+    .sectionLeft {
+    }
+    
+    .sectionRight {
+    	padding: 0 2em;
+    }
+    
+    .sectionTitle {
+    	width: 100%;
+    }
+    
+    .sectionTitleLabel {
+    	font-size: 28px;
+    	font-weight: bolder;
+    	color: #b6c7db;
+    	font-family: verdana, arial, sans-serif;
+    }
+    
+    .sectionDescription {
+    }
+    
+    .sectionDescriptionLabel {
+    	font-family: verdana, arial, sans-serif;
+    	font-size: 18px;
+    	color: #666;
+    }
+	</ui:style>
+
+  	<g:HTMLPanel>
+  	
+  	<g:HorizontalPanel>
+  	
+  	<g:VerticalPanel>
+  	<g:HorizontalPanel styleName="{style.test}">
+  		<g:HorizontalPanel styleName="{style.section}">
+  			<g:VerticalPanel styleName="{style.sectionLeft}">
+  				<g:Image resource="{res.categories}"></g:Image>
+  			</g:VerticalPanel>
+  			<g:VerticalPanel styleName="{style.sectionRight}">
+  				<g:HorizontalPanel styleName="{style.sectionTitle}">
+  					<g:Label text="{cnt.menuCategories}" styleName="{style.sectionTitleLabel}"/>
+  				</g:HorizontalPanel>
+  				<g:HorizontalPanel styleName="{style.sectionDescription}">
+  					<g:Label text="{cnt.categoriesDescription}" styleName="{style.sectionDescriptionLabel}"/>
+  				</g:HorizontalPanel>
+  			</g:VerticalPanel>
+  		</g:HorizontalPanel>
+  	</g:HorizontalPanel>
+  	
+  	<g:HorizontalPanel styleName="{style.test}">
+  		<g:HorizontalPanel styleName="{style.section}">
+  			<g:VerticalPanel styleName="{style.sectionLeft}">
+  				<g:Image resource="{res.products}"></g:Image>
+  			</g:VerticalPanel>
+  			<g:VerticalPanel styleName="{style.sectionRight}">
+  				<g:HorizontalPanel styleName="{style.sectionTitle}">
+  					<g:Label text="{cnt.menuProducts}" styleName="{style.sectionTitleLabel}"/>
+  				</g:HorizontalPanel>
+  				<g:HorizontalPanel styleName="{style.sectionDescription}">
+  					<g:Label text="{cnt.categoriesDescription}" styleName="{style.sectionDescriptionLabel}"/>
+  				</g:HorizontalPanel>
+  			</g:VerticalPanel>
+  		</g:HorizontalPanel>
+  	</g:HorizontalPanel>
+  	</g:VerticalPanel>
+  	
+  	<g:VerticalPanel>
+  	<g:HorizontalPanel styleName="{style.test}">
+  		<g:HorizontalPanel styleName="{style.section}">
+  			<g:VerticalPanel styleName="{style.sectionLeft}">
+  				<g:Image resource="{res.customers}"></g:Image>
+  			</g:VerticalPanel>
+  			<g:VerticalPanel styleName="{style.sectionRight}">
+  				<g:HorizontalPanel styleName="{style.sectionTitle}">
+  					<g:Label text="{cnt.menuCustomers}" styleName="{style.sectionTitleLabel}"/>
+  				</g:HorizontalPanel>
+  				<g:HorizontalPanel styleName="{style.sectionDescription}">
+  					<g:Label text="{cnt.categoriesDescription}" styleName="{style.sectionDescriptionLabel}"/>
+  				</g:HorizontalPanel>
+  			</g:VerticalPanel>
+  		</g:HorizontalPanel>
+  	</g:HorizontalPanel>
+  	
+  	<g:HorizontalPanel styleName="{style.test}">
+  		<g:HorizontalPanel styleName="{style.section}">
+  			<g:VerticalPanel styleName="{style.sectionLeft}">
+  				<g:Image resource="{res.invoices}"></g:Image>
+  			</g:VerticalPanel>
+  			<g:VerticalPanel styleName="{style.sectionRight}">
+  				<g:HorizontalPanel styleName="{style.sectionTitle}">
+  					<g:Label text="{cnt.menuInvoices}" styleName="{style.sectionTitleLabel}"/>
+  				</g:HorizontalPanel>
+  				<g:HorizontalPanel styleName="{style.sectionDescription}">
+  					<g:Label text="{cnt.categoriesDescription}" styleName="{style.sectionDescriptionLabel}"/>
+  				</g:HorizontalPanel>
+  			</g:VerticalPanel>
+  		</g:HorizontalPanel>
+  	</g:HorizontalPanel>
+  	</g:VerticalPanel>
+  	
+  	</g:HorizontalPanel>
+  
+		<g:Anchor ui:field="homeAnchor" href="#main/home">Home</g:Anchor>&nbsp;&nbsp;
+		<g:Anchor ui:field="categoriesAnchor" href="#main/categories">Categories</g:Anchor>&nbsp;&nbsp;
+		<g:Anchor ui:field="productsAnchor" href="#main/products">Products</g:Anchor>
+		<g:Anchor ui:field="customersAnchor" href="#main/products">Products</g:Anchor>
+		<g:Anchor ui:field="invoicesAnchor" href="#main/products">Products</g:Anchor>
+  
+	</g:HTMLPanel>
+
+</ui:UiBinder>

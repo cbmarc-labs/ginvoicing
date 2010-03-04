@@ -1,5 +1,9 @@
 package cbmarc.ginvoicing.client;
 
+import cbmarc.ginvoicing.client.presenter.MainPresenter;
+import cbmarc.ginvoicing.client.presenter.Presenter;
+import cbmarc.ginvoicing.client.view.MainView;
+
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
