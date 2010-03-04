@@ -95,10 +95,34 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 		return result;
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<CategoryDisplay> selectDisplay(String filter) 
 			throws ServerException {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		ArrayList<CategoryDisplay> result = new ArrayList<CategoryDisplay>();
 		
-		return null;
+		try {
+			Query query = pm.newQuery(Category.class);
+			
+			query.setFilter(filter);
+			query.setOrdering("name asc");
+			//query.setRange(first, first + count);
+			
+			List<Category> categories = (List<Category>) query.execute();
+			for(Category i : categories) {
+				result.add(new CategoryDisplay(i.getId(), i.getName()));
+			}
+			
+			
+			//result = Lists.newArrayList(pm.detachCopyAll(result));
+		} catch(Exception e) {
+			throw new ServerException(e.toString());
+		} finally {
+			pm.close();
+		}
+		
+		return result;
 	}
 	
 	@Override

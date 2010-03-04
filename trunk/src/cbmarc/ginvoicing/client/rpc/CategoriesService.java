@@ -8,6 +8,7 @@ import java.util.List;
 
 
 import cbmarc.ginvoicing.shared.entity.Category;
+import cbmarc.ginvoicing.shared.entity.CategoryDisplay;
 import cbmarc.ginvoicing.shared.exception.ServerException;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -24,6 +25,7 @@ public interface CategoriesService extends RemoteService {
 	
 	void delete(ArrayList<String> ids);
 	List<Category> select(String filter) throws ServerException;
+	List<CategoryDisplay> selectDisplay(String filter) throws ServerException;
 	
 	Integer count();
 	Category selectById(String id);
