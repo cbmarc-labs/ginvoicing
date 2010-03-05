@@ -3,9 +3,12 @@
  */
 package cbmarc.ginvoicing.client.view;
 
+import java.util.List;
+
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.presenter.ProductsEditPresenter;
+import cbmarc.ginvoicing.shared.entity.CategoryDisplay;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -36,8 +39,6 @@ public class ProductsEditView extends Composite
 	
 	public ProductsEditView() {
 		initWidget(uiBinder.createAndBindUi(this));
-		category.addItem("uno", "1");
-		category.addItem("dos", "2");
 	}
 	
 	public Widget asWidget() {
@@ -79,6 +80,22 @@ public class ProductsEditView extends Composite
 	public HandlerRegistration addSubmitCancelHandler(
 			SubmitCancelHandler handler) {
 		return addHandler(handler, SubmitCancelEvent.getType());
+	}
+
+	/**
+	 * @return the category
+	 */
+	public ListBox getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(List<CategoryDisplay> categories) {
+		for(CategoryDisplay item : categories) {
+			this.category.addItem(item.getDescription(), item.getId());
+		}
 	}
 
 	@Override

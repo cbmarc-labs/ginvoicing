@@ -113,9 +113,6 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 			for(Category i : categories) {
 				result.add(new CategoryDisplay(i.getId(), i.getName()));
 			}
-			
-			
-			//result = Lists.newArrayList(pm.detachCopyAll(result));
 		} catch(Exception e) {
 			throw new ServerException(e.toString());
 		} finally {

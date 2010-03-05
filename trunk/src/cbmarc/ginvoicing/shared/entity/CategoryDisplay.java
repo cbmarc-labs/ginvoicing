@@ -14,6 +14,8 @@ public class CategoryDisplay implements Serializable {
 
 	private String id;
 	private String description;
+	
+	public CategoryDisplay() {}
 
 	/**
 	 * @param id

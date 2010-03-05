@@ -3,14 +3,19 @@
  */
 package cbmarc.ginvoicing.client.presenter;
 
+import java.util.List;
+
+import cbmarc.ginvoicing.client.event.CategoriesEventBus;
 import cbmarc.ginvoicing.client.event.ProductsEventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.ProductsServiceAsync;
+import cbmarc.ginvoicing.shared.entity.CategoryDisplay;
 import cbmarc.ginvoicing.shared.entity.Product;
 
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
@@ -28,6 +33,8 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 		String getDescription();
 		void setDescription(String value);
 		
+		public void setCategory(List<CategoryDisplay> categories);
+		
 		public void reset();
 		public void focus();
 		
@@ -39,7 +46,6 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 	private final Display display;
 	
 	private ProductsServiceAsync service = ProductsEventBus.getService();
-	
 	private Product product = new Product();
 	
 	public ProductsEditPresenter(Display view) {
@@ -95,8 +101,7 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 		container.clear();
 
 		display.reset();
-		if(product.getId() != null)
-			updateDisplayFromData();
+		updateDisplayFromData();
 		
 	    container.add(display.asWidget());
 	    display.focus();
@@ -115,14 +120,25 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 	public void updateDisplayFromData() {
 		display.setName(product.getName());
 		display.setDescription(product.getDescription());
+		
+		CategoriesEventBus.getService().selectDisplay(null, 
+				new AppAsyncCallback<List<CategoryDisplay>>() {
+
+					@Override
+					public void onSuccess(List<CategoryDisplay> result) {
+						display.setCategory(result);
+					}
+
+			
+		});
+		
 		// TODO
 		// display.setName(bean.getName());
 	}
 
 	@Override
 	public void onCancel(SubmitCancelEvent event) {
-		// TODO Auto-generated method stub
-		Window.alert("onCancel");
+		History.newItem("main/products");
 	}
 
 	@Override

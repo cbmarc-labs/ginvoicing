@@ -130,8 +130,8 @@
 		<g:Anchor ui:field="homeAnchor" href="#main/home">Home</g:Anchor>&nbsp;&nbsp;
 		<g:Anchor ui:field="categoriesAnchor" href="#main/categories">Categories</g:Anchor>&nbsp;&nbsp;
 		<g:Anchor ui:field="productsAnchor" href="#main/products">Products</g:Anchor>
-		<g:Anchor ui:field="customersAnchor" href="#main/products">Products</g:Anchor>
-		<g:Anchor ui:field="invoicesAnchor" href="#main/products">Products</g:Anchor>
+		<g:Anchor ui:field="customersAnchor" href="#main/customers">Customers</g:Anchor>
+		<g:Anchor ui:field="invoicesAnchor" href="#main/invoices">Invoices</g:Anchor>
   
 	</g:HTMLPanel>
 

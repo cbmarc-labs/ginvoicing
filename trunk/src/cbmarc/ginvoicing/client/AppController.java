@@ -41,7 +41,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		if(token != null) {
 			Presenter presenter = mainPresenter;
 			
-			if(token.equals("main")) {
+			if(token.startsWith("main")) {
 				presenter = mainPresenter;
 			}
 

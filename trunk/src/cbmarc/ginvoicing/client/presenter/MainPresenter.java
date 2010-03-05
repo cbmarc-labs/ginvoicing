@@ -3,16 +3,15 @@
  */
 package cbmarc.ginvoicing.client.presenter;
 
-import cbmarc.ginvoicing.client.event.EventBus;
-import cbmarc.ginvoicing.client.event.MainEvent;
-import cbmarc.ginvoicing.client.event.MainHandler;
 import cbmarc.ginvoicing.client.view.CategoriesView;
 import cbmarc.ginvoicing.client.view.CustomersView;
 import cbmarc.ginvoicing.client.view.HomeView;
 import cbmarc.ginvoicing.client.view.InvoicesView;
 import cbmarc.ginvoicing.client.view.ProductsView;
 
-import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -20,11 +19,9 @@ import com.google.gwt.user.client.ui.Widget;
  * @author MCOSTA
  *
  */
-public class MainPresenter implements Presenter, MainHandler {
+public class MainPresenter implements Presenter, ValueChangeHandler<String> {
 	
 	public interface Display {
-		public HandlerRegistration addHandler(MainHandler handler);
-		
 		public void setTabLinkActive(int link);
 		
 		HasWidgets getContent();
@@ -32,7 +29,6 @@ public class MainPresenter implements Presenter, MainHandler {
 	}
 	
 	private final Display display;
-	private EventBus eventBus = EventBus.getEventBus();
 	
 	private HomePresenter homePresenter;
 	private CategoriesPresenter categoriesPresenter;
@@ -53,9 +49,7 @@ public class MainPresenter implements Presenter, MainHandler {
 	}
 	
 	private void bind() {
-		display.addHandler(this);
-		
-		eventBus.addHandler(MainEvent.getType(), this);
+		History.addValueChangeHandler(this);
 	}
 	
 	public void updateDataFromDisplay() {}
@@ -65,38 +59,36 @@ public class MainPresenter implements Presenter, MainHandler {
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(display.asWidget());
+	}
+
+	@Override
+	public void onValueChange(ValueChangeEvent<String> event) {
+		String token = event.getValue();
 		
-		homePresenter.go(display.getContent());
-	}
+		if(token != null) {
+			Presenter presenter = null;
+			
+			if(token.startsWith("main/home")) {
+				display.setTabLinkActive(0);
+				presenter = homePresenter;
+			} else if(token.startsWith("main/categories")) {
+				display.setTabLinkActive(1);
+				presenter = categoriesPresenter;
+			} else if(token.startsWith("main/products")) {
+				display.setTabLinkActive(2);
+				presenter = productsPresenter;
+			} else if(token.startsWith("main/customers")) {
+				display.setTabLinkActive(3);
+				presenter = customersPresenter;
+			} else if(token.startsWith("main/invoices")) {
+				display.setTabLinkActive(4);
+				presenter = invoicesPresenter;
+			}
 
-	@Override
-	public void categories(MainEvent event) {
-		display.setTabLinkActive(1);
-		categoriesPresenter.go(display.getContent());
-	}
-
-	@Override
-	public void products(MainEvent event) {
-		display.setTabLinkActive(2);
-		productsPresenter.go(display.getContent());
-	}
-
-	@Override
-	public void home(MainEvent event) {
-		display.setTabLinkActive(0);
-		homePresenter.go(display.getContent());
-	}
-
-	@Override
-	public void customers(MainEvent event) {
-		display.setTabLinkActive(3);
-		customersPresenter.go(display.getContent());
-	}
-
-	@Override
-	public void invoices(MainEvent event) {
-		display.setTabLinkActive(4);
-		invoicesPresenter.go(display.getContent());
+			if(presenter != null) {
+				presenter.go(display.getContent());
+			}
+		}
 	}
 	
 }

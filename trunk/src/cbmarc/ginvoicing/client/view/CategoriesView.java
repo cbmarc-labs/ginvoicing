@@ -3,12 +3,9 @@
  */
 package cbmarc.ginvoicing.client.view;
 
-import cbmarc.ginvoicing.client.event.CategoriesEvent;
-import cbmarc.ginvoicing.client.event.CategoriesHandler;
 import cbmarc.ginvoicing.client.presenter.CategoriesPresenter;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -34,10 +31,6 @@ public class CategoriesView extends Composite
 	
 	public Widget asWidget() {
 		  return this;
-	}
-	
-	public HandlerRegistration addHandler(CategoriesHandler handler) {
-		return addHandler(handler, CategoriesEvent.getType());
 	}
 
 	@Override

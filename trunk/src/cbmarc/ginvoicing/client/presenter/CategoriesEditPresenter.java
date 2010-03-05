@@ -3,9 +3,7 @@
  */
 package cbmarc.ginvoicing.client.presenter;
 
-import cbmarc.ginvoicing.client.event.CategoriesEvent;
 import cbmarc.ginvoicing.client.event.CategoriesEventBus;
-import cbmarc.ginvoicing.client.event.EventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
@@ -14,6 +12,7 @@ import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.Category;
 
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
@@ -42,9 +41,7 @@ public class CategoriesEditPresenter
 	
 	private final Display display;
 	
-	private EventBus eventBus = EventBus.getEventBus();
 	private CategoriesServiceAsync service = CategoriesEventBus.getService();
-	
 	private Category category = new Category();
 	
 	public CategoriesEditPresenter(Display view) {
@@ -98,7 +95,23 @@ public class CategoriesEditPresenter
 
 			@Override
 			public void onSuccess(Category result) {
-				eventBus.fireEvent(CategoriesEvent.listPanel());
+				History.newItem("main/categories");
+			}
+			
+		});
+	}
+	
+	/**
+	 * 
+	 */
+	private void doLoad(String id) {
+		service.selectById(id, new AppAsyncCallback<Category>() {
+
+			@Override
+			public void onSuccess(Category result) {
+				category = result;
+				updateDisplayFromData();
+				display.focus();
 			}
 			
 		});
@@ -108,9 +121,13 @@ public class CategoriesEditPresenter
 	public void go(HasWidgets container) {
 		container.clear();
 	    container.add(display.asWidget());
+	    
+	    // TODO: fix up this shit
+	    String token = History.getToken();
+	    String[] parts = token.split("/");
+	    if(parts.length > 3) doLoad(parts[parts.length - 1]);
 
 		updateDisplayFromData();
-		display.focus();
 	}
 	
 	/**
@@ -132,12 +149,13 @@ public class CategoriesEditPresenter
 
 	@Override
 	public void onCancel(SubmitCancelEvent event) {
-		eventBus.fireEvent(CategoriesEvent.listPanel());
+		History.newItem("main/categories");
 	}
 
 	@Override
 	public void onSubmit(SubmitCancelEvent event) {
-		if(hasValidInput()) doSave();
+		if(hasValidInput())
+			doSave();
 	}
 
 }

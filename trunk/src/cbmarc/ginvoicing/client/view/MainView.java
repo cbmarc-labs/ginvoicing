@@ -3,16 +3,14 @@
  */
 package cbmarc.ginvoicing.client.view;
 
-import cbmarc.ginvoicing.client.event.MainEvent;
-import cbmarc.ginvoicing.client.event.MainHandler;
 import cbmarc.ginvoicing.client.presenter.MainPresenter;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
@@ -106,33 +104,29 @@ public class MainView extends Composite implements MainPresenter.Display {
 	// BEGIN MENU PANEL
 	@UiHandler("homeTab")
 	protected void homeClicked(ClickEvent event) {
-		fireEvent(MainEvent.home());
+		History.newItem("main/home");
 	}
 	
 	@UiHandler("categoriesTab")
 	protected void categoriesClicked(ClickEvent event) {
-		fireEvent(MainEvent.categories());
+		History.newItem("main/categories");
 	}
 	
 	@UiHandler("productsTab")
 	protected void productsClicked(ClickEvent event) {
-		fireEvent(MainEvent.products());
+		History.newItem("main/products");
 	}
 	
 	@UiHandler("customersTab")
 	protected void customersClicked(ClickEvent event) {
-		fireEvent(MainEvent.customers());
+		History.newItem("main/customers");
 	}
 	
 	@UiHandler("invoicesTab")
 	protected void invoicesClicked(ClickEvent event) {
-		fireEvent(MainEvent.invoices());
+		History.newItem("main/invoices");
 	}
 	// END MENU PANEL
-	
-	public HandlerRegistration addHandler(MainHandler handler) {
-		return addHandler(handler, MainEvent.getType());
-	}
 
 	@Override
 	public HasWidgets getContent() {

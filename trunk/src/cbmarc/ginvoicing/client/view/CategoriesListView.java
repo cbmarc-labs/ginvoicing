@@ -6,8 +6,8 @@ package cbmarc.ginvoicing.client.view;
 import java.util.List;
 
 import cbmarc.ginvoicing.client.event.CategoriesEventBus;
-import cbmarc.ginvoicing.client.event.CategoriesListEvent;
-import cbmarc.ginvoicing.client.event.CategoriesListHandler;
+import cbmarc.ginvoicing.client.event.ListEvent;
+import cbmarc.ginvoicing.client.event.ListHandler;
 import cbmarc.ginvoicing.client.i18n.CategoriesConstants;
 import cbmarc.ginvoicing.client.presenter.CategoriesListPresenter;
 import cbmarc.ginvoicing.client.ui.ListFlexTable;
@@ -69,17 +69,17 @@ public class CategoriesListView extends Composite
 	
 	@UiHandler("reloadButton")
 	protected void reloadClicked(ClickEvent event) {
-		fireEvent(CategoriesListEvent.reload());
+		fireEvent(ListEvent.reload());
 	}
 	
 	@UiHandler("addButton")
 	protected void addClicked(ClickEvent event) {
-		fireEvent(CategoriesListEvent.add());
+		fireEvent(ListEvent.add());
 	}
 	
 	@UiHandler("deleteButton")
 	protected void deleteClicked(ClickEvent event) {
-		fireEvent(CategoriesListEvent.delete());
+		fireEvent(ListEvent.delete());
 	}
 	
 	@UiHandler("listContent")
@@ -87,7 +87,7 @@ public class CategoriesListView extends Composite
 		int row = listContent.getClickedRow(event);
 		
 		if(row > 0)
-			fireEvent(CategoriesListEvent.list(row - 1));
+			fireEvent(ListEvent.list(row - 1));
 	}
 
 	public Widget asWidget() {
@@ -107,8 +107,8 @@ public class CategoriesListView extends Composite
 	}
 
 	@Override
-	public HandlerRegistration addHandler(CategoriesListHandler handler) {
-		return addHandler(handler, CategoriesListEvent.getType());
+	public HandlerRegistration addHandler(ListHandler handler) {
+		return addHandler(handler, ListEvent.getType());
 	}
 
 	@Override
