@@ -79,21 +79,17 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 	/**
 	 * @return
 	 */
-	public boolean doSave() {
-		if(!hasValidInput()) return false;
-		
+	public void doSave() {
 		updateDataFromDisplay();
 		
 		service.save(product, new AppAsyncCallback<Product>() {
-
+			
 			@Override
 			public void onSuccess(Product result) {
 				//eventBus.fireEvent(ProductsEditEvent.submit());
 			}
 			
 		});
-		
-		return true;
 	}
 	
 	@Override
@@ -123,13 +119,12 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 		
 		CategoriesEventBus.getService().selectDisplay(null, 
 				new AppAsyncCallback<List<CategoryDisplay>>() {
-
+					
 					@Override
 					public void onSuccess(List<CategoryDisplay> result) {
 						display.setCategory(result);
 					}
-
-			
+					
 		});
 		
 		// TODO
@@ -144,6 +139,7 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 	@Override
 	public void onSubmit(SubmitCancelEvent event) {
 		// TODO Auto-generated method stub
+		//if(!hasValidInput()) doSave();
 		Window.alert("onSubmit");
 	}
 

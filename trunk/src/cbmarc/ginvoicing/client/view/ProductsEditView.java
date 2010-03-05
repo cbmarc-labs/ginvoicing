@@ -64,6 +64,7 @@ public class ProductsEditView extends Composite
 	public void reset() {
 		name.setValue("");
 		description.setValue("");
+		category.clear();
 	}
 
 	@Override
@@ -93,8 +94,9 @@ public class ProductsEditView extends Composite
 	 * @param category the category to set
 	 */
 	public void setCategory(List<CategoryDisplay> categories) {
+		category.clear();
 		for(CategoryDisplay item : categories) {
-			this.category.addItem(item.getDescription(), item.getId());
+			category.addItem(item.getDescription(), item.getId());
 		}
 	}
 

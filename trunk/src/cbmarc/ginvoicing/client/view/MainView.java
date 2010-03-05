@@ -7,11 +7,15 @@ import cbmarc.ginvoicing.client.presenter.MainPresenter;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
@@ -75,29 +79,31 @@ public class MainView extends Composite implements MainPresenter.Display {
 		}
 	}
 	
+	protected void changeLanguage(String lang) {
+		UrlBuilder builder = Location.createUrlBuilder()
+			.setParameter("locale", lang);
+		Window.Location.replace(builder.buildString());
+	}
+	
 	// BEGIN LANG PANEL
 	@UiHandler("LangCA")
 	protected void LangCAClicked(ClickEvent event) {
-		// TODO: something real
-		
+		changeLanguage("es_CA");
 	}
 	
 	@UiHandler("LangES")
 	protected void LangESClicked(ClickEvent event) {
-		// TODO: something real
-		
+		changeLanguage("es_ES");
 	}
 	
 	@UiHandler("LangEN")
 	protected void LangENClicked(ClickEvent event) {
-		// TODO: something real
-		
+		changeLanguage("en_EN");
 	}
 	
 	@UiHandler("LangFR")
 	protected void LangFRClicked(ClickEvent event) {
-		// TODO: something real
-		
+		changeLanguage("fr_FR");
 	}
 	// END LANG PANEL
 	
