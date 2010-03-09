@@ -5,21 +5,25 @@
     
     <ui:with field="cnt" type="cbmarc.ginvoicing.client.i18n.AppConstants"/>
 
-	<ui:style>  
+	<ui:style>
+	.langTab {
+		cursor: pointer;
+		cursor: hand;
+	}
 	</ui:style>
 
 	<g:HTMLPanel>
 	
 	<g:VerticalPanel styleName="tabPanel">
 		<g:cell horizontalAlignment='ALIGN_RIGHT'>
-			<g:HorizontalPanel>
+			<g:HTMLPanel>
 			
-				<g:Label ui:field="LangCA" styleName="tabItem">Català</g:Label>
-				<g:Label ui:field="LangES" styleName="tabItem">Español</g:Label>
-				<g:Label ui:field="LangEN" styleName="tabItemActive">English</g:Label>
-				<g:Label ui:field="LangFR" styleName="tabItem">Français</g:Label>
+				<g:Anchor styleName="{style.langTab}" ui:field="LangCA">Català</g:Anchor>&nbsp;|&nbsp;
+				<g:Anchor styleName="{style.langTab}" ui:field="LangES">Español</g:Anchor>&nbsp;|&nbsp;
+				<g:Anchor styleName="{style.langTab}" ui:field="LangEN">English</g:Anchor>&nbsp;|&nbsp;
+				<g:Anchor styleName="{style.langTab}" ui:field="LangFR">Français</g:Anchor>&nbsp;
 				
-			</g:HorizontalPanel>				
+			</g:HTMLPanel>				
 		</g:cell>
 	</g:VerticalPanel>
   
@@ -32,13 +36,12 @@
 		
 			<g:VerticalPanel styleName="tabPanel">
 				<g:HorizontalPanel>
-
-					<g:Label styleName="tabItemActive" ui:field="homeTab" text="{cnt.menuHome}"></g:Label>
-					<g:Label styleName="tabItem" ui:field="categoriesTab" text="{cnt.menuCategories}"></g:Label>
-					<g:Label styleName="tabItem" ui:field="productsTab" text="{cnt.menuProducts}"></g:Label>
-					<g:Label styleName="tabItem" ui:field="customersTab" text="{cnt.menuCustomers}"></g:Label>
-					<g:Label styleName="tabItem" ui:field="invoicesTab" text="{cnt.menuInvoices}"></g:Label>
-
+				
+				<g:Hyperlink ui:field="invoicesTab" styleName="tabItem" targetHistoryToken="main/invoices">Invoices</g:Hyperlink>
+				<g:Hyperlink ui:field="customersTab" styleName="tabItem" targetHistoryToken="main/customers">Customers</g:Hyperlink>
+				<g:Hyperlink ui:field="productsTab" styleName="tabItem" targetHistoryToken="main/products">Products</g:Hyperlink>
+				<g:Hyperlink ui:field="categoriesTab" styleName="tabItem" targetHistoryToken="main/categories">Categories</g:Hyperlink>
+				
 				</g:HorizontalPanel>
 			</g:VerticalPanel>
 			

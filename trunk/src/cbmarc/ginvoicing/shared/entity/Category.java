@@ -37,24 +37,28 @@ public class Category implements Serializable {
 	public Category() {
 	}
 	
-	
-
 	/**
 	 * @param name
 	 * @param description
 	 */
-	public Category(String name, String description) {
+	public Category(String id, String name, String description) {
+		this.id = id;
 		this.name = name;
 		this.description = description;
 	}
-
-
-
+	
 	/**
 	 * @return the id
 	 */
 	public String getId() {
 		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	/**

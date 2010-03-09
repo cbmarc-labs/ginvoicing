@@ -4,7 +4,6 @@
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
 	<g:HTMLPanel>
-		INVOICES IN PROGRESS
 		<g:SimplePanel ui:field="content" />
 	</g:HTMLPanel>
 

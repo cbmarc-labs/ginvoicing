@@ -157,4 +157,10 @@ public class CategoriesListPresenter
 		
 		History.newItem("main/categories/edit/" + id);
 	}
+
+	@Override
+	public void processHistoryToken(String token) {
+		// TODO Auto-generated method stub
+		
+	}
 }

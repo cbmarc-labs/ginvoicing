@@ -22,7 +22,7 @@ public interface ProductsService extends RemoteService {
 	Product save(Product product) throws ServerException;
 	
 	void delete(ArrayList<String> ids);
-	List<Product> select(String filter);
+	List<Product> select(String filter) throws ServerException;
 	
 	Integer count();
 	Product selectById(String id);

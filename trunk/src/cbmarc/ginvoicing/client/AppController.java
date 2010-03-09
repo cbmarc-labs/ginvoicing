@@ -44,10 +44,15 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			if(token.startsWith("main")) {
 				presenter = mainPresenter;
 			}
-
-			if(presenter != null) {
-				presenter.go(container);
-			}
+			
+			presenter.processHistoryToken(token);
+			presenter.go(container);
 		}
+	}
+
+	@Override
+	public void processHistoryToken(String token) {
+		// TODO Auto-generated method stub
+		
 	}
 }

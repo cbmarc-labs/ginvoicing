@@ -54,9 +54,9 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 
 	@Override
 	public void delete(ArrayList<String> ids) {
-		for (int i = 0; i < ids.size(); ++i) {
+		for(String i : ids) {
 			try {
-				delete(ids.get(i));
+				delete(i);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

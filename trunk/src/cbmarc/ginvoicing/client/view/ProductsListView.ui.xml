@@ -1,0 +1,31 @@
+<!-- ListView.ui.xml -->
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui' 
+    xmlns:ginvoicing="urn:import:cbmarc.ginvoicing.client.ui">
+    
+  <ui:with field="cnt" type="cbmarc.ginvoicing.client.i18n.ProductsConstants"/>
+
+  <g:HTMLPanel styleName="content">
+  
+  <g:VerticalPanel styleName="toolbarPanel">
+  	<g:HorizontalPanel spacing="5">
+		<g:Button ui:field="reloadButton" text="{cnt.reloadButton}" />
+  		<g:Button ui:field="addButton" text="{cnt.addButton}" />
+  		<g:Button ui:field="deleteButton" text="{cnt.delButton}" />
+  	</g:HorizontalPanel>
+  </g:VerticalPanel>
+	
+	<g:VerticalPanel styleName="listPanel">
+		<g:HorizontalPanel styleName="listHeader">
+			<g:cell horizontalAlignment='ALIGN_RIGHT'>
+				<g:Label ui:field="listheaderLabel" />
+			</g:cell>
+		</g:HorizontalPanel>
+		
+		<ginvoicing:ListFlexTable ui:field="listContent" />
+		<g:Label visible="false" ui:field="listContentLabel" />
+  	</g:VerticalPanel>
+  	
+  </g:HTMLPanel>
+</ui:UiBinder>

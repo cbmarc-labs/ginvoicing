@@ -3,6 +3,8 @@
  */
 package cbmarc.ginvoicing.client.presenter;
 
+import cbmarc.ginvoicing.client.view.InvoicesEditView;
+import cbmarc.ginvoicing.client.view.InvoicesListView;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
@@ -14,13 +16,20 @@ import com.google.gwt.user.client.ui.Widget;
 public class InvoicesPresenter implements Presenter {
 	
 	public interface Display {
+		HasWidgets getContent();
 		Widget asWidget();
 	}
 	
 	protected final Display display;
+
+	private InvoicesListPresenter invoicesListPresenter;
+	private InvoicesEditPresenter invoicesEditPresenter;
 	
 	public InvoicesPresenter(Display display) {
 	    this.display = display;
+
+	    invoicesListPresenter = new InvoicesListPresenter(new InvoicesListView());
+	    invoicesEditPresenter = new InvoicesEditPresenter(new InvoicesEditView());
 
 	    bind();
 	}
@@ -35,6 +44,19 @@ public class InvoicesPresenter implements Presenter {
 	public void go(HasWidgets container) {
 		container.clear();
 	    container.add(display.asWidget());
+	}
+
+	@Override
+	public void processHistoryToken(String token) {
+		if(token != null) {
+			Presenter presenter = invoicesListPresenter;
+			
+			if(token.startsWith("main/invoices/edit")) {
+				presenter = invoicesEditPresenter;
+			}
+
+			presenter.go(display.getContent());
+		}
 	}
 
 }

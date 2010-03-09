@@ -3,26 +3,28 @@
  */
 package cbmarc.ginvoicing.client.presenter;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import cbmarc.ginvoicing.client.view.CategoriesView;
 import cbmarc.ginvoicing.client.view.CustomersView;
-import cbmarc.ginvoicing.client.view.HomeView;
 import cbmarc.ginvoicing.client.view.InvoicesView;
 import cbmarc.ginvoicing.client.view.ProductsView;
 
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author MCOSTA
  *
  */
-public class MainPresenter implements Presenter, ValueChangeHandler<String> {
+public class MainPresenter implements Presenter {
 	
 	public interface Display {
-		public void setTabLinkActive(int link);
+		List<Hyperlink> getMenuTab();
+		void setActiveTab(Hyperlink hyperlink);
 		
 		HasWidgets getContent();
 		Widget asWidget();
@@ -30,26 +32,23 @@ public class MainPresenter implements Presenter, ValueChangeHandler<String> {
 	
 	private final Display display;
 	
-	private HomePresenter homePresenter;
-	private CategoriesPresenter categoriesPresenter;
-	private ProductsPresenter productsPresenter;
-	private CustomersPresenter customersPresenter;
-	private InvoicesPresenter invoicesPresenter;
+	private Map<Hyperlink, Presenter> presenters = 
+		new HashMap<Hyperlink, Presenter>();
 	
 	public MainPresenter(Display view) {
 	    this.display = view;
 	    
-	    homePresenter = new HomePresenter(new HomeView());
-	    categoriesPresenter = new CategoriesPresenter(new CategoriesView());
-	    productsPresenter = new ProductsPresenter(new ProductsView());
-	    customersPresenter = new CustomersPresenter(new CustomersView());
-	    invoicesPresenter = new InvoicesPresenter(new InvoicesView());
+	    List<Hyperlink> l = display.getMenuTab();
 	    
+	    presenters.put(l.get(0), new InvoicesPresenter(new InvoicesView()));
+	    presenters.put(l.get(1), new CustomersPresenter(new CustomersView()));
+	    presenters.put(l.get(2), new ProductsPresenter(new ProductsView()));
+	    presenters.put(l.get(3), new CategoriesPresenter(new CategoriesView()));
+	    	    
 	    bind();
 	}
 	
 	private void bind() {
-		History.addValueChangeHandler(this);
 	}
 	
 	public void updateDataFromDisplay() {}
@@ -62,32 +61,22 @@ public class MainPresenter implements Presenter, ValueChangeHandler<String> {
 	}
 
 	@Override
-	public void onValueChange(ValueChangeEvent<String> event) {
-		String token = event.getValue();
+	public void processHistoryToken(String token) {
+		Presenter presenter = null;
 		
 		if(token != null) {
-			Presenter presenter = null;
-			
-			if(token.startsWith("main/home")) {
-				display.setTabLinkActive(0);
-				presenter = homePresenter;
-			} else if(token.startsWith("main/categories")) {
-				display.setTabLinkActive(1);
-				presenter = categoriesPresenter;
-			} else if(token.startsWith("main/products")) {
-				display.setTabLinkActive(2);
-				presenter = productsPresenter;
-			} else if(token.startsWith("main/customers")) {
-				display.setTabLinkActive(3);
-				presenter = customersPresenter;
-			} else if(token.startsWith("main/invoices")) {
-				display.setTabLinkActive(4);
-				presenter = invoicesPresenter;
-			}
+			for(Hyperlink h: presenters.keySet())
+				if(token.startsWith(h.getTargetHistoryToken())) {
+					display.setActiveTab(h);
+					presenter = presenters.get(h);
+					
+					break;
+				}
+		}
 
-			if(presenter != null) {
-				presenter.go(display.getContent());
-			}
+		if(presenter != null) {
+			presenter.processHistoryToken(token);
+			presenter.go(display.getContent());
 		}
 	}
 	

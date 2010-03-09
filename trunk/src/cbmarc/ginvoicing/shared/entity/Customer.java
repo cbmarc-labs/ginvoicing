@@ -25,10 +25,22 @@ public class Customer implements Serializable {
 	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
 	private String id;
 
+	@Persistent
+	private String name;
+	
 	/**
 	 * 
 	 */
 	public Customer() {
+	}
+	
+	/**
+	 * @param id
+	 * @param name
+	 */
+	public Customer(String id, String name) {
+		this.id = id;
+		this.name = name;
 	}
 
 	/**
@@ -36,5 +48,26 @@ public class Customer implements Serializable {
 	 */
 	public String getId() {
 		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 }

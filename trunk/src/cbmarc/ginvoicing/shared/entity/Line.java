@@ -17,18 +17,25 @@ import javax.jdo.annotations.PrimaryKey;
  *
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class InvoiceLine implements Serializable {
+public class Line implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
 	private String id;
+	
+	@Persistent
+	private Integer quantity;
+	
+	// foreign key to Invoice
+	@Persistent
+	private String invoice;
 
 	/**
 	 * 
 	 */
-	public InvoiceLine() {
+	public Line() {
 	}
 
 	/**
@@ -37,4 +44,40 @@ public class InvoiceLine implements Serializable {
 	public String getId() {
 		return id;
 	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the quantity
+	 */
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	/**
+	 * @param quantity the quantity to set
+	 */
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+
+	/**
+	 * @return the invoice
+	 */
+	public String getInvoice() {
+		return invoice;
+	}
+
+	/**
+	 * @param invoice the invoice to set
+	 */
+	public void setInvoice(String invoice) {
+		this.invoice = invoice;
+	}
+	
 }

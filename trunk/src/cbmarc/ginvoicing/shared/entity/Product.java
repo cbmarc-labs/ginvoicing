@@ -35,7 +35,7 @@ public class Product implements Serializable {
 	private String price;
 	
 	@Persistent
-	private Category category;
+	private String category;
 
 	/**
 	 * 
@@ -50,7 +50,7 @@ public class Product implements Serializable {
 	 * @param category
 	 */
 	public Product(String name, String description, String price,
-			Category category) {
+			String category) {
 		this.name = name;
 		this.description = description;
 		this.price = price;
@@ -109,14 +109,14 @@ public class Product implements Serializable {
 	/**
 	 * @return the category
 	 */
-	public Category getCategory() {
+	public String getCategory() {
 		return category;
 	}
 
 	/**
 	 * @param category the category to set
 	 */
-	public void setCategory(Category category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
 }

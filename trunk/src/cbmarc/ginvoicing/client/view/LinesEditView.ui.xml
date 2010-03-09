@@ -1,0 +1,36 @@
+<!-- EditView.ui.xml -->
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'
+    xmlns:d="urn:import:com.google.gwt.user.datepicker.client">
+  
+  <ui:with field="cnt" type="cbmarc.ginvoicing.client.i18n.LinesConstants"/>
+  
+  <g:HTMLPanel styleName="content">
+  
+  <g:VerticalPanel styleName="toolbarPanel">
+  	<g:HorizontalPanel spacing="5">
+		<g:Button ui:field="listButton" text="{cnt.listButton}" />
+  	</g:HorizontalPanel>
+  </g:VerticalPanel>
+
+  <g:VerticalPanel styleName="formPanel">
+  	<g:HTMLPanel>
+  	
+		<table>
+		<tr><td><g:Label text="{cnt.formQuantity}" /></td><td><g:TextBox ui:field="quantity" /></td></tr>
+		</table>
+
+  	</g:HTMLPanel>
+  </g:VerticalPanel>
+
+	<g:VerticalPanel styleName="buttonsPanel">
+  		<g:HorizontalPanel spacing="5">
+			<g:Button ui:field="submitButton" text="{cnt.submitButton}" />
+			<g:Button ui:field="cancelButton" text="{cnt.cancelButton}" />
+		</g:HorizontalPanel>
+	</g:VerticalPanel>
+
+  </g:HTMLPanel>
+
+</ui:UiBinder>

@@ -4,6 +4,7 @@
 package cbmarc.ginvoicing.shared.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -24,6 +25,9 @@ public class Invoice implements Serializable {
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
 	private String id;
+	
+	@Persistent
+	private Date date;
 
 	/**
 	 * 
@@ -36,5 +40,26 @@ public class Invoice implements Serializable {
 	 */
 	public String getId() {
 		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the date
+	 */
+	public Date getDate() {
+		return date;
+	}
+
+	/**
+	 * @param date the date to set
+	 */
+	public void setDate(Date date) {
+		this.date = date;
 	}
 }

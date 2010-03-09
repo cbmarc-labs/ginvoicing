@@ -57,20 +57,6 @@ public class CategoriesEditPresenter
 	/**
 	 * @return
 	 */
-	public Category getCategories() {
-		return category;
-	}
-
-	/**
-	 * @param bean
-	 */
-	public void setCategories(Category category) {
-		this.category = category;
-	}
-	
-	/**
-	 * @return
-	 */
 	protected boolean hasValidInput() {
 		boolean valid = true;
 		
@@ -126,6 +112,7 @@ public class CategoriesEditPresenter
 	    String token = History.getToken();
 	    String[] parts = token.split("/");
 	    if(parts.length > 3) doLoad(parts[parts.length - 1]);
+	    else category = new Category();
 
 		updateDisplayFromData();
 	}
@@ -156,6 +143,12 @@ public class CategoriesEditPresenter
 	public void onSubmit(SubmitCancelEvent event) {
 		if(hasValidInput())
 			doSave();
+	}
+
+	@Override
+	public void processHistoryToken(String token) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

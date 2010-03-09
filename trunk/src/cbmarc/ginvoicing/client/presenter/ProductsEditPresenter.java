@@ -16,7 +16,6 @@ import cbmarc.ginvoicing.shared.entity.Product;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -33,7 +32,11 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 		String getDescription();
 		void setDescription(String value);
 		
-		public void setCategory(List<CategoryDisplay> categories);
+		String getCategory();
+		void setCategory(List<CategoryDisplay> categories, String selected);
+		
+		String getPrice();
+		void setPrice(String value);
 		
 		public void reset();
 		public void focus();
@@ -58,14 +61,6 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 		display.addSubmitCancelHandler(this);
 	}
 	
-	public Product getProduct() {
-		return product;
-	}
-	
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-	
 	/**
 	 * @return
 	 */
@@ -86,7 +81,23 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 			
 			@Override
 			public void onSuccess(Product result) {
-				//eventBus.fireEvent(ProductsEditEvent.submit());
+				History.newItem("main/products");
+			}
+			
+		});
+	}
+	
+	/**
+	 * 
+	 */
+	private void doLoad(String id) {
+		service.selectById(id, new AppAsyncCallback<Product>() {
+
+			@Override
+			public void onSuccess(Product result) {
+				product = result;
+				updateDisplayFromData();
+				display.focus();
 			}
 			
 		});
@@ -95,12 +106,15 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
-
-		display.reset();
-		updateDisplayFromData();
-		
 	    container.add(display.asWidget());
-	    display.focus();
+	    
+	 // TODO: fix up this shit
+	    String token = History.getToken();
+	    String[] parts = token.split("/");
+	    if(parts.length > 3) doLoad(parts[parts.length - 1]);
+	    else product = new Product();
+	    
+		updateDisplayFromData();
 	}
 	
 	/**
@@ -109,11 +123,12 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 	public void updateDataFromDisplay() {
 		product.setName(display.getName());
 		product.setDescription(display.getDescription());
-		// TODO
-		// bean.setName(display.getName());
+		product.setCategory(display.getCategory());
+		product.setPrice(display.getPrice());
 	}
 	
 	public void updateDisplayFromData() {
+		display.reset();
 		display.setName(product.getName());
 		display.setDescription(product.getDescription());
 		
@@ -122,25 +137,30 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 					
 					@Override
 					public void onSuccess(List<CategoryDisplay> result) {
-						display.setCategory(result);
+						display.setCategory(result, product.getCategory());
 					}
 					
 		});
 		
-		// TODO
-		// display.setName(bean.getName());
+		display.setPrice(product.getPrice());
 	}
 
 	@Override
 	public void onCancel(SubmitCancelEvent event) {
+		// TODO: check this
 		History.newItem("main/products");
 	}
 
 	@Override
 	public void onSubmit(SubmitCancelEvent event) {
+		if(hasValidInput())
+			doSave();
+	}
+
+	@Override
+	public void processHistoryToken(String token) {
 		// TODO Auto-generated method stub
-		//if(!hasValidInput()) doSave();
-		Window.alert("onSubmit");
+		
 	}
 
 }

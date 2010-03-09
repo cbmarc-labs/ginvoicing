@@ -16,4 +16,9 @@ public interface ProductsConstants extends AppConstants {
 	String formCategory();
 	String formNameCategory();
 	String formDescriptionCategory();
+	
+	String listName();
+	String listDescription();
+	String listPrice();
+	String listNameCategory();
 }

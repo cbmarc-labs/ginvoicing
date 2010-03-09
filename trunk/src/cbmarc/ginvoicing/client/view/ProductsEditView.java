@@ -86,17 +86,24 @@ public class ProductsEditView extends Composite
 	/**
 	 * @return the category
 	 */
-	public ListBox getCategory() {
-		return category;
+	public String getCategory() {
+		return category.getValue(category.getSelectedIndex());
 	}
 
 	/**
 	 * @param category the category to set
 	 */
-	public void setCategory(List<CategoryDisplay> categories) {
+	public void setCategory(List<CategoryDisplay> categories, String selected) {
+		int index = 0;
+		
 		category.clear();
 		for(CategoryDisplay item : categories) {
 			category.addItem(item.getDescription(), item.getId());
+			
+			if(item.getId().equals(selected))
+				category.setItemSelected(index, true);
+			
+			index ++;
 		}
 	}
 
@@ -113,5 +120,15 @@ public class ProductsEditView extends Composite
 	@Override
 	public void setName(String value) {
 		name.setValue(value);
+	}
+
+	@Override
+	public String getPrice() {
+		return price.getValue();
+	}
+
+	@Override
+	public void setPrice(String value) {
+		price.setValue(value);
 	}
 }

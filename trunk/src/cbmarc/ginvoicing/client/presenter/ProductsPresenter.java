@@ -4,10 +4,8 @@
 package cbmarc.ginvoicing.client.presenter;
 
 import cbmarc.ginvoicing.client.view.ProductsEditView;
+import cbmarc.ginvoicing.client.view.ProductsListView;
 
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -15,29 +13,28 @@ import com.google.gwt.user.client.ui.Widget;
  * @author MCOSTA
  *
  */
-public class ProductsPresenter 
-		implements Presenter, ValueChangeHandler<String> {
+public class ProductsPresenter implements Presenter {
 	
 	public interface Display {
 		HasWidgets getContent();
-		
 		Widget asWidget();
 	}
 	
 	protected final Display display;
 	
+	private ProductsListPresenter productsListPresenter;
 	private ProductsEditPresenter productsEditPresenter;
 	
 	public ProductsPresenter(Display display) {
 	    this.display = display;
 	    
+	    productsListPresenter = new ProductsListPresenter(new ProductsListView());
 	    productsEditPresenter = new ProductsEditPresenter(new ProductsEditView());
 	    
 	    bind();
 	}
 	
 	private void bind() {
-		History.addValueChangeHandler(this);
 	}
 
 	@Override
@@ -50,21 +47,15 @@ public class ProductsPresenter
 	public void updateDisplayFromData() {}
 
 	@Override
-	public void onValueChange(ValueChangeEvent<String> event) {
-		String token = event.getValue();
-		
+	public void processHistoryToken(String token) {
 		if(token != null) {
-			Presenter presenter = null;
+			Presenter presenter = productsListPresenter;
 			
-			if(token.equals("main/products")) {
-				presenter = productsEditPresenter;
-			} else if(token.equals("main/products/edit")) {
+			if(token.startsWith("main/products/edit")) {
 				presenter = productsEditPresenter;
 			}
 
-			if(presenter != null) {
-				presenter.go(display.getContent());
-			}
+			presenter.go(display.getContent());
 		}
 	}
 
