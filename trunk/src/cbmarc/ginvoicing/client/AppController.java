@@ -28,7 +28,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		this.container = container;
 		
 		if("".equals(History.getToken())) {
-			History.newItem("main");
+			History.newItem("main/invoices");
 		} else {
 			History.fireCurrentHistoryState();
 		}

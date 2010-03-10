@@ -4,6 +4,7 @@
 package cbmarc.ginvoicing.server;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
@@ -106,6 +107,8 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 			// Register limit
 			if(count > 25) 
 				throw new ServerException("Limit of 25 rows exceeded.");
+			
+			bean.setDate(new Date());
 		}
 
 		try {				

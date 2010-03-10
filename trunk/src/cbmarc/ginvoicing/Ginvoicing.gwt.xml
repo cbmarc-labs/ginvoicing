@@ -11,9 +11,10 @@
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
   <!-- Other module inherits                                      -->
-  <!-- <inherits name="com.google.gwt.i18n.I18N"/> -->
-  <!-- <extend-property name="locale" values="es_ES" /> -->
-  <!-- <extend-property name="locale" values="es_CA" /> -->
+  <inherits name="com.google.gwt.i18n.I18N"/>
+  <extend-property name="locale" values="es_ES" />
+  <extend-property name="locale" values="es_CA" />
+  <extend-property name="locale" values="fr_FR" />
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='cbmarc.ginvoicing.client.Ginvoicing'/>
@@ -21,5 +22,6 @@
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
   <source path='shared'/>
-
+  
+  <stylesheet src='default.css' />
 </module>

@@ -31,11 +31,28 @@ public class Line implements Serializable {
 	// foreign key to Invoice
 	@Persistent
 	private String invoice;
+	
+	// foreign key to Product
+	@Persistent
+	private String product;
 
 	/**
 	 * 
 	 */
 	public Line() {
+	}
+	
+	/**
+	 * @param id
+	 * @param quantity
+	 * @param invoice
+	 * @param product
+	 */
+	public Line(String id, Integer quantity, String invoice, String product) {
+		this.id = id;
+		this.quantity = quantity;
+		this.invoice = invoice;
+		this.product = product;
 	}
 
 	/**
@@ -78,6 +95,20 @@ public class Line implements Serializable {
 	 */
 	public void setInvoice(String invoice) {
 		this.invoice = invoice;
+	}
+
+	/**
+	 * @return the product
+	 */
+	public String getProduct() {
+		return product;
+	}
+
+	/**
+	 * @param product the product to set
+	 */
+	public void setProduct(String product) {
+		this.product = product;
 	}
 	
 }

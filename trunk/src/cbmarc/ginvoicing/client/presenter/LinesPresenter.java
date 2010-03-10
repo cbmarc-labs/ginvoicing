@@ -44,19 +44,12 @@ public class LinesPresenter implements Presenter {
 	public void go(HasWidgets container) {
 		container.clear();
 	    container.add(display.asWidget());
+	    
+	    linesListPresenter.go(display.getContent());
 	}
 
 	@Override
 	public void processHistoryToken(String token) {
-		if(token != null) {
-			Presenter presenter = linesListPresenter;
-			
-			if(token.startsWith("main/lines/edit")) {
-				presenter = linesEditPresenter;
-			}
-
-			presenter.go(display.getContent());
-		}
 	}
 
 }

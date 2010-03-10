@@ -1,4 +1,4 @@
-<!-- MainView.ui.xml -->
+<!-- View.ui.xml -->
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
@@ -28,19 +28,21 @@
 	</g:VerticalPanel>
   
 	<div id="header-wrapper">
-		<div id="header">GInvoicing - Invoicing system</div>
+		<div id="header">
+			GInvoicing - Invoicing system
+		</div>
 	</div>
-			
+	
 	<div id="container">
-		<div id="center" class="column">
+		<div id="center" class="column"> 
 		
 			<g:VerticalPanel styleName="tabPanel">
 				<g:HorizontalPanel>
 				
-				<g:Hyperlink ui:field="invoicesTab" styleName="tabItem" targetHistoryToken="main/invoices">Invoices</g:Hyperlink>
-				<g:Hyperlink ui:field="customersTab" styleName="tabItem" targetHistoryToken="main/customers">Customers</g:Hyperlink>
-				<g:Hyperlink ui:field="productsTab" styleName="tabItem" targetHistoryToken="main/products">Products</g:Hyperlink>
-				<g:Hyperlink ui:field="categoriesTab" styleName="tabItem" targetHistoryToken="main/categories">Categories</g:Hyperlink>
+				<g:Hyperlink ui:field="invoicesTab" styleName="tabItem" targetHistoryToken="main/invoices" text="{cnt.menuInvoices}"></g:Hyperlink>
+				<g:Hyperlink ui:field="customersTab" styleName="tabItem" targetHistoryToken="main/customers" text="{cnt.menuCustomers}"></g:Hyperlink>
+				<g:Hyperlink ui:field="productsTab" styleName="tabItem" targetHistoryToken="main/products" text="{cnt.menuProducts}"></g:Hyperlink>
+				<g:Hyperlink ui:field="categoriesTab" styleName="tabItem" targetHistoryToken="main/categories" text="{cnt.menuCategories}"></g:Hyperlink>
 				
 				</g:HorizontalPanel>
 			</g:VerticalPanel>
@@ -53,7 +55,6 @@
 	</div>
 	
 	<div id="footer-wrapper">
-		<br /><br /><br /><br />
 		<div id="footer">-= ginvoicing =-</div>
 	</div>
 

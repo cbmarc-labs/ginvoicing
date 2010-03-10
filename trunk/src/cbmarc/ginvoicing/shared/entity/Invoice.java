@@ -26,13 +26,29 @@ public class Invoice implements Serializable {
 	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
 	private String id;
 	
+	// date created
 	@Persistent
 	private Date date;
+	
+	// foreign key to customer
+	@Persistent
+	private String customer;
 
 	/**
 	 * 
 	 */
 	public Invoice() {
+	}
+
+	/**
+	 * @param id
+	 * @param date
+	 * @param customer
+	 */
+	public Invoice(String id, Date date, String customer) {
+		this.id = id;
+		this.date = date;
+		this.customer = customer;
 	}
 
 	/**
@@ -62,4 +78,19 @@ public class Invoice implements Serializable {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+
+	/**
+	 * @return the customer
+	 */
+	public String getCustomer() {
+		return customer;
+	}
+
+	/**
+	 * @param customer the customer to set
+	 */
+	public void setCustomer(String customer) {
+		this.customer = customer;
+	}
+
 }

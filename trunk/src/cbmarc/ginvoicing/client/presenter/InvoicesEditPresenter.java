@@ -3,12 +3,17 @@
  */
 package cbmarc.ginvoicing.client.presenter;
 
+import java.util.List;
+
 import cbmarc.ginvoicing.client.event.CustomersEventBus;
+import cbmarc.ginvoicing.client.event.InvoicesEventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
-import cbmarc.ginvoicing.client.rpc.CustomersServiceAsync;
-import cbmarc.ginvoicing.shared.entity.Customer;
+import cbmarc.ginvoicing.client.rpc.InvoicesServiceAsync;
+import cbmarc.ginvoicing.client.view.LinesView;
+import cbmarc.ginvoicing.shared.entity.CustomerDisplay;
+import cbmarc.ginvoicing.shared.entity.Invoice;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
@@ -21,7 +26,12 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	
-	public interface Display {		
+	public interface Display {
+		String getCustomer();
+		void setCustomer(List<CustomerDisplay> customers, String selected);
+		
+		HasWidgets getLines();
+		
 		public void focus();
 		public void reset();
 		
@@ -32,11 +42,15 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	
 	private final Display display;
 	
-	private CustomersServiceAsync service = CustomersEventBus.getService();
-	private Customer customer = new Customer();
+	private InvoicesServiceAsync service = InvoicesEventBus.getService();
+	private Invoice invoice = new Invoice();
+	
+	private final LinesPresenter linesPresenter;
 	
 	public InvoicesEditPresenter(Display view) {
 	    this.display = view;
+	    
+	    linesPresenter = new LinesPresenter(new LinesView());
 		
 		bind();
 	}
@@ -60,10 +74,10 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	public void doSave() {
 		updateDataFromDisplay();
 		
-		service.save(customer, new AppAsyncCallback<Customer>() {
+		service.save(invoice, new AppAsyncCallback<Invoice>() {
 
 			@Override
-			public void onSuccess(Customer result) {
+			public void onSuccess(Invoice result) {
 				History.newItem("main/invoices");
 			}
 			
@@ -74,11 +88,11 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	 * 
 	 */
 	private void doLoad(String id) {
-		service.selectById(id, new AppAsyncCallback<Customer>() {
+		service.selectById(id, new AppAsyncCallback<Invoice>() {
 
 			@Override
-			public void onSuccess(Customer result) {
-				customer = result;
+			public void onSuccess(Invoice result) {
+				invoice = result;
 				updateDisplayFromData();
 				display.focus();
 			}
@@ -95,7 +109,9 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	    String token = History.getToken();
 	    String[] parts = token.split("/");
 	    if(parts.length > 3) doLoad(parts[parts.length - 1]);
-	    else customer = new Customer();
+	    else invoice = new Invoice();
+	    
+	    linesPresenter.go(display.getLines());
 
 		updateDisplayFromData();
 	}
@@ -104,7 +120,7 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	 * 
 	 */
 	public void updateDataFromDisplay() {
-		//customer.setName(display.getName());
+		invoice.setCustomer(display.getCustomer());
 	}
 	
 	/**
@@ -112,7 +128,16 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	 */
 	public void updateDisplayFromData() {
 		display.reset();
-		//display.setName(customer.getName());
+		
+		CustomersEventBus.getService().selectDisplay(null, 
+				new AppAsyncCallback<List<CustomerDisplay>>() {
+					
+					@Override
+					public void onSuccess(List<CustomerDisplay> result) {
+						display.setCustomer(result, invoice.getCustomer());
+					}
+					
+		});
 	}
 
 	@Override

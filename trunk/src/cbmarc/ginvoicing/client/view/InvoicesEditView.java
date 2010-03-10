@@ -3,9 +3,12 @@
  */
 package cbmarc.ginvoicing.client.view;
 
+import java.util.List;
+
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.presenter.InvoicesEditPresenter;
+import cbmarc.ginvoicing.shared.entity.CustomerDisplay;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -14,7 +17,9 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -27,7 +32,8 @@ public class InvoicesEditView extends Composite
 	interface uiBinder extends UiBinder<Widget, InvoicesEditView> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 		
-	@UiField TextBox date;
+	@UiField ListBox customer;
+	@UiField Panel lines;
 	
 	public InvoicesEditView() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -57,7 +63,7 @@ public class InvoicesEditView extends Composite
 
 	@Override
 	public void reset() {
-		//id.setValue("");
+		customer.clear();
 	}
 
 	@Override
@@ -69,5 +75,30 @@ public class InvoicesEditView extends Composite
 	@Override
 	public void focus() {
 		//name.setFocus(true);
+	}
+
+	@Override
+	public String getCustomer() {
+		return customer.getValue(customer.getSelectedIndex());
+	}
+
+	@Override
+	public void setCustomer(List<CustomerDisplay> customers, String selected) {
+		int index = 0;
+		
+		customer.clear();
+		for(CustomerDisplay item : customers) {
+			customer.addItem(item.getName(), item.getId());
+			
+			if(item.getId().equals(selected))
+				customer.setItemSelected(index, true);
+			
+			index ++;
+		}
+	}
+
+	@Override
+	public HasWidgets getLines() {
+		return lines;
 	}
 }

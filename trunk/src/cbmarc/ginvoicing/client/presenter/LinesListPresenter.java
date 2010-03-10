@@ -137,6 +137,7 @@ public class LinesListPresenter implements Presenter, ListHandler {
 	@Override
 	public void onAdd(ListEvent event) {
 		//History.newItem("main/customers/edit");
+		Window.alert("IN PROGRESS");
 	}
 
 	@Override
@@ -154,6 +155,7 @@ public class LinesListPresenter implements Presenter, ListHandler {
 		//String id = list.get(row).getId();
 		
 		//History.newItem("main/customers/edit/" + id);
+		Window.alert("IN PROGRESS");
 	}
 
 	@Override

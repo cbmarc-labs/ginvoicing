@@ -17,10 +17,12 @@
   	<g:HTMLPanel>
   	
 		<table>
-		<tr><td><g:Label text="{cnt.formDate}" /></td><td><g:TextBox ui:field="date" /></td></tr>
+		<tr><td><g:Label text="{cnt.formCustomer}" /></td><td><g:ListBox ui:field="customer" /></td></tr>
 		</table>
 
   	</g:HTMLPanel>
+  	
+  	<g:HorizontalPanel width="100%" ui:field="lines" />
   </g:VerticalPanel>
 
 	<g:VerticalPanel styleName="buttonsPanel">
