@@ -3,15 +3,20 @@
  */
 package cbmarc.ginvoicing.client.presenter;
 
+import java.util.List;
+
+import cbmarc.ginvoicing.client.event.EventBus;
 import cbmarc.ginvoicing.client.event.LinesEventBus;
+import cbmarc.ginvoicing.client.event.ListEditEvent;
+import cbmarc.ginvoicing.client.event.ProductsEventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.LinesServiceAsync;
 import cbmarc.ginvoicing.shared.entity.Line;
+import cbmarc.ginvoicing.shared.entity.ProductDisplay;
 
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -26,6 +31,9 @@ public class LinesEditPresenter
 		Integer getQuantity();
 		void setQuantity(Integer value);
 		
+		String getProduct();
+		void setProduct(List<ProductDisplay> products, String selected);
+		
 		public void focus();
 		public void reset();
 		
@@ -36,9 +44,9 @@ public class LinesEditPresenter
 	
 	private final Display display;
 	
-	private LinesServiceAsync service = 
-		LinesEventBus.getService();
-	private Line invoiceLine = new Line();
+	private EventBus eventBus = EventBus.getEventBus();
+	private LinesServiceAsync service = LinesEventBus.getService();
+	private Line line = new Line();
 	
 	public LinesEditPresenter(Display view) {
 	    this.display = view;
@@ -62,30 +70,14 @@ public class LinesEditPresenter
 	/**
 	 * @return
 	 */
-	public void doSave() {
+	private void doSave() {
 		updateDataFromDisplay();
 		
-		service.save(invoiceLine, new AppAsyncCallback<Line>() {
+		service.save(line, new AppAsyncCallback<Line>() {
 
 			@Override
 			public void onSuccess(Line result) {
-				//History.newItem("main/customers");
-			}
-			
-		});
-	}
-	
-	/**
-	 * 
-	 */
-	private void doLoad(String id) {
-		service.selectById(id, new AppAsyncCallback<Line>() {
-
-			@Override
-			public void onSuccess(Line result) {
-				invoiceLine = result;
-				updateDisplayFromData();
-				display.focus();
+				eventBus.fireEvent(ListEditEvent.list());
 			}
 			
 		});
@@ -95,21 +87,22 @@ public class LinesEditPresenter
 	public void go(HasWidgets container) {
 		container.clear();
 	    container.add(display.asWidget());
-	    
-	    // TODO: fix up this shit
-	    String token = History.getToken();
-	    String[] parts = token.split("/");
-	    if(parts.length > 3) doLoad(parts[parts.length - 1]);
-	    else invoiceLine = new Line();
 
 		updateDisplayFromData();
 	}
 	
 	/**
+	 * @param line the line to set
+	 */
+	public void setLine(Line line) {
+		this.line = line;
+	}
+
+	/**
 	 * 
 	 */
 	public void updateDataFromDisplay() {
-		invoiceLine.setQuantity(display.getQuantity());
+		line.setQuantity(display.getQuantity());
 	}
 	
 	/**
@@ -117,12 +110,22 @@ public class LinesEditPresenter
 	 */
 	public void updateDisplayFromData() {
 		display.reset();
-		display.setQuantity(invoiceLine.getQuantity());
+		display.setQuantity(line.getQuantity());
+		
+		ProductsEventBus.getService().selectDisplay(null, 
+				new AppAsyncCallback<List<ProductDisplay>>() {
+					
+					@Override
+					public void onSuccess(List<ProductDisplay> result) {
+						display.setProduct(result, line.getProduct());
+					}
+					
+		});
 	}
 
 	@Override
 	public void onCancel(SubmitCancelEvent event) {
-		//History.newItem("main/customers");
+		eventBus.fireEvent(ListEditEvent.list());
 	}
 
 	@Override
@@ -133,8 +136,7 @@ public class LinesEditPresenter
 
 	@Override
 	public void processHistoryToken(String token) {
-		// TODO Auto-generated method stub
-		
+		// Nothing to do.
 	}
 
 }

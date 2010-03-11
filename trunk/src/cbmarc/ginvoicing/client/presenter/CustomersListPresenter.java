@@ -159,7 +159,6 @@ public class CustomersListPresenter implements Presenter, ListHandler {
 
 	@Override
 	public void processHistoryToken(String token) {
-		// TODO Auto-generated method stub
-		
+		// Nothing to do.
 	}
 }

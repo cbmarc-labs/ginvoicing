@@ -103,6 +103,9 @@ public class CategoriesEditPresenter
 		});
 	}
 	
+	/* (non-Javadoc)
+	 * @see cbmarc.ginvoicing.client.presenter.Presenter#go(com.google.gwt.user.client.ui.HasWidgets)
+	 */
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
@@ -134,21 +137,29 @@ public class CategoriesEditPresenter
 		display.setDescription(category.getDescription());
 	}
 
+	/* (non-Javadoc)
+	 * @see cbmarc.ginvoicing.client.event.SubmitCancelHandler#onCancel(cbmarc.ginvoicing.client.event.SubmitCancelEvent)
+	 */
 	@Override
 	public void onCancel(SubmitCancelEvent event) {
 		History.newItem("main/categories");
 	}
 
+	/* (non-Javadoc)
+	 * @see cbmarc.ginvoicing.client.event.SubmitCancelHandler#onSubmit(cbmarc.ginvoicing.client.event.SubmitCancelEvent)
+	 */
 	@Override
 	public void onSubmit(SubmitCancelEvent event) {
 		if(hasValidInput())
 			doSave();
 	}
 
+	/* (non-Javadoc)
+	 * @see cbmarc.ginvoicing.client.presenter.Presenter#processHistoryToken(java.lang.String)
+	 */
 	@Override
 	public void processHistoryToken(String token) {
-		// TODO Auto-generated method stub
-		
+		// Nothing to do.
 	}
 
 }

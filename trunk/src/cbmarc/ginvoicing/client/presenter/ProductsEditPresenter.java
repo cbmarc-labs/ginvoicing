@@ -159,8 +159,7 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 
 	@Override
 	public void processHistoryToken(String token) {
-		// TODO Auto-generated method stub
-		
+		// Nothing to do.
 	}
 
 }

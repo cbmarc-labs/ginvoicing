@@ -12,7 +12,6 @@ import cbmarc.ginvoicing.client.view.CustomersView;
 import cbmarc.ginvoicing.client.view.InvoicesView;
 import cbmarc.ginvoicing.client.view.ProductsView;
 
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Widget;

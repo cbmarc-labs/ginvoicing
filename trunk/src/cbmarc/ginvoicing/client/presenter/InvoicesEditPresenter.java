@@ -108,12 +108,16 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	    // TODO: fix up this shit
 	    String token = History.getToken();
 	    String[] parts = token.split("/");
-	    if(parts.length > 3) doLoad(parts[parts.length - 1]);
-	    else invoice = new Invoice();
+	    if(parts.length > 3) {
+	    	doLoad(parts[parts.length - 1]);
+	    } else {
+	    	invoice = new Invoice();
+	    	updateDisplayFromData();
+	    }
 	    
+	    // TODO filter lines list, and populate line edit id.
+	    // maybe linesPresenter.setInvoice(xxx)
 	    linesPresenter.go(display.getLines());
-
-		updateDisplayFromData();
 	}
 	
 	/**
@@ -153,8 +157,7 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 
 	@Override
 	public void processHistoryToken(String token) {
-		// TODO Auto-generated method stub
-		
+		// Nothing to do.
 	}
 
 }

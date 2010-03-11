@@ -12,6 +12,7 @@ import javax.jdo.Query;
 import cbmarc.ginvoicing.client.rpc.ProductsService;
 import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.Product;
+import cbmarc.ginvoicing.shared.entity.ProductDisplay;
 import cbmarc.ginvoicing.shared.exception.ServerException;
 
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
@@ -153,6 +154,33 @@ public class ProductsServiceImpl extends RemoteServiceServlet
 		}
 		
 		return res;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProductDisplay> selectDisplay(String filter)
+			throws ServerException {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		ArrayList<ProductDisplay> result = new ArrayList<ProductDisplay>();
+		
+		try {
+			Query query = pm.newQuery(Product.class);
+			
+			query.setFilter(filter);
+			query.setOrdering("name asc");
+			//query.setRange(first, first + count);
+			
+			List<Product> product = (List<Product>) query.execute();
+			for(Product i : product) {
+				result.add(new ProductDisplay(i.getId(), i.getName()));
+			}
+		} catch(Exception e) {
+			throw new ServerException(e.toString());
+		} finally {
+			pm.close();
+		}
+		
+		return result;
 	}
 
 }

@@ -19,6 +19,7 @@
   	
 		<table>
 		<tr><td><g:Label text="{cnt.formQuantity}" /></td><td><g:TextBox ui:field="quantity" /></td></tr>
+		<tr><td><g:Label text="{cnt.formProduct}" /></td><td><g:ListBox ui:field="product" /></td></tr>
 		</table>
 
   	</g:HTMLPanel>

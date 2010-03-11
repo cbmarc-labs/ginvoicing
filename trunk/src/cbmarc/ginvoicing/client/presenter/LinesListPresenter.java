@@ -6,7 +6,9 @@ package cbmarc.ginvoicing.client.presenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import cbmarc.ginvoicing.client.event.EventBus;
 import cbmarc.ginvoicing.client.event.LinesEventBus;
+import cbmarc.ginvoicing.client.event.ListEditEvent;
 import cbmarc.ginvoicing.client.event.ListEvent;
 import cbmarc.ginvoicing.client.event.ListHandler;
 import cbmarc.ginvoicing.client.i18n.LinesConstants;
@@ -37,6 +39,7 @@ public class LinesListPresenter implements Presenter, ListHandler {
 	
 	private final Display display;
 	
+	private EventBus eventBus = EventBus.getEventBus();
 	private LinesServiceAsync service = LinesEventBus.getService();
 	private LinesConstants constants = LinesEventBus.getConstants();
 	
@@ -107,7 +110,7 @@ public class LinesListPresenter implements Presenter, ListHandler {
 	 * 
 	 */
 	public void updateDataFromDisplay() {
-		// Nothing to do
+		// Nothing to do.
 	}
 	
 	/**
@@ -136,8 +139,7 @@ public class LinesListPresenter implements Presenter, ListHandler {
 
 	@Override
 	public void onAdd(ListEvent event) {
-		//History.newItem("main/customers/edit");
-		Window.alert("IN PROGRESS");
+		eventBus.fireEvent(ListEditEvent.edit(null));
 	}
 
 	@Override
@@ -152,15 +154,11 @@ public class LinesListPresenter implements Presenter, ListHandler {
 
 	@Override
 	public void onList(ListEvent event, int row) {
-		//String id = list.get(row).getId();
-		
-		//History.newItem("main/customers/edit/" + id);
-		Window.alert("IN PROGRESS");
+		eventBus.fireEvent(ListEditEvent.edit(list.get(row)));
 	}
 
 	@Override
 	public void processHistoryToken(String token) {
-		// TODO Auto-generated method stub
-		
+		// Nothing to do.
 	}
 }

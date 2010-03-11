@@ -3,6 +3,7 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
     
+    <ui:with field="res" type="cbmarc.ginvoicing.client.ui.Resources"/>
     <ui:with field="cnt" type="cbmarc.ginvoicing.client.i18n.AppConstants"/>
 
 	<ui:style>
@@ -29,6 +30,7 @@
   
 	<div id="header-wrapper">
 		<div id="header">
+			<g:Image resource="{res.logo}"></g:Image>
 			GInvoicing - Invoicing system
 		</div>
 	</div>

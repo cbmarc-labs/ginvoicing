@@ -26,7 +26,7 @@ public class Line implements Serializable {
 	private String id;
 	
 	@Persistent
-	private Integer quantity;
+	private Integer quantity = 0;
 	
 	// foreign key to Invoice
 	@Persistent

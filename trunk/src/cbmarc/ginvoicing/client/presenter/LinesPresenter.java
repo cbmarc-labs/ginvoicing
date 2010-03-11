@@ -3,8 +3,12 @@
  */
 package cbmarc.ginvoicing.client.presenter;
 
+import cbmarc.ginvoicing.client.event.EventBus;
+import cbmarc.ginvoicing.client.event.ListEditEvent;
+import cbmarc.ginvoicing.client.event.ListEditHandler;
 import cbmarc.ginvoicing.client.view.LinesEditView;
 import cbmarc.ginvoicing.client.view.LinesListView;
+import cbmarc.ginvoicing.shared.entity.Line;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
@@ -13,7 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author MCOSTA
  *
  */
-public class LinesPresenter implements Presenter {
+public class LinesPresenter implements Presenter, ListEditHandler {
 	
 	public interface Display {
 		HasWidgets getContent();
@@ -21,6 +25,7 @@ public class LinesPresenter implements Presenter {
 	}
 	
 	protected final Display display;
+	private EventBus eventBus = EventBus.getEventBus();
 
 	private LinesListPresenter linesListPresenter;
 	private LinesEditPresenter linesEditPresenter;
@@ -35,6 +40,7 @@ public class LinesPresenter implements Presenter {
 	}
 	
 	private void bind() {
+		eventBus.addHandler(ListEditEvent.getType(), this);
 	}
 	
 	public void updateDataFromDisplay() {}
@@ -50,6 +56,23 @@ public class LinesPresenter implements Presenter {
 
 	@Override
 	public void processHistoryToken(String token) {
+		// Nothing to do.
+	}
+
+	@Override
+	public void onList(ListEditEvent event) {
+		linesListPresenter.go(display.getContent());
+	}
+
+	@Override
+	public void onEdit(ListEditEvent event, Object object) {
+		if(object == null) {
+			linesEditPresenter.setLine(new Line());
+		} else {
+			linesEditPresenter.setLine((Line)object);
+		}
+		
+		linesEditPresenter.go(display.getContent());
 	}
 
 }
