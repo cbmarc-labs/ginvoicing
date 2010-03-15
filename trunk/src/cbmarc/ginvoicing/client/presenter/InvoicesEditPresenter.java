@@ -7,16 +7,13 @@ import java.util.List;
 
 import cbmarc.ginvoicing.client.event.CustomersEventBus;
 import cbmarc.ginvoicing.client.event.InvoicesEventBus;
-import cbmarc.ginvoicing.client.event.LinesEventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.InvoicesServiceAsync;
-import cbmarc.ginvoicing.client.rpc.LinesServiceAsync;
 import cbmarc.ginvoicing.client.view.LinesView;
 import cbmarc.ginvoicing.shared.entity.CustomerDisplay;
 import cbmarc.ginvoicing.shared.entity.Invoice;
-import cbmarc.ginvoicing.shared.entity.Line;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
@@ -84,7 +81,6 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 
 			@Override
 			public void onSuccess(Invoice result) {
-				Window.alert("GUARDADO => " + result.getId());
 				History.newItem("main/invoices");
 			}
 			
@@ -101,25 +97,6 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 			public void onSuccess(Invoice result) {
 				invoice = result;
 				updateDisplayFromData();
-				doLoadLines(result);
-			}
-			
-		});
-	}
-	
-	/**
-	 * @param invoice
-	 */
-	private void doLoadLines(Invoice invoice) {
-		LinesServiceAsync linesService = LinesEventBus.getService();
-				
-		//linesService.select("invoice=='" + invoice.getId() + "'", 
-		linesService.select(null,
-				new AppAsyncCallback<List<Line>>() {
-
-			@Override
-			public void onSuccess(List<Line> result) {
-				linesPresenter.getLinesListPresenter().setList(result);
 				linesPresenter.go(display.getLinesPanel());
 			}
 			
@@ -166,6 +143,11 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 					}
 					
 		});
+		
+		if(invoice.getLines() != null)
+			linesPresenter.getLinesListPresenter().setList(invoice.getLines());
+		else
+			Window.alert("ES NULO NENG");
 	}
 
 	@Override
