@@ -55,7 +55,7 @@ public class InvoicesListView extends Composite
 		listContent.addData(new String[] {
 				constants.listDate()});
 		
-		DateTimeFormat dtf = DateTimeFormat.getFormat("d/MM/y H:m");
+		DateTimeFormat dtf = DateTimeFormat.getFormat("d/MM/y HH:mm");
 
 		if(data != null) {
 			for(Invoice invoice : data) {

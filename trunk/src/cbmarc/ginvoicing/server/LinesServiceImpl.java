@@ -3,13 +3,13 @@
  */
 package cbmarc.ginvoicing.server;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import cbmarc.ginvoicing.client.rpc.LinesService;
+import cbmarc.ginvoicing.shared.entity.Invoice;
 import cbmarc.ginvoicing.shared.entity.Line;
 import cbmarc.ginvoicing.shared.exception.ServerException;
 
@@ -51,7 +51,7 @@ public class LinesServiceImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public void delete(ArrayList<String> ids) {
+	public void delete(List<String> ids) {
 		for(String i : ids) {
 			try {
 				delete(i);
@@ -93,20 +93,8 @@ public class LinesServiceImpl extends RemoteServiceServlet
 		return result;
 	}
 	
-	@Override
-	public Line save(Line bean) throws ServerException {		
+	private Line save(Line bean) throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		// Is a insert statement?
-		if(bean.getId() == null) {
-			Query query = pm.newQuery(Line.class);
-			query.setResult("count(this)");
-			Integer count = (Integer)query.execute();
-			
-			// Register limit
-			if(count > 25) 
-				throw new ServerException("Limit of 25 rows exceeded.");
-		}
 
 		try {				
 			pm.currentTransaction().begin();
@@ -120,6 +108,36 @@ public class LinesServiceImpl extends RemoteServiceServlet
 		}
 		
 		return bean;
+	}
+	
+	@Override
+	public void saveList(Invoice invoice, List<Line> list)
+			throws ServerException {
+		List<Line> ids = select("invoice=='" + invoice.getId() + "'");
+		int i = 0;
+		
+		// First remove all lines
+		for(Line line: ids) {
+			delete(line.getId());
+		}
+		
+		// Next insert new lines list
+		for(Line line: list) {
+			try {
+				line.setId(null);
+				//line.setInvoice(invoice.getId());
+				
+				save(line);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new ServerException(e.toString());
+			}
+			
+			// Only save 25 lines per invoice
+			if(++i > 25) {
+				break;
+			}
+		}
 	}
 
 	@Override

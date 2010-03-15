@@ -29,8 +29,9 @@ public class Line implements Serializable {
 	private Integer quantity = 0;
 	
 	// foreign key to Invoice
+	@SuppressWarnings("unused")
 	@Persistent
-	private String invoice;
+	private Invoice invoice;
 	
 	// foreign key to Product
 	@Persistent
@@ -48,10 +49,9 @@ public class Line implements Serializable {
 	 * @param invoice
 	 * @param product
 	 */
-	public Line(String id, Integer quantity, String invoice, String product) {
+	public Line(String id, Integer quantity, String product) {
 		this.id = id;
 		this.quantity = quantity;
-		this.invoice = invoice;
 		this.product = product;
 	}
 
@@ -81,20 +81,6 @@ public class Line implements Serializable {
 	 */
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
-	}
-
-	/**
-	 * @return the invoice
-	 */
-	public String getInvoice() {
-		return invoice;
-	}
-
-	/**
-	 * @param invoice the invoice to set
-	 */
-	public void setInvoice(String invoice) {
-		this.invoice = invoice;
 	}
 
 	/**

@@ -33,7 +33,7 @@ public class InvoicesEditView extends Composite
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 		
 	@UiField ListBox customer;
-	@UiField Panel lines;
+	@UiField Panel linesPanel;
 	
 	public InvoicesEditView() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -98,7 +98,7 @@ public class InvoicesEditView extends Composite
 	}
 
 	@Override
-	public HasWidgets getLines() {
-		return lines;
+	public HasWidgets getLinesPanel() {
+		return linesPanel;
 	}
 }

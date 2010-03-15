@@ -6,13 +6,11 @@ package cbmarc.ginvoicing.client.presenter;
 import java.util.List;
 
 import cbmarc.ginvoicing.client.event.EventBus;
-import cbmarc.ginvoicing.client.event.LinesEventBus;
 import cbmarc.ginvoicing.client.event.ListEditEvent;
 import cbmarc.ginvoicing.client.event.ProductsEventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
-import cbmarc.ginvoicing.client.rpc.LinesServiceAsync;
 import cbmarc.ginvoicing.shared.entity.Line;
 import cbmarc.ginvoicing.shared.entity.ProductDisplay;
 
@@ -45,7 +43,7 @@ public class LinesEditPresenter
 	private final Display display;
 	
 	private EventBus eventBus = EventBus.getEventBus();
-	private LinesServiceAsync service = LinesEventBus.getService();
+	private boolean isInsert = false;
 	private Line line = new Line();
 	
 	public LinesEditPresenter(Display view) {
@@ -73,14 +71,10 @@ public class LinesEditPresenter
 	private void doSave() {
 		updateDataFromDisplay();
 		
-		service.save(line, new AppAsyncCallback<Line>() {
-
-			@Override
-			public void onSuccess(Line result) {
-				eventBus.fireEvent(ListEditEvent.list());
-			}
-			
-		});
+		if(isInsert == true)
+			eventBus.fireEvent(ListEditEvent.list(line));
+		else
+			eventBus.fireEvent(ListEditEvent.list(null));
 	}
 	
 	@Override
@@ -95,6 +89,14 @@ public class LinesEditPresenter
 	 * @param line the line to set
 	 */
 	public void setLine(Line line) {
+		isInsert = false;
+		
+		if(line == null) {
+			isInsert = true;
+			
+			line = new Line();
+		}
+		
 		this.line = line;
 	}
 
@@ -125,7 +127,7 @@ public class LinesEditPresenter
 
 	@Override
 	public void onCancel(SubmitCancelEvent event) {
-		eventBus.fireEvent(ListEditEvent.list());
+		eventBus.fireEvent(ListEditEvent.list(null));
 	}
 
 	@Override

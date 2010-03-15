@@ -14,8 +14,8 @@ public class ListEditEvent extends GwtEvent<ListEditHandler> {
 	private Operation operation;
 	private Object object;
 	
-	public static ListEditEvent list() {
-		return new ListEditEvent(Operation.LIST);
+	public static ListEditEvent list(Object object) {
+		return new ListEditEvent(Operation.LIST, object);
 	}
 	
 	public static ListEditEvent edit(Object object) {
@@ -39,7 +39,7 @@ public class ListEditEvent extends GwtEvent<ListEditHandler> {
 	protected void dispatch(ListEditHandler handler) {
 		switch(operation) {
 		case LIST:
-			handler.onList(this);
+			handler.onList(this, object);
 			break;
 		case EDIT:
 			handler.onEdit(this, object);

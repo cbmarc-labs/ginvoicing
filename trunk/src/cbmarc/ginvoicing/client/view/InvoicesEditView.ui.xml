@@ -22,7 +22,7 @@
 
   	</g:HTMLPanel>
   	
-  	<g:HorizontalPanel width="100%" ui:field="lines" />
+  	<g:HorizontalPanel width="100%" ui:field="linesPanel" />
   </g:VerticalPanel>
 
 	<g:VerticalPanel styleName="buttonsPanel">

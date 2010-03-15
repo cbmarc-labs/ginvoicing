@@ -58,20 +58,32 @@ public class LinesPresenter implements Presenter, ListEditHandler {
 	public void processHistoryToken(String token) {
 		// Nothing to do.
 	}
+	
+	/**
+	 * @return the linesListPresenter
+	 */
+	public LinesListPresenter getLinesListPresenter() {
+		return linesListPresenter;
+	}
+
+	/**
+	 * @return the linesEditPresenter
+	 */
+	public LinesEditPresenter getLinesEditPresenter() {
+		return linesEditPresenter;
+	}
 
 	@Override
-	public void onList(ListEditEvent event) {
+	public void onList(ListEditEvent event, Object object) {
+		if(object != null)
+			linesListPresenter.getList().add((Line)object);
+		
 		linesListPresenter.go(display.getContent());
 	}
 
 	@Override
 	public void onEdit(ListEditEvent event, Object object) {
-		if(object == null) {
-			linesEditPresenter.setLine(new Line());
-		} else {
-			linesEditPresenter.setLine((Line)object);
-		}
-		
+		linesEditPresenter.setLine((Line)object);
 		linesEditPresenter.go(display.getContent());
 	}
 

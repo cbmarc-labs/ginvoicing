@@ -7,16 +7,20 @@ import java.util.List;
 
 import cbmarc.ginvoicing.client.event.CustomersEventBus;
 import cbmarc.ginvoicing.client.event.InvoicesEventBus;
+import cbmarc.ginvoicing.client.event.LinesEventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.InvoicesServiceAsync;
+import cbmarc.ginvoicing.client.rpc.LinesServiceAsync;
 import cbmarc.ginvoicing.client.view.LinesView;
 import cbmarc.ginvoicing.shared.entity.CustomerDisplay;
 import cbmarc.ginvoicing.shared.entity.Invoice;
+import cbmarc.ginvoicing.shared.entity.Line;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -30,7 +34,7 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 		String getCustomer();
 		void setCustomer(List<CustomerDisplay> customers, String selected);
 		
-		HasWidgets getLines();
+		HasWidgets getLinesPanel();
 		
 		public void focus();
 		public void reset();
@@ -74,10 +78,13 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	public void doSave() {
 		updateDataFromDisplay();
 		
+		invoice.setLines(linesPresenter.getLinesListPresenter().getList());
+		
 		service.save(invoice, new AppAsyncCallback<Invoice>() {
 
 			@Override
 			public void onSuccess(Invoice result) {
+				Window.alert("GUARDADO => " + result.getId());
 				History.newItem("main/invoices");
 			}
 			
@@ -94,7 +101,26 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 			public void onSuccess(Invoice result) {
 				invoice = result;
 				updateDisplayFromData();
-				display.focus();
+				doLoadLines(result);
+			}
+			
+		});
+	}
+	
+	/**
+	 * @param invoice
+	 */
+	private void doLoadLines(Invoice invoice) {
+		LinesServiceAsync linesService = LinesEventBus.getService();
+				
+		//linesService.select("invoice=='" + invoice.getId() + "'", 
+		linesService.select(null,
+				new AppAsyncCallback<List<Line>>() {
+
+			@Override
+			public void onSuccess(List<Line> result) {
+				linesPresenter.getLinesListPresenter().setList(result);
+				linesPresenter.go(display.getLinesPanel());
 			}
 			
 		});
@@ -105,19 +131,17 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 		container.clear();
 	    container.add(display.asWidget());
 	    
-	    // TODO: fix up this shit
-	    String token = History.getToken();
-	    String[] parts = token.split("/");
+	    linesPresenter.getLinesListPresenter().getList().clear();
+	    
+	    // TODO: fix up
+	    String[] parts = History.getToken().split("/");
 	    if(parts.length > 3) {
 	    	doLoad(parts[parts.length - 1]);
 	    } else {
 	    	invoice = new Invoice();
 	    	updateDisplayFromData();
+	    	linesPresenter.go(display.getLinesPanel());
 	    }
-	    
-	    // TODO filter lines list, and populate line edit id.
-	    // maybe linesPresenter.setInvoice(xxx)
-	    linesPresenter.go(display.getLines());
 	}
 	
 	/**

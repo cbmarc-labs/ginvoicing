@@ -5,6 +5,7 @@ package cbmarc.ginvoicing.shared.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -33,6 +34,9 @@ public class Invoice implements Serializable {
 	// foreign key to customer
 	@Persistent
 	private String customer;
+	
+	@Persistent(mappedBy = "invoice")
+	private List<Line> lines = null;
 
 	/**
 	 * 
@@ -91,6 +95,20 @@ public class Invoice implements Serializable {
 	 */
 	public void setCustomer(String customer) {
 		this.customer = customer;
+	}
+
+	/**
+	 * @return the lines
+	 */
+	public List<Line> getLines() {
+		return lines;
+	}
+
+	/**
+	 * @param lines the lines to set
+	 */
+	public void setLines(List<Line> lines) {
+		this.lines = lines;
 	}
 
 }

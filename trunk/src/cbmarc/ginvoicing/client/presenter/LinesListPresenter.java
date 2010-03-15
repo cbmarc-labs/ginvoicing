@@ -12,8 +12,6 @@ import cbmarc.ginvoicing.client.event.ListEditEvent;
 import cbmarc.ginvoicing.client.event.ListEvent;
 import cbmarc.ginvoicing.client.event.ListHandler;
 import cbmarc.ginvoicing.client.i18n.LinesConstants;
-import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
-import cbmarc.ginvoicing.client.rpc.LinesServiceAsync;
 import cbmarc.ginvoicing.shared.entity.Line;
 
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -40,11 +38,10 @@ public class LinesListPresenter implements Presenter, ListHandler {
 	private final Display display;
 	
 	private EventBus eventBus = EventBus.getEventBus();
-	private LinesServiceAsync service = LinesEventBus.getService();
 	private LinesConstants constants = LinesEventBus.getConstants();
 	
 	private String filter = null;
-	private List<Line> list;
+	private List<Line> list = new ArrayList<Line>();
 	
 	public LinesListPresenter(Display display) {
 		this.display = display;
@@ -61,7 +58,9 @@ public class LinesListPresenter implements Presenter, ListHandler {
 	 */
 	public void deleteSelectedRows() {
 		List<Integer> selectedRows = display.getSelectedRows();
-		ArrayList<String> ids = new ArrayList<String>();
+		ArrayList<Line> ids = new ArrayList<Line>();
+		
+		ids.clear();
 
 		if(selectedRows.isEmpty()) {
 			Window.alert(constants.noItemsSelected());
@@ -69,17 +68,12 @@ public class LinesListPresenter implements Presenter, ListHandler {
 			if(Window.confirm(constants.areYouSure())) {
 				
 				for(Integer row : selectedRows) {
-					ids.add(list.get(row - 1).getId());
+					if(row > 0) ids.add(list.get(row - 1));
 				}
-		
-				service.delete(ids, new AppAsyncCallback<Void>() {
-
-					@Override
-					public void onSuccess(Void result) {
-						updateDisplayFromData();
-					}
-			
-				});
+				
+				list.removeAll(ids);
+				
+				updateDisplayFromData();
 			}
 		}
 	}
@@ -93,14 +87,28 @@ public class LinesListPresenter implements Presenter, ListHandler {
 	}
 	
 	/**
-	 * @return the numParte
+	 * @return the list
+	 */
+	public List<Line> getList() {
+		return list;
+	}
+
+	/**
+	 * @param list the list to set
+	 */
+	public void setList(List<Line> list) {
+		this.list = list;
+	}
+
+	/**
+	 * @return
 	 */
 	public String getFilter() {
 		return filter;
 	}
 
 	/**
-	 * @param numParte the numParte to set
+	 * @param filter
 	 */
 	public void setFilter(String filter) {
 		this.filter = filter;
@@ -117,7 +125,7 @@ public class LinesListPresenter implements Presenter, ListHandler {
 	 * 
 	 */
 	public void updateDisplayFromData() {
-		display.setListContentLabel(constants.loading());
+		/*display.setListContentLabel(constants.loading());
 		
 		service.select(this.filter, new AppAsyncCallback<List<Line>>() {
 
@@ -134,7 +142,9 @@ public class LinesListPresenter implements Presenter, ListHandler {
 				display.setData(list);
 			}
 			
-		});
+		});*/
+		
+		display.setData(list);
 	}
 
 	@Override

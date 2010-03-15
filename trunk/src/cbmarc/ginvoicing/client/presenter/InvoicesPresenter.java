@@ -54,7 +54,7 @@ public class InvoicesPresenter implements Presenter {
 			if(token.startsWith("main/invoices/edit")) {
 				presenter = invoicesEditPresenter;
 			}
-
+			
 			presenter.go(display.getContent());
 		}
 	}

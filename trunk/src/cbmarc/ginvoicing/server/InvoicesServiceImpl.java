@@ -39,7 +39,6 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 			pm.currentTransaction().begin();
 			Invoice bean = pm.getObjectById(Invoice.class, id);
 			pm.deletePersistent(bean);
-			
 			pm.currentTransaction().commit();
 		} catch(Exception e) {
 			pm.currentTransaction().rollback();
@@ -110,7 +109,7 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 			
 			bean.setDate(new Date());
 		}
-
+		
 		try {				
 			pm.currentTransaction().begin();
 			pm.makePersistent(bean);
@@ -119,6 +118,7 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 			pm.currentTransaction().rollback();
 			throw new ServerException(e.toString());
 		} finally {
+			bean = pm.detachCopy(bean);
 			pm.close();
 		}
 		
