@@ -4,6 +4,7 @@
 package cbmarc.ginvoicing.shared.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import javax.jdo.annotations.PrimaryKey;
  * @author MCOSTA
  *
  */
-@PersistenceCapable(identityType = IdentityType.APPLICATION)
+@PersistenceCapable(identityType = IdentityType.APPLICATION, detachable="true")
 public class Invoice implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -27,7 +28,7 @@ public class Invoice implements Serializable {
 	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
 	private String id;
 	
-	// date created
+	// date invoice created
 	@Persistent
 	private Date date;
 	
@@ -35,8 +36,9 @@ public class Invoice implements Serializable {
 	@Persistent
 	private String customer;
 	
-	@Persistent(mappedBy = "invoice")
-	private List<Line> lines = null;
+	@Persistent //(serialized="true", defaultFetchGroup="true")
+	//@Order(extensions = @Extension(vendorName="datanucleus", key="list-ordering", value="quantity asc"))
+	private List<Line> lines = new ArrayList<Line>();
 
 	/**
 	 * 

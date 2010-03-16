@@ -16,7 +16,7 @@ import javax.jdo.annotations.PrimaryKey;
  * @author MCOSTA
  *
  */
-@PersistenceCapable(identityType = IdentityType.APPLICATION)
+@PersistenceCapable(identityType = IdentityType.APPLICATION, detachable="true")
 public class Line implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -27,11 +27,6 @@ public class Line implements Serializable {
 	
 	@Persistent
 	private Integer quantity = 0;
-	
-	// foreign key to Invoice
-	@SuppressWarnings("unused")
-	@Persistent
-	private Invoice invoice;
 	
 	// foreign key to Product
 	@Persistent

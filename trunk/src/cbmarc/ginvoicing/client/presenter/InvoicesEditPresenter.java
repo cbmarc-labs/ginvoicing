@@ -17,7 +17,6 @@ import cbmarc.ginvoicing.shared.entity.Invoice;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -75,8 +74,6 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	public void doSave() {
 		updateDataFromDisplay();
 		
-		invoice.setLines(linesPresenter.getLinesListPresenter().getList());
-		
 		service.save(invoice, new AppAsyncCallback<Invoice>() {
 
 			@Override
@@ -94,7 +91,7 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 		service.selectById(id, new AppAsyncCallback<Invoice>() {
 
 			@Override
-			public void onSuccess(Invoice result) {
+			public void onSuccess(Invoice result) {				
 				invoice = result;
 				updateDisplayFromData();
 				linesPresenter.go(display.getLinesPanel());
@@ -126,6 +123,7 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	 */
 	public void updateDataFromDisplay() {
 		invoice.setCustomer(display.getCustomer());
+		invoice.setLines(linesPresenter.getLinesListPresenter().getList());
 	}
 	
 	/**
@@ -144,10 +142,7 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 					
 		});
 		
-		if(invoice.getLines() != null)
-			linesPresenter.getLinesListPresenter().setList(invoice.getLines());
-		else
-			Window.alert("ES NULO NENG");
+		linesPresenter.getLinesListPresenter().setList(invoice.getLines());
 	}
 
 	@Override

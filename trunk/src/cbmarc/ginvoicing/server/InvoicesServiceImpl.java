@@ -64,9 +64,20 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 	@Override
 	public Invoice selectById(String id) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Invoice bean = pm.getObjectById(Invoice.class, id);
+		Invoice invoice, detached = null;
+		
+		try {
+			invoice = pm.getObjectById(Invoice.class, id);
+			
+			// http://www.mail-archive.com/google-appengine-java@googlegroups.com/msg02176.html
+			invoice.getLines();
+			
+			detached = pm.detachCopy(invoice);
+		} finally {
+			pm.close();
+		}
 
-		return bean;
+		return detached;
 	}
 
 	@SuppressWarnings("unchecked")

@@ -7,13 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cbmarc.ginvoicing.client.event.InvoicesEventBus;
-import cbmarc.ginvoicing.client.event.LinesEventBus;
 import cbmarc.ginvoicing.client.event.ListEvent;
 import cbmarc.ginvoicing.client.event.ListHandler;
 import cbmarc.ginvoicing.client.i18n.InvoicesConstants;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.InvoicesServiceAsync;
-import cbmarc.ginvoicing.client.rpc.LinesServiceAsync;
 import cbmarc.ginvoicing.shared.entity.Invoice;
 
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -83,11 +81,6 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 			}
 		}
 	}
-	
-	private void doDeleteLines(List<String> ids) {
-		LinesServiceAsync linesService = LinesEventBus.getService();
-		
-	}
 
 	@Override
 	public void go(HasWidgets container) {
@@ -95,20 +88,6 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 		container.add(display.asWidget());
 
 		updateDisplayFromData();
-	}
-	
-	/**
-	 * @return the numParte
-	 */
-	public String getFilter() {
-		return filter;
-	}
-
-	/**
-	 * @param numParte the numParte to set
-	 */
-	public void setFilter(String filter) {
-		this.filter = filter;
 	}
 	
 	/**

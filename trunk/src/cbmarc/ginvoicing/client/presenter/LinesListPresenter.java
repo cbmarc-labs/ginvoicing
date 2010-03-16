@@ -40,7 +40,6 @@ public class LinesListPresenter implements Presenter, ListHandler {
 	private EventBus eventBus = EventBus.getEventBus();
 	private LinesConstants constants = LinesEventBus.getConstants();
 	
-	private String filter = null;
 	private List<Line> list = new ArrayList<Line>();
 	
 	public LinesListPresenter(Display display) {
@@ -98,20 +97,6 @@ public class LinesListPresenter implements Presenter, ListHandler {
 	 */
 	public void setList(List<Line> list) {
 		this.list = list;
-	}
-
-	/**
-	 * @return
-	 */
-	public String getFilter() {
-		return filter;
-	}
-
-	/**
-	 * @param filter
-	 */
-	public void setFilter(String filter) {
-		this.filter = filter;
 	}
 	
 	/**
