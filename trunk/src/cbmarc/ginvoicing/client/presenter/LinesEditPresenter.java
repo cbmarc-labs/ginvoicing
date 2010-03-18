@@ -26,11 +26,14 @@ public class LinesEditPresenter
 		implements Presenter, SubmitCancelHandler {
 	
 	public interface Display {
-		Integer getQuantity();
-		void setQuantity(Integer value);
+		String getQuantity();
+		void setQuantity(String value);
 		
-		String getProduct();
-		void setProduct(List<ProductDisplay> products, String selected);
+		ProductDisplay getProductListSelected();
+		void setProductList(List<ProductDisplay> list, String selected);
+		
+		String getProductPrice();
+		void setProductPrice(String value);
 		
 		public void focus();
 		public void reset();
@@ -105,6 +108,12 @@ public class LinesEditPresenter
 	 */
 	public void updateDataFromDisplay() {
 		line.setQuantity(display.getQuantity());
+		
+		ProductDisplay pd = display.getProductListSelected();
+		line.setProductId(pd.getId());
+		line.setProductName(pd.getName());
+				
+		line.setProductPrice(display.getProductPrice());
 	}
 	
 	/**
@@ -119,7 +128,7 @@ public class LinesEditPresenter
 					
 					@Override
 					public void onSuccess(List<ProductDisplay> result) {
-						display.setProduct(result, line.getProduct());
+						display.setProductList(result, line.getProductId());
 					}
 					
 		});

@@ -76,7 +76,7 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 		} finally {
 			pm.close();
 		}
-
+		
 		return detached;
 	}
 

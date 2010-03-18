@@ -19,7 +19,7 @@ import javax.jdo.annotations.PrimaryKey;
  * @author MCOSTA
  *
  */
-@PersistenceCapable(identityType = IdentityType.APPLICATION, detachable="true")
+@PersistenceCapable(identityType = IdentityType.APPLICATION) //, detachable="true")
 public class Invoice implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -39,6 +39,9 @@ public class Invoice implements Serializable {
 	@Persistent //(serialized="true", defaultFetchGroup="true")
 	//@Order(extensions = @Extension(vendorName="datanucleus", key="list-ordering", value="quantity asc"))
 	private List<Line> lines = new ArrayList<Line>();
+	
+	@Persistent
+	private String notes;
 
 	/**
 	 * 
@@ -111,6 +114,20 @@ public class Invoice implements Serializable {
 	 */
 	public void setLines(List<Line> lines) {
 		this.lines = lines;
+	}
+
+	/**
+	 * @return the notes
+	 */
+	public String getNotes() {
+		return notes;
+	}
+
+	/**
+	 * @param notes the notes to set
+	 */
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 
 }

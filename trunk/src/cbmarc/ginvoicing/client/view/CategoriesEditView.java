@@ -54,6 +54,12 @@ public class CategoriesEditView extends Composite
 		fireEvent(SubmitCancelEvent.cancel());
 	}
 
+	@UiHandler("resetButton")
+	protected void resetClicked(ClickEvent event) {
+		reset();
+		focus();
+	}
+
 	@Override
 	public void reset() {
 		name.setValue("");

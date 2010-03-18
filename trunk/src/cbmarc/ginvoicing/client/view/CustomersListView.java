@@ -52,16 +52,24 @@ public class CustomersListView extends Composite
 		setListContentLabel(null);
 		listContent.removeAllRows();
 		listContent.addData(new String[] {
-				constants.listName()});
+				constants.listName(),
+				constants.listContact(),
+				constants.listAddress(),
+				constants.listCity(),
+				constants.listCountry()});
 
 		if(data != null) {
 			for(Customer customer : data) {
 				listContent.addData(new String[] {
-						customer.getName()});
+						customer.getName(),
+						customer.getContact(),
+						customer.getAddress(),
+						customer.getCity(),
+						customer.getCountry()});
 			}
 		}
 		
-		listheaderLabel.setText(size + " Items");
+		listheaderLabel.setText(size + " " + constants.itemsLabel());
 		
 		if(data.isEmpty()) 
 			setListContentLabel(constants.noData());

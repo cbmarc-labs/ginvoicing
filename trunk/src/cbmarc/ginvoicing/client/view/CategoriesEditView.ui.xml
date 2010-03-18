@@ -29,6 +29,7 @@
   		<g:HorizontalPanel spacing="5">
 			<g:Button ui:field="submitButton" text="{cnt.submitButton}" />
 			<g:Button ui:field="cancelButton" text="{cnt.cancelButton}" />
+			<g:Button ui:field="resetButton" text="{cnt.resetButton}" />
 		</g:HorizontalPanel>
 	</g:VerticalPanel>
 

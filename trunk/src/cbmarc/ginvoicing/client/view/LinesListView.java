@@ -37,7 +37,8 @@ public class LinesListView extends Composite
 	
 	@UiField ListFlexTable listContent;
 	@UiField Label listContentLabel;
-	@UiField Label listheaderLabel;
+	@UiField Label listHeaderLabel;
+	@UiField Label listFooterLabel;
 	
 	public LinesListView() {
 		initWidget(uiBinder.createAndBindUi(this));		
@@ -52,16 +53,20 @@ public class LinesListView extends Composite
 		setListContentLabel(null);
 		listContent.removeAllRows();
 		listContent.addData(new String[] {
-				constants.listQuantity()});
+				constants.listProductName(),
+				constants.listQuantity(),
+				constants.listProductPrice()});
 
 		if(data != null) {
 			for(Line line : data) {
 				listContent.addData(new String[] {
-						" " + line.getQuantity()});
+						line.getProductName(),
+						line.getQuantity(),
+						line.getProductPrice()});
 			}
 		}
 		
-		listheaderLabel.setText(size + " Items");
+		listHeaderLabel.setText(size + " " + constants.itemsLabel());
 		
 		if(data.isEmpty()) 
 			setListContentLabel(constants.noData());

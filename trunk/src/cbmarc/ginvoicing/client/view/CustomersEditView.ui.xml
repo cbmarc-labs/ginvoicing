@@ -19,6 +19,14 @@
   	
 		<table>
 		<tr><td><g:Label text="{cnt.formName}" /></td><td><g:TextBox ui:field="name" /></td></tr>
+		<tr><td><g:Label text="{cnt.formContact}" /></td><td><g:TextBox ui:field="contact" /></td></tr>
+		<tr><td><g:Label text="{cnt.formAddress}" /></td><td><g:TextBox ui:field="address" width="15em" /></td></tr>
+		<tr><td><g:Label text="{cnt.formCity}" /></td><td><g:TextBox ui:field="city" /></td></tr>
+		<tr><td><g:Label text="{cnt.formCountry}" /></td><td><g:TextBox ui:field="country" /></td></tr>
+		<tr><td><g:Label text="{cnt.formPhone}" /></td><td><g:TextBox ui:field="phone" width="8em" /></td></tr>
+		<tr><td><g:Label text="{cnt.formFax}" /></td><td><g:TextBox ui:field="fax" width="8em" /></td></tr>
+		<tr><td><g:Label text="{cnt.formEmail}" /></td><td><g:TextBox ui:field="email" /></td></tr>
+		<tr><td><g:Label text="{cnt.formNotes}" /></td><td><g:TextArea ui:field="notes" width="26em" height="8em" /></td></tr>
 		</table>
 
   	</g:HTMLPanel>
@@ -28,6 +36,7 @@
   		<g:HorizontalPanel spacing="5">
 			<g:Button ui:field="submitButton" text="{cnt.submitButton}" />
 			<g:Button ui:field="cancelButton" text="{cnt.cancelButton}" />
+			<g:Button ui:field="resetButton" text="{cnt.resetButton}" />
 		</g:HorizontalPanel>
 	</g:VerticalPanel>
 

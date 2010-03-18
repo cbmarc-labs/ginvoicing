@@ -19,7 +19,8 @@
   	
 		<table>
 		<tr><td><g:Label text="{cnt.formQuantity}" /></td><td><g:TextBox ui:field="quantity" /></td></tr>
-		<tr><td><g:Label text="{cnt.formProduct}" /></td><td><g:ListBox ui:field="product" /></td></tr>
+		<tr><td><g:Label text="{cnt.formProductName}" /></td><td><g:ListBox ui:field="productList" /></td></tr>
+		<tr><td><g:Label text="{cnt.formProductPrice}" /></td><td><g:TextBox ui:field="productPrice" /></td></tr>
 		</table>
 
   	</g:HTMLPanel>
@@ -29,6 +30,7 @@
   		<g:HorizontalPanel spacing="5">
 			<g:Button ui:field="submitButton" text="{cnt.submitButton}" />
 			<g:Button ui:field="cancelButton" text="{cnt.cancelButton}" />
+			<g:Button ui:field="resetButton" text="{cnt.resetButton}" />
 		</g:HorizontalPanel>
 	</g:VerticalPanel>
 

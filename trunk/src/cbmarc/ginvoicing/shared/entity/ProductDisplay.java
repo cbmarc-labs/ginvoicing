@@ -14,6 +14,7 @@ public class ProductDisplay implements Serializable {
 	
 	private String id;
 	private String name;
+	private String price;
 
 	/**
 	 * 
@@ -22,14 +23,14 @@ public class ProductDisplay implements Serializable {
 	}
 
 	/**
+	 * @param id
 	 * @param name
-	 * @param description
 	 * @param price
-	 * @param category
 	 */
-	public ProductDisplay(String id, String name) {
+	public ProductDisplay(String id, String name, String price) {
 		this.id = id;
 		this.name = name;
+		this.price = price;
 	}
 
 	/**
@@ -58,6 +59,20 @@ public class ProductDisplay implements Serializable {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * @return the price
+	 */
+	public String getPrice() {
+		return price;
+	}
+
+	/**
+	 * @param price the price to set
+	 */
+	public void setPrice(String price) {
+		this.price = price;
 	}
 	
 }

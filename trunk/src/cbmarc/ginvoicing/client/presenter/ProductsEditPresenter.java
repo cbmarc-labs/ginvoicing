@@ -105,16 +105,18 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 	
 	@Override
 	public void go(HasWidgets container) {
+	 // TODO: fix up this shit
+		String[] parts = History.getToken().split("/");
+	    if(parts.length > 3) 
+	    	doLoad(parts[parts.length - 1]);
+	    else {
+	    	product = new Product();
+	    	updateDisplayFromData();
+	    }
+	    
 		container.clear();
 	    container.add(display.asWidget());
-	    
-	 // TODO: fix up this shit
-	    String token = History.getToken();
-	    String[] parts = token.split("/");
-	    if(parts.length > 3) doLoad(parts[parts.length - 1]);
-	    else product = new Product();
-	    
-		updateDisplayFromData();
+		display.focus();
 	}
 	
 	/**

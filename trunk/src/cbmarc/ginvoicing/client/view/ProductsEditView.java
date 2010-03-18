@@ -60,11 +60,19 @@ public class ProductsEditView extends Composite
 		fireEvent(SubmitCancelEvent.cancel());
 	}
 
+	@UiHandler("resetButton")
+	protected void resetClicked(ClickEvent event) {
+		reset();
+		focus();
+	}
+
 	@Override
 	public void reset() {
 		name.setValue("");
 		description.setValue("");
-		category.clear();
+		category.setSelectedIndex(0);
+		//category.clear();
+		price.setValue("");
 	}
 
 	@Override

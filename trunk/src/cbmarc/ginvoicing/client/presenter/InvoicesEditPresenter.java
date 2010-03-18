@@ -102,9 +102,6 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	
 	@Override
 	public void go(HasWidgets container) {
-		container.clear();
-	    container.add(display.asWidget());
-	    
 	    linesPresenter.getLinesListPresenter().getList().clear();
 	    
 	    // TODO: fix up
@@ -116,6 +113,10 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	    	updateDisplayFromData();
 	    	linesPresenter.go(display.getLinesPanel());
 	    }
+	    
+		container.clear();
+		container.add(display.asWidget());
+		display.focus();
 	}
 	
 	/**

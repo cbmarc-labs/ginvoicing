@@ -10,6 +10,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLTable;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * @author MCOSTA
@@ -40,7 +41,7 @@ public class ListFlexTable extends FlexTable {
 		
 		setWidget(row, 0, new CheckBox());
 		for(int i = 0; i < columns; i++) {
-			setText(row, i + 1, data[i]);
+			setWidget(row, i + 1, new Label(data[i]));
 		}
 	}
 	

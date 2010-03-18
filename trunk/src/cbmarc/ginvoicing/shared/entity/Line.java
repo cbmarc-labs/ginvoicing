@@ -16,7 +16,7 @@ import javax.jdo.annotations.PrimaryKey;
  * @author MCOSTA
  *
  */
-@PersistenceCapable(identityType = IdentityType.APPLICATION, detachable="true")
+@PersistenceCapable(identityType = IdentityType.APPLICATION)//, detachable="true")
 public class Line implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -26,29 +26,40 @@ public class Line implements Serializable {
 	private String id;
 	
 	@Persistent
-	private Integer quantity = 0;
+	private String quantity = "1";
 	
 	// foreign key to Product
 	@Persistent
-	private String product;
+	private String productId;
+	
+	@Persistent
+	private String productName;
+	
+	@Persistent
+	private String productPrice = "0";
 
 	/**
 	 * 
 	 */
 	public Line() {
 	}
-	
+
 	/**
 	 * @param id
 	 * @param quantity
-	 * @param invoice
-	 * @param product
+	 * @param productId
+	 * @param productName
+	 * @param productPrice
 	 */
-	public Line(String id, Integer quantity, String product) {
+	public Line(String id, String quantity, String productId,
+			String productName, String productPrice) {
 		this.id = id;
 		this.quantity = quantity;
-		this.product = product;
+		this.productId = productId;
+		this.productName = productName;
+		this.productPrice = productPrice;
 	}
+
 
 	/**
 	 * @return the id
@@ -67,29 +78,57 @@ public class Line implements Serializable {
 	/**
 	 * @return the quantity
 	 */
-	public Integer getQuantity() {
+	public String getQuantity() {
 		return quantity;
 	}
 
 	/**
 	 * @param quantity the quantity to set
 	 */
-	public void setQuantity(Integer quantity) {
+	public void setQuantity(String quantity) {
 		this.quantity = quantity;
 	}
 
 	/**
-	 * @return the product
+	 * @return the productId
 	 */
-	public String getProduct() {
-		return product;
+	public String getProductId() {
+		return productId;
 	}
 
 	/**
-	 * @param product the product to set
+	 * @param productId the productId to set
 	 */
-	public void setProduct(String product) {
-		this.product = product;
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+
+	/**
+	 * @return the productName
+	 */
+	public String getProductName() {
+		return productName;
+	}
+
+	/**
+	 * @param productName the productName to set
+	 */
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	/**
+	 * @return the productPrice
+	 */
+	public String getProductPrice() {
+		return productPrice;
+	}
+
+	/**
+	 * @param productPrice the productPrice to set
+	 */
+	public void setProductPrice(String productPrice) {
+		this.productPrice = productPrice;
 	}
 	
 }

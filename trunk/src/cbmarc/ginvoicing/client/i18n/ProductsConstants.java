@@ -8,7 +8,10 @@ package cbmarc.ginvoicing.client.i18n;
  *
  */
 public interface ProductsConstants extends AppConstants {
-	String sectionName();
+	String listName();
+	String listDescription();
+	String listPrice();
+	String listNameCategory();
 	
 	String formName();
 	String formDescription();
@@ -16,9 +19,4 @@ public interface ProductsConstants extends AppConstants {
 	String formCategory();
 	String formNameCategory();
 	String formDescriptionCategory();
-	
-	String listName();
-	String listDescription();
-	String listPrice();
-	String listNameCategory();
 }

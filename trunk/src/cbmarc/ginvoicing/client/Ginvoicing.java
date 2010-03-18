@@ -13,8 +13,11 @@ public class Ginvoicing implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 	    AppController appViewer = new AppController();
-	    
+
 	    appViewer.go(RootPanel.get());
+	    
+	    // FOR DEBUGING PURPOSES
+	    //RootPanel.get().add(new Label(RootPanel.get().toString()));
 	}
 	
 }

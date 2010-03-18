@@ -27,6 +27,30 @@ public class CustomersEditPresenter implements Presenter, SubmitCancelHandler {
 		String getName();
 		void setName(String value);
 		
+		String getContact();
+		void setContact(String value);
+		
+		String getAddress();
+		void setAddress(String value);
+		
+		String getCity();
+		void setCity(String value);
+		
+		String getCountry();
+		void setCountry(String value);
+		
+		String getPhone();
+		void setPhone(String value);
+		
+		String getFax();
+		void setFax(String value);
+		
+		String getEmail();
+		void setEmail(String value);
+		
+		String getNotes();
+		void setNotes(String value);
+		
 		public void focus();
 		public void reset();
 		
@@ -56,7 +80,7 @@ public class CustomersEditPresenter implements Presenter, SubmitCancelHandler {
 	protected boolean hasValidInput() {
 		boolean valid = true;
 		
-		// TODO validate all fields
+		// TODO validate fields
 		// First, we validate the input.
 		if (!FieldVerifier.isValidName(display.getName())) {
 			Window.alert("Please enter at least four characters on name field.");
@@ -92,8 +116,8 @@ public class CustomersEditPresenter implements Presenter, SubmitCancelHandler {
 			@Override
 			public void onSuccess(Customer result) {
 				customer = result;
+				
 				updateDisplayFromData();
-				display.focus();
 			}
 			
 		});
@@ -109,7 +133,7 @@ public class CustomersEditPresenter implements Presenter, SubmitCancelHandler {
 	    String[] parts = token.split("/");
 	    if(parts.length > 3) doLoad(parts[parts.length - 1]);
 	    else customer = new Customer();
-
+	    
 		updateDisplayFromData();
 	}
 	
@@ -118,6 +142,14 @@ public class CustomersEditPresenter implements Presenter, SubmitCancelHandler {
 	 */
 	public void updateDataFromDisplay() {
 		customer.setName(display.getName());
+		customer.setContact(display.getContact());
+		customer.setAddress(display.getAddress());
+		customer.setCity(display.getCity());
+		customer.setCountry(display.getCountry());
+		customer.setPhone(display.getPhone());
+		customer.setFax(display.getFax());
+		customer.setEmail(display.getEmail());
+		customer.setNotes(display.getNotes());
 	}
 	
 	/**
@@ -126,6 +158,15 @@ public class CustomersEditPresenter implements Presenter, SubmitCancelHandler {
 	public void updateDisplayFromData() {
 		display.reset();
 		display.setName(customer.getName());
+		display.setContact(customer.getContact());
+		display.setAddress(customer.getAddress());
+		display.setCity(customer.getCity());
+		display.setCountry(customer.getCountry());
+		display.setPhone(customer.getPhone());
+		display.setFax(customer.getFax());
+		display.setEmail(customer.getEmail());
+		display.setNotes(customer.getNotes());
+		display.focus();
 	}
 
 	@Override

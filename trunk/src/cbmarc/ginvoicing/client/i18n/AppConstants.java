@@ -27,6 +27,7 @@ public interface AppConstants extends Constants {
 	String listButton();
 	String submitButton();
 	String cancelButton();
+	String resetButton();
 	
 	String errorServer();
 	
@@ -34,4 +35,6 @@ public interface AppConstants extends Constants {
 	
 	String noItemsSelected();
 	String noData();
+	
+	String itemsLabel();
 }

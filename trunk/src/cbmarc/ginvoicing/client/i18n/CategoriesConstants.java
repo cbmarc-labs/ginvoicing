@@ -8,11 +8,9 @@ package cbmarc.ginvoicing.client.i18n;
  *
  */
 public interface CategoriesConstants extends AppConstants {
-	String sectionName();
+	String listName();
+	String listDescription();
 	
 	String formName();
 	String formDescription();
-	
-	String listName();
-	String listDescription();
 }

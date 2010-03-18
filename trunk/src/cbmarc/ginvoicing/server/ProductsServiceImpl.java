@@ -172,7 +172,8 @@ public class ProductsServiceImpl extends RemoteServiceServlet
 			
 			List<Product> product = (List<Product>) query.execute();
 			for(Product i : product) {
-				result.add(new ProductDisplay(i.getId(), i.getName()));
+				result.add(new ProductDisplay(
+						i.getId(), i.getName(), i.getPrice()));
 			}
 		} catch(Exception e) {
 			throw new ServerException(e.toString());

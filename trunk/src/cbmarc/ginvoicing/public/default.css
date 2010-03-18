@@ -113,14 +113,15 @@
 
 
 
-body, table td, select {
-  font-family: Arial, Arial Unicode MS, Arial, sans-serif;
-  font-size: 105%;
-}
 
-.gwt-Button { font-size: 105%; }
-.gwt-Label { font-size: 105%; }
-.gwt-TextBox { font-size: 105%; }
+/* FONT SIZE */
+a { font-size: 150%; }
+.gwt-Label { font-size: 150%; }
+.gwt-Button { font-size: 150%; }
+.gwt-Label { font-size: 150%; }
+.gwt-ListBox { font-size: 150%; }
+.gwt-TextBox { font-size: 150%; }
+.gwt-TextArea { font-size: 150%; }
 
 
 
@@ -129,7 +130,7 @@ body, table td, select {
 
 #header {
 	padding: .5em;
-	font-size: 150%;
+	font-size: 250%;
 	color: #fff;
 	background: #4E7DD1;
 	margin: 10px;
@@ -297,6 +298,7 @@ body, table td, select {
 #footer {
 	border-top: 1px solid #eee;
 	text-align: center;
+	font-size: 150%;
 	color: #aaa;
 	padding: .5em;
 	margin: 10px;
