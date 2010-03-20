@@ -12,6 +12,7 @@ import javax.jdo.Query;
 
 import cbmarc.ginvoicing.client.rpc.InvoicesService;
 import cbmarc.ginvoicing.shared.entity.Invoice;
+import cbmarc.ginvoicing.shared.entity.Line;
 import cbmarc.ginvoicing.shared.exception.ServerException;
 
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
@@ -71,6 +72,7 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 			
 			// http://www.mail-archive.com/google-appengine-java@googlegroups.com/msg02176.html
 			invoice.getLines();
+			System.out.println("SELECTBYID => " + invoice.getLines().size());
 			
 			detached = pm.detachCopy(invoice);
 		} finally {
@@ -105,11 +107,12 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 	}
 	
 	@Override
-	public Invoice save(Invoice bean) throws ServerException {		
+	public Invoice save(Invoice invoice) throws ServerException {		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Invoice detached = null;
 		
 		// Is a insert statement?
-		if(bean.getId() == null) {
+		if(invoice.getId() == null) {
 			Query query = pm.newQuery(Invoice.class);
 			query.setResult("count(this)");
 			Integer count = (Integer)query.execute();
@@ -118,22 +121,50 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 			if(count > 25) 
 				throw new ServerException("Limit of 25 rows exceeded.");
 			
-			bean.setDate(new Date());
+			invoice.setDate(new Date());
 		}
 		
-		try {				
+		pm.setDetachAllOnCommit(true);
+		
+		try {			
 			pm.currentTransaction().begin();
-			pm.makePersistent(bean);
+			
+			if(invoice.getId() != null) {
+				detached = pm.getObjectById(Invoice.class, invoice.getId());
+				pm.deletePersistentAll(detached.getLines());
+				
+				List<Line> newlines = new ArrayList<Line>();
+				for(Line oldline: invoice.getLines()) {
+					Line newline = new Line();
+					newline.setProductId(oldline.getProductId());
+					newline.setProductName(oldline.getProductName());
+					newline.setProductPrice(oldline.getProductPrice());
+					newline.setQuantity(oldline.getQuantity());
+					
+					newlines.add(newline);
+				}
+				
+				invoice.setLines(newlines);
+			}
+			
+			pm.makePersistent(invoice);
 			pm.currentTransaction().commit();
+			
+			detached = pm.getObjectById(Invoice.class, invoice.getId());
+			for(Line l: detached.getLines()) {
+				System.out.println("lineas => " + l.getId());
+			}
+			
+			//System.out.println("DESPUES => " + detached.getLines().size());*/
+			
 		} catch(Exception e) {
 			pm.currentTransaction().rollback();
 			throw new ServerException(e.toString());
 		} finally {
-			bean = pm.detachCopy(bean);
 			pm.close();
 		}
 		
-		return bean;
+		return invoice;
 	}
 
 	@Override

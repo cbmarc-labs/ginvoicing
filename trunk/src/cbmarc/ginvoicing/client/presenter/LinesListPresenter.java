@@ -57,7 +57,7 @@ public class LinesListPresenter implements Presenter, ListHandler {
 	 */
 	public void deleteSelectedRows() {
 		List<Integer> selectedRows = display.getSelectedRows();
-		ArrayList<Line> ids = new ArrayList<Line>();
+		List<Line> ids = new ArrayList<Line>();
 		
 		ids.clear();
 

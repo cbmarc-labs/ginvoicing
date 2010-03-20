@@ -123,8 +123,8 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	 * 
 	 */
 	public void updateDataFromDisplay() {
-		invoice.setCustomer(display.getCustomer());
-		invoice.setLines(linesPresenter.getLinesListPresenter().getList());
+		invoice.setCustomer(display.getCustomer());		
+		invoice.setLines(linesPresenter.getLinesListPresenter().getList());		
 	}
 	
 	/**
