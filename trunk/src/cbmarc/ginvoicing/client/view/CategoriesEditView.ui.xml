@@ -4,26 +4,26 @@
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:d="urn:import:com.google.gwt.user.datepicker.client">
   
-  <ui:with field="cnt" type="cbmarc.ginvoicing.client.i18n.CategoriesConstants"/>
+	<ui:with field="cnt" type="cbmarc.ginvoicing.client.i18n.CategoriesConstants"/>
   
-  <g:HTMLPanel styleName="content">
+	<g:HTMLPanel styleName="content">
   
-  <g:VerticalPanel styleName="toolbarPanel">
-  	<g:HorizontalPanel spacing="5">
-		<g:Button ui:field="listButton" text="{cnt.listButton}" />
-  	</g:HorizontalPanel>
-  </g:VerticalPanel>
+	<g:VerticalPanel styleName="toolbarPanel">
+		<g:HorizontalPanel spacing="5">
+			<g:Button ui:field="listButton" text="{cnt.listButton}" />
+		</g:HorizontalPanel>
+	</g:VerticalPanel>
 
-  <g:VerticalPanel styleName="formPanel">
-  	<g:HTMLPanel>
+	<g:VerticalPanel styleName="formPanel">
+		<g:HTMLPanel>
   	
 		<table>
 		<tr><td><g:Label text="{cnt.formName}" /></td><td><g:TextBox ui:field="name" /></td></tr>
 		<tr><td><g:Label text="{cnt.formDescription}" /></td><td><g:TextBox ui:field="description" width="20em" /></td></tr>
 		</table>
 
-  	</g:HTMLPanel>
-  </g:VerticalPanel>
+		</g:HTMLPanel>
+	</g:VerticalPanel>
 
 	<g:VerticalPanel styleName="buttonsPanel">
   		<g:HorizontalPanel spacing="5">
@@ -33,6 +33,6 @@
 		</g:HorizontalPanel>
 	</g:VerticalPanel>
 
-  </g:HTMLPanel>
+	</g:HTMLPanel>
 
 </ui:UiBinder>
