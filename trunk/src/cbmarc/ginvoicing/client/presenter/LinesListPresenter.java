@@ -110,25 +110,6 @@ public class LinesListPresenter implements Presenter, ListHandler {
 	 * 
 	 */
 	public void updateDisplayFromData() {
-		/*display.setListContentLabel(constants.loading());
-		
-		service.select(this.filter, new AppAsyncCallback<List<Line>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				display.setListContentLabel(caught.toString());
-			}
-			
-			@Override
-			public void onSuccess(List<Line> result) {
-				display.setListContentLabel(null);
-				
-				list = result;
-				display.setData(list);
-			}
-			
-		});*/
-		
 		display.setData(list);
 	}
 
@@ -149,7 +130,10 @@ public class LinesListPresenter implements Presenter, ListHandler {
 
 	@Override
 	public void onList(ListEvent event, int row) {
-		eventBus.fireEvent(ListEditEvent.edit(list.get(row)));
+		if(list.size() > 24)
+			Window.alert(constants.limitExceeded());
+		else
+			eventBus.fireEvent(ListEditEvent.edit(list.get(row)));
 	}
 
 	@Override

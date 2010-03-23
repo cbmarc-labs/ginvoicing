@@ -11,7 +11,7 @@ import cbmarc.ginvoicing.client.event.ListHandler;
 import cbmarc.ginvoicing.client.i18n.InvoicesConstants;
 import cbmarc.ginvoicing.client.presenter.InvoicesListPresenter;
 import cbmarc.ginvoicing.client.ui.ListFlexTable;
-import cbmarc.ginvoicing.shared.entity.Invoice;
+import cbmarc.ginvoicing.shared.entity.InvoiceDisplay;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -43,24 +43,24 @@ public class InvoicesListView extends Composite
 	public InvoicesListView() {
 		initWidget(uiBinder.createAndBindUi(this));		
 	}
-	
-	/**
-	 * @param data
-	 */
-	public void setData(List<Invoice> data) {
+
+	@Override
+	public void setData(List<InvoiceDisplay> data) {
 		int size = data.size();
 		
 		setListContentLabel(null);
 		listContent.removeAllRows();
 		listContent.addData(new String[] {
-				constants.listDate()});
+				constants.listCustomerName(), constants.listDate(),
+				constants.listAmount()});
 		
 		DateTimeFormat dtf = DateTimeFormat.getFormat("d/MM/y HH:mm");
 
 		if(data != null) {
-			for(Invoice invoice : data) {
+			for(InvoiceDisplay i : data) {
 				listContent.addData(new String[] {
-						dtf.format(invoice.getDate())});
+						i.getCustomerName(), dtf.format(i.getDate()),
+						i.getAmount()});
 			}
 		}
 		

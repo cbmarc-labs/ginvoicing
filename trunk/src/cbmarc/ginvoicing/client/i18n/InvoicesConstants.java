@@ -8,8 +8,9 @@ package cbmarc.ginvoicing.client.i18n;
  *
  */
 public interface InvoicesConstants extends AppConstants {
+	String listCustomerName();
 	String listDate();
-	String listCustomer();
+	String listAmount();
 	
 	String formCustomerName();
 	String formNotes();

@@ -12,6 +12,7 @@ import javax.jdo.Query;
 
 import cbmarc.ginvoicing.client.rpc.InvoicesService;
 import cbmarc.ginvoicing.shared.entity.Invoice;
+import cbmarc.ginvoicing.shared.entity.InvoiceDisplay;
 import cbmarc.ginvoicing.shared.entity.Line;
 import cbmarc.ginvoicing.shared.exception.ServerException;
 
@@ -72,7 +73,6 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 			
 			// http://www.mail-archive.com/google-appengine-java@googlegroups.com/msg02176.html
 			invoice.getLines();
-			System.out.println("SELECTBYID => " + invoice.getLines().size());
 			
 			detached = pm.detachCopy(invoice);
 		} finally {
@@ -107,9 +107,9 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 	}
 	
 	@Override
-	public Invoice save(Invoice invoice) throws ServerException {		
+	public void save(Invoice invoice) throws ServerException {		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Invoice detached = null;
+		Invoice temp = null;
 		
 		// Is a insert statement?
 		if(invoice.getId() == null) {
@@ -119,19 +119,19 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 			
 			// Register limit
 			if(count > 25) 
-				throw new ServerException("Limit of 25 rows exceeded.");
+				throw new ServerException("Row limit exceeded.");
 			
 			invoice.setDate(new Date());
 		}
 		
-		pm.setDetachAllOnCommit(true);
+		//pm.setDetachAllOnCommit(true);
 		
 		try {			
 			pm.currentTransaction().begin();
 			
 			if(invoice.getId() != null) {
-				detached = pm.getObjectById(Invoice.class, invoice.getId());
-				pm.deletePersistentAll(detached.getLines());
+				temp = pm.getObjectById(Invoice.class, invoice.getId());
+				pm.deletePersistentAll(temp.getLines());
 				
 				List<Line> newlines = new ArrayList<Line>();
 				for(Line oldline: invoice.getLines()) {
@@ -148,23 +148,13 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 			}
 			
 			pm.makePersistent(invoice);
-			pm.currentTransaction().commit();
-			
-			detached = pm.getObjectById(Invoice.class, invoice.getId());
-			for(Line l: detached.getLines()) {
-				System.out.println("lineas => " + l.getId());
-			}
-			
-			//System.out.println("DESPUES => " + detached.getLines().size());*/
-			
+			pm.currentTransaction().commit();			
 		} catch(Exception e) {
 			pm.currentTransaction().rollback();
 			throw new ServerException(e.toString());
 		} finally {
 			pm.close();
 		}
-		
-		return invoice;
 	}
 
 	@Override
@@ -182,6 +172,34 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 		}
 		
 		return res;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<InvoiceDisplay> selectDisplay(String filter)
+			throws ServerException {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		ArrayList<InvoiceDisplay> result = new ArrayList<InvoiceDisplay>();
+		
+		try {
+			Query query = pm.newQuery(Invoice.class);
+			
+			query.setFilter(filter);
+			query.setOrdering("date desc");
+			//query.setRange(first, first + count);
+			
+			List<Invoice> invoices = (List<Invoice>) query.execute();
+			for(Invoice i : invoices) {
+				result.add(new InvoiceDisplay(i.getId(), i.getCustomerName(),
+						i.getDate(), i.getAmount()));
+			}
+		} catch(Exception e) {
+			throw new ServerException(e.toString());
+		} finally {
+			pm.close();
+		}
+		
+		return result;
 	}
 
 }

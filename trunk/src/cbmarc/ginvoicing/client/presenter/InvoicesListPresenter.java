@@ -12,7 +12,7 @@ import cbmarc.ginvoicing.client.event.ListHandler;
 import cbmarc.ginvoicing.client.i18n.InvoicesConstants;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.InvoicesServiceAsync;
-import cbmarc.ginvoicing.shared.entity.Invoice;
+import cbmarc.ginvoicing.shared.entity.InvoiceDisplay;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
@@ -30,7 +30,7 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 		public void setListContentLabel(String msg);
 		
 		List<Integer> getSelectedRows();
-		void setData(List<Invoice> data);
+		void setData(List<InvoiceDisplay> data);
 		
 		public HandlerRegistration addHandler(ListHandler handler);
 		Widget asWidget();
@@ -42,7 +42,7 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 	private InvoicesConstants constants = InvoicesEventBus.getConstants();
 	
 	private String filter = null;
-	private List<Invoice> list;
+	private List<InvoiceDisplay> list;
 	
 	public InvoicesListPresenter(Display display) {
 		this.display = display;
@@ -103,21 +103,13 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 	public void updateDisplayFromData() {
 		display.setListContentLabel(constants.loading());
 		
-		service.select(this.filter, new AppAsyncCallback<List<Invoice>>() {
+		service.selectDisplay(this.filter, new AppAsyncCallback<List<InvoiceDisplay>>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				display.setListContentLabel(caught.toString());
-			}
-			
-			@Override
-			public void onSuccess(List<Invoice> result) {
-				display.setListContentLabel(null);
-				
+			public void onSuccess(List<InvoiceDisplay> result) {
 				list = result;
 				display.setData(list);
 			}
-			
 		});
 	}
 

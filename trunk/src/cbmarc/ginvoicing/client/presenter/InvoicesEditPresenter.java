@@ -14,6 +14,7 @@ import cbmarc.ginvoicing.client.rpc.InvoicesServiceAsync;
 import cbmarc.ginvoicing.client.view.LinesView;
 import cbmarc.ginvoicing.shared.entity.CustomerDisplay;
 import cbmarc.ginvoicing.shared.entity.Invoice;
+import cbmarc.ginvoicing.shared.entity.Line;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
@@ -27,7 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	
 	public interface Display {
-		String getCustomer();
+		CustomerDisplay getCustomer();
 		void setCustomer(List<CustomerDisplay> customers, String selected);
 		
 		HasWidgets getLinesPanel();
@@ -74,10 +75,10 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	public void doSave() {
 		updateDataFromDisplay();
 		
-		service.save(invoice, new AppAsyncCallback<Invoice>() {
+		service.save(invoice, new AppAsyncCallback<Void>() {
 
 			@Override
-			public void onSuccess(Invoice result) {
+			public void onSuccess(Void result) {
 				History.newItem("main/invoices");
 			}
 			
@@ -123,8 +124,22 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	 * 
 	 */
 	public void updateDataFromDisplay() {
-		invoice.setCustomer(display.getCustomer());		
-		invoice.setLines(linesPresenter.getLinesListPresenter().getList());		
+		CustomerDisplay customerDisplay = display.getCustomer();
+		List<Line> lines = linesPresenter.getLinesListPresenter().getList();
+		
+		invoice.setCustomerId(customerDisplay.getId());
+		invoice.setCustomerName(customerDisplay.getName());
+		invoice.setLines(lines);
+		
+		// TODO check this
+		Integer amount = 0;
+		for(Line l: lines) {
+			if(!l.getProductPrice().isEmpty())
+				amount = amount + (Integer.parseInt(l.getProductPrice()) *
+						Integer.parseInt(l.getQuantity()));
+		}
+		
+		invoice.setAmount(amount.toString());
 	}
 	
 	/**
@@ -138,7 +153,7 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 					
 					@Override
 					public void onSuccess(List<CustomerDisplay> result) {
-						display.setCustomer(result, invoice.getCustomer());
+						display.setCustomer(result, invoice.getCustomerId());
 					}
 					
 		});

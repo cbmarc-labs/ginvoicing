@@ -30,7 +30,7 @@ public interface AppConstants extends Constants {
 	String resetButton();
 	
 	String errorServer();
-	
+	String limitExceeded();
 	String areYouSure();
 	
 	String noItemsSelected();

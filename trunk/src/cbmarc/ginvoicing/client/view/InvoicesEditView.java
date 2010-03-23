@@ -3,7 +3,9 @@
  */
 package cbmarc.ginvoicing.client.view;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
@@ -34,6 +36,9 @@ public class InvoicesEditView extends Composite
 		
 	@UiField ListBox customerName;
 	@UiField Panel linesPanel;
+	
+	private Map<String, CustomerDisplay> customersMap = 
+		new HashMap<String, CustomerDisplay>();
 	
 	public InvoicesEditView() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -84,8 +89,10 @@ public class InvoicesEditView extends Composite
 	}
 
 	@Override
-	public String getCustomer() {
-		return customerName.getValue(customerName.getSelectedIndex());
+	public CustomerDisplay getCustomer() {
+		String id = customerName.getValue(customerName.getSelectedIndex());
+		
+		return customersMap.get(id);
 	}
 
 	@Override
@@ -93,7 +100,9 @@ public class InvoicesEditView extends Composite
 		int index = 0;
 		
 		customerName.clear();
+		customersMap.clear();
 		for(CustomerDisplay item : customers) {
+			customersMap.put(item.getId(), item);
 			customerName.addItem(item.getName(), item.getId());
 			
 			if(item.getId().equals(selected))
