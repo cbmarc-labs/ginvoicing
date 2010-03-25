@@ -11,7 +11,7 @@ import cbmarc.ginvoicing.client.event.ProductsEventBus;
 import cbmarc.ginvoicing.client.i18n.ProductsConstants;
 import cbmarc.ginvoicing.client.presenter.ProductsListPresenter;
 import cbmarc.ginvoicing.client.ui.ListFlexTable;
-import cbmarc.ginvoicing.shared.entity.Product;
+import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -46,7 +46,7 @@ public class ProductsListView extends Composite
 	/**
 	 * @param data
 	 */
-	public void setData(List<Product> data) {
+	public void setData(List<EntityDisplay> data) {
 		int size = data.size();
 		
 		setListContentLabel(null);
@@ -54,18 +54,17 @@ public class ProductsListView extends Composite
 		listContent.addData(new String[] {
 				constants.listName(),
 				constants.listDescription(),
+				constants.listCategoryName(),
 				constants.listPrice()});
 
 		if(data != null) {
-			for(Product product : data) {
-				listContent.addData(new String[] {
-						product.getName(), 
-						product.getDescription(),
-						product.getPrice()});
+			for(EntityDisplay product : data) {
+				String d[] = product.getData();
+				listContent.addData(new String[] {d[1], d[2], d[3], d[4]});
 			}
 		}
 		
-		listheaderLabel.setText(size + " Items");
+		listheaderLabel.setText(size + " " + constants.itemsLabel());
 		
 		if(data.isEmpty()) 
 			setListContentLabel(constants.noData());

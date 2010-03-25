@@ -12,7 +12,7 @@ import cbmarc.ginvoicing.client.event.ListHandler;
 import cbmarc.ginvoicing.client.i18n.InvoicesConstants;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.InvoicesServiceAsync;
-import cbmarc.ginvoicing.shared.entity.InvoiceDisplay;
+import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
@@ -30,7 +30,7 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 		public void setListContentLabel(String msg);
 		
 		List<Integer> getSelectedRows();
-		void setData(List<InvoiceDisplay> data);
+		void setData(List<EntityDisplay> data);
 		
 		public HandlerRegistration addHandler(ListHandler handler);
 		Widget asWidget();
@@ -42,7 +42,7 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 	private InvoicesConstants constants = InvoicesEventBus.getConstants();
 	
 	private String filter = null;
-	private List<InvoiceDisplay> list;
+	private List<EntityDisplay> list;
 	
 	public InvoicesListPresenter(Display display) {
 		this.display = display;
@@ -67,7 +67,7 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 			if(Window.confirm(constants.areYouSure())) {
 				
 				for(Integer row : selectedRows) {
-					ids.add(list.get(row - 1).getId());
+					ids.add(list.get(row - 1).getData()[0]);
 				}
 		
 				service.delete(ids, new AppAsyncCallback<Void>() {
@@ -103,10 +103,11 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 	public void updateDisplayFromData() {
 		display.setListContentLabel(constants.loading());
 		
-		service.selectDisplay(this.filter, new AppAsyncCallback<List<InvoiceDisplay>>() {
+		service.selectDisplay(this.filter, 
+				new AppAsyncCallback<List<EntityDisplay>>() {
 
 			@Override
-			public void onSuccess(List<InvoiceDisplay> result) {
+			public void onSuccess(List<EntityDisplay> result) {
 				list = result;
 				display.setData(list);
 			}
@@ -130,7 +131,7 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 
 	@Override
 	public void onList(ListEvent event, int row) {
-		String id = list.get(row).getId();
+		String id = list.get(row).getData()[0];
 		
 		History.newItem("main/invoices/edit/" + id);
 	}

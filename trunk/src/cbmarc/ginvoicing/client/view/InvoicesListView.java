@@ -11,12 +11,11 @@ import cbmarc.ginvoicing.client.event.ListHandler;
 import cbmarc.ginvoicing.client.i18n.InvoicesConstants;
 import cbmarc.ginvoicing.client.presenter.InvoicesListPresenter;
 import cbmarc.ginvoicing.client.ui.ListFlexTable;
-import cbmarc.ginvoicing.shared.entity.InvoiceDisplay;
+import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -45,7 +44,7 @@ public class InvoicesListView extends Composite
 	}
 
 	@Override
-	public void setData(List<InvoiceDisplay> data) {
+	public void setData(List<EntityDisplay> data) {
 		int size = data.size();
 		
 		setListContentLabel(null);
@@ -54,17 +53,17 @@ public class InvoicesListView extends Composite
 				constants.listCustomerName(), constants.listDate(),
 				constants.listAmount()});
 		
-		DateTimeFormat dtf = DateTimeFormat.getFormat("d/MM/y HH:mm");
+		//DateTimeFormat dtf = DateTimeFormat.getFormat("d/MM/y HH:mm");
+		//dtf.format(date)
 
 		if(data != null) {
-			for(InvoiceDisplay i : data) {
-				listContent.addData(new String[] {
-						i.getCustomerName(), dtf.format(i.getDate()),
-						i.getAmount()});
+			for(EntityDisplay i : data) {
+				String d[] = i.getData();
+				listContent.addData(new String[] {d[1], d[2], d[3]});
 			}
 		}
 		
-		listheaderLabel.setText(size + " Items");
+		listheaderLabel.setText(size + " " + constants.itemsLabel());
 		
 		if(data.isEmpty()) 
 			setListContentLabel(constants.noData());

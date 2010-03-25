@@ -19,7 +19,7 @@
 		<table>
 		<tr><td><g:Label text="{cnt.formName}" /></td><td><g:TextBox ui:field="name" /></td></tr>
 		<tr><td><g:Label text="{cnt.formDescription}" /></td><td><g:TextBox ui:field="description" width="20em" /></td></tr>
-		<tr><td><g:Label text="{cnt.formCategory}" /></td><td><g:ListBox ui:field="category" /></td></tr>
+		<tr><td><g:Label text="{cnt.formCategory}" /></td><td><table style="border-collapse:collapse;"><tr><td><g:ListBox ui:field="category" /></td><td><g:Label ui:field="categoryDescription" /></td></tr></table></td></tr>
 		<tr><td><g:Label text="{cnt.formPrice}" /></td><td><g:TextBox ui:field="price" width="5em" /></td></tr>
 		</table>
 

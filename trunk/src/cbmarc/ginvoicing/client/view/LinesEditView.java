@@ -10,7 +10,7 @@ import java.util.Map;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.presenter.LinesEditPresenter;
-import cbmarc.ginvoicing.shared.entity.ProductDisplay;
+import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -38,8 +38,8 @@ public class LinesEditView extends Composite
 	@UiField ListBox productList;
 	@UiField TextBox productPrice;
 	
-	private Map<String, ProductDisplay> productDisplayMap = 
-		new HashMap<String, ProductDisplay>();
+	private Map<String, EntityDisplay> productDisplayMap = 
+		new HashMap<String, EntityDisplay>();
 	
 	public LinesEditView() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -74,21 +74,14 @@ public class LinesEditView extends Composite
 	protected void productListClicked(ChangeEvent event) {
 		setProductPriceFromProductList();
 	}
-	
-	private void setProductPriceFromProductList() {
-		ProductDisplay pd = getProductListSelected();
-
-		productPrice.setValue(pd.getPrice());
-	}
 
 	@Override
 	public void reset() {
-		quantity.setValue("0");
+		quantity.setValue("1");
 		productList.setSelectedIndex(0);
-		productPrice.setValue("0");
+		productPrice.setValue("0.0");
 
-		if(productList.getItemCount() > 0)
-			setProductPriceFromProductList();
+		setProductPriceFromProductList();
 	}
 
 	@Override
@@ -104,7 +97,6 @@ public class LinesEditView extends Composite
 
 	@Override
 	public String getQuantity() {
-		//return Integer.parseInt(quantity.getValue());
 		return quantity.getValue();
 	}
 
@@ -112,31 +104,38 @@ public class LinesEditView extends Composite
 	public void setQuantity(String value) {
 		quantity.setValue(value);
 	}
-	
-	public ProductDisplay getProductListSelected() {
-		String selected = productList.getValue(productList.getSelectedIndex());
-		ProductDisplay pd = productDisplayMap.get(selected);
-		
-		return pd;
-	}
 
 	@Override
-	public void setProductList(List<ProductDisplay> list, String selected) {
+	public void setProduct(List<EntityDisplay> list, String selected) {
 		int index = 0;
 		
 		productList.clear();
 		productDisplayMap.clear();
-		for(ProductDisplay item : list) {
-			productList.addItem(item.getName(), item.getId());
-			productDisplayMap.put(item.getId(), item);
+		for(EntityDisplay item : list) {
+			String data[] = item.getData();
 			
-			if(item.getId().equals(selected))
+			productList.addItem(data[1], data[0]);
+			productDisplayMap.put(data[0], item);
+			
+			if(data[0].equals(selected))
 				productList.setItemSelected(index, true);
 			
 			index ++;
 		}
 		
 		setProductPriceFromProductList();
+	}
+	
+	/**
+	 * Set field price value from list product
+	 */
+	private void setProductPriceFromProductList() {
+		if(productList.getItemCount() > 0) {
+			String selected = getProduct();
+			
+			EntityDisplay obj = productDisplayMap.get(selected);
+			productPrice.setValue(obj.getData()[4]);
+		}
 	}
 
 	/**
@@ -151,6 +150,11 @@ public class LinesEditView extends Composite
 	 */
 	public void setProductPrice(String value) {
 		productPrice.setValue(value);
+	}
+
+	@Override
+	public String getProduct() {
+		return productList.getValue(productList.getSelectedIndex());
 	}
 	
 }

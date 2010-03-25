@@ -12,7 +12,8 @@ import javax.jdo.Query;
 import cbmarc.ginvoicing.client.rpc.CategoriesService;
 import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.Category;
-import cbmarc.ginvoicing.shared.entity.CategoryDisplay;
+import cbmarc.ginvoicing.shared.entity.EntityDisplay;
+import cbmarc.ginvoicing.shared.entity.Product;
 import cbmarc.ginvoicing.shared.exception.ServerException;
 
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
@@ -26,49 +27,29 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class CategoriesServiceImpl extends RemoteServiceServlet 
 		implements CategoriesService {
 
-	/**
-	 * 
-	 */
-	public CategoriesServiceImpl() {
-	}
-
 	@Override
-	public Boolean delete(String id) throws ServerException {
+	public void delete(List<String> ids) throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
-		try {
-			pm.currentTransaction().begin();
-			Category bean = pm.getObjectById(Category.class, id);
-			pm.deletePersistent(bean);
+		for(String id : ids) {
+			Category category = pm.getObjectById(Category.class, id);
 			
-			pm.currentTransaction().commit();
-		} catch(Exception e) {
-			pm.currentTransaction().rollback();
-			throw new ServerException(e.toString());
-		} finally {
-			pm.close();
-		}
-		
-		return true;
-	}
-
-	@Override
-	public void delete(ArrayList<String> ids) {
-		for(String i : ids) {
-			try {
-				delete(i);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			// Check if categories have any products
+			Query q = pm.newQuery(Product.class, "category == '" + id + "'");
+			q.setResult("count(this)");
+			
+			if((Integer)q.execute() == 0)
+				pm.deletePersistent(category);
 		}
 	}
 
 	@Override
 	public Category selectById(String id) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Category bean = pm.getObjectById(Category.class, id);
+		
+		Category category = pm.getObjectById(Category.class, id);
 
-		return bean;
+		return category;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -82,7 +63,6 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 			
 			query.setFilter(filter);
 			query.setOrdering("name asc");
-			//query.setRange(first, first + count);
 			
 			result = (List<Category>) query.execute();
 			result = Lists.newArrayList(pm.detachCopyAll(result));
@@ -97,21 +77,21 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CategoryDisplay> selectDisplay(String filter) 
+	public List<EntityDisplay> selectDisplay(String filter) 
 			throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		ArrayList<CategoryDisplay> result = new ArrayList<CategoryDisplay>();
+		ArrayList<EntityDisplay> result = new ArrayList<EntityDisplay>();
 		
 		try {
 			Query query = pm.newQuery(Category.class);
 			
 			query.setFilter(filter);
 			query.setOrdering("name asc");
-			//query.setRange(first, first + count);
 			
 			List<Category> categories = (List<Category>) query.execute();
 			for(Category i : categories) {
-				result.add(new CategoryDisplay(i.getId(), i.getName()));
+				result.add(new EntityDisplay(new String[] {
+						i.getId(), i.getName(), i.getDescription()}));
 			}
 		} catch(Exception e) {
 			throw new ServerException(e.toString());
@@ -123,9 +103,9 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 	}
 	
 	@Override
-	public Category save(Category bean) throws ServerException {
+	public void save(Category category) throws ServerException {
 		// Verify that the input is valid. 
-		if(!FieldVerifier.isValidName(bean.getName())) {
+		if(!FieldVerifier.isValidName(category.getName())) {
 			throw new IllegalArgumentException(
 				"Name must be at least 4 characters long");
 		}
@@ -133,7 +113,7 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		// Is a insert statement?
-		if(bean.getId() == null) {
+		if(category.getId() == null) {
 			Query query = pm.newQuery(Category.class);
 			query.setResult("count(this)");
 			Integer count = (Integer)query.execute();
@@ -145,7 +125,7 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 
 		try {				
 			pm.currentTransaction().begin();
-			pm.makePersistent(bean);
+			pm.makePersistent(category);
 			pm.currentTransaction().commit();
 		} catch(Exception e) {
 			pm.currentTransaction().rollback();
@@ -153,25 +133,6 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 		} finally {
 			pm.close();
 		}
-		
-		return bean;
-	}
-
-	@Override
-	public Integer count() {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		final Query query = pm.newQuery(Category.class);
-		Integer res;
-
-		query.setResult("count(this)");
-		
-		try {
-			res = (Integer) query.execute();
-		} finally {
-			pm.close();
-		}
-		
-		return res;
 	}
 
 }

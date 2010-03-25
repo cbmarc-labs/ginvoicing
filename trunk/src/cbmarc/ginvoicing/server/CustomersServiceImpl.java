@@ -12,7 +12,8 @@ import javax.jdo.Query;
 import cbmarc.ginvoicing.client.rpc.CustomersService;
 import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.Customer;
-import cbmarc.ginvoicing.shared.entity.CustomerDisplay;
+import cbmarc.ginvoicing.shared.entity.EntityDisplay;
+import cbmarc.ginvoicing.shared.entity.Invoice;
 import cbmarc.ginvoicing.shared.exception.ServerException;
 
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
@@ -26,40 +27,19 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class CustomersServiceImpl extends RemoteServiceServlet 
 		implements CustomersService {
 
-	/**
-	 * 
-	 */
-	public CustomersServiceImpl() {
-	}
-
 	@Override
-	public Boolean delete(String id) throws ServerException {
+	public void delete(ArrayList<String> ids) throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
-		try {
-			pm.currentTransaction().begin();
-			Customer bean = pm.getObjectById(Customer.class, id);
-			pm.deletePersistent(bean);
+		for(String id : ids) {
+			Customer customer = pm.getObjectById(Customer.class, id);
 			
-			pm.currentTransaction().commit();
-		} catch(Exception e) {
-			pm.currentTransaction().rollback();
-			throw new ServerException(e.toString());
-		} finally {
-			pm.close();
-		}
-		
-		return true;
-	}
-
-	@Override
-	public void delete(ArrayList<String> ids) {
-		for(String i : ids) {
-			try {
-				delete(i);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			// Check if invoice have any customer
+			Query q = pm.newQuery(Invoice.class, "customer == '" + id + "'");
+			q.setResult("count(this)");
+			
+			if((Integer)q.execute() == 0)
+				pm.deletePersistent(customer);
 		}
 	}
 
@@ -97,10 +77,10 @@ public class CustomersServiceImpl extends RemoteServiceServlet
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CustomerDisplay> selectDisplay(String filter) 
+	public List<EntityDisplay> selectDisplay(String filter) 
 			throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		ArrayList<CustomerDisplay> result = new ArrayList<CustomerDisplay>();
+		ArrayList<EntityDisplay> result = new ArrayList<EntityDisplay>();
 		
 		try {
 			Query query = pm.newQuery(Customer.class);
@@ -111,7 +91,8 @@ public class CustomersServiceImpl extends RemoteServiceServlet
 			
 			List<Customer> customers = (List<Customer>) query.execute();
 			for(Customer i : customers) {
-				result.add(new CustomerDisplay(i.getId(), i.getName()));
+				result.add(new EntityDisplay(
+						new String[] {i.getId(), i.getName()}));
 			}
 		} catch(Exception e) {
 			throw new ServerException(e.toString());
@@ -123,7 +104,7 @@ public class CustomersServiceImpl extends RemoteServiceServlet
 	}
 	
 	@Override
-	public Customer save(Customer bean) throws ServerException {
+	public void save(Customer bean) throws ServerException {
 		// Verify that the input is valid. 
 		if(!FieldVerifier.isValidName(bean.getName())) {
 			throw new IllegalArgumentException(
@@ -153,25 +134,6 @@ public class CustomersServiceImpl extends RemoteServiceServlet
 		} finally {
 			pm.close();
 		}
-		
-		return bean;
-	}
-
-	@Override
-	public Integer count() {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		final Query query = pm.newQuery(Customer.class);
-		Integer res;
-
-		query.setResult("count(this)");
-		
-		try {
-			res = (Integer) query.execute();
-		} finally {
-			pm.close();
-		}
-		
-		return res;
 	}
 
 }

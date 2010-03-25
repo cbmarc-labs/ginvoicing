@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -17,26 +16,21 @@ import javax.jdo.annotations.Persistent;
  * @author MCOSTA
  *
  */
-@PersistenceCapable(identityType = IdentityType.APPLICATION) //, detachable="true")
+@PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Invoice extends EntityBase implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	// date invoice created
 	@Persistent
 	private Date date;
 	
-	// foreign key to customer
 	@Persistent
-	private String customerId;
-	
-	@Persistent
-	private String customerName;
+	private String customer;
 	
 	//@Persistent(serialized="true", defaultFetchGroup="true")
 	//@Order(extensions = @Extension(vendorName="datanucleus", key="list-ordering", value="quantity asc"))
 	//@Persistent(mappedBy = "invoice")
-	@Element(dependent = "true")
+	//@Element(dependent = "true")
 	private List<Line> lines = new ArrayList<Line>();
 	
 	@Persistent
@@ -49,24 +43,6 @@ public class Invoice extends EntityBase implements Serializable {
 	 * 
 	 */
 	public Invoice() {
-	}
-
-	/**
-	 * @param date
-	 * @param customerId
-	 * @param customerName
-	 * @param lines
-	 * @param notes
-	 * @param amount
-	 */
-	public Invoice(Date date, String customerId, String customerName,
-			List<Line> lines, String notes, String amount) {
-		this.date = date;
-		this.customerId = customerId;
-		this.customerName = customerName;
-		this.lines = lines;
-		this.notes = notes;
-		this.amount = amount;
 	}
 
 	/**
@@ -84,31 +60,17 @@ public class Invoice extends EntityBase implements Serializable {
 	}
 
 	/**
-	 * @return the customerId
+	 * @return the customer
 	 */
-	public String getCustomerId() {
-		return customerId;
+	public String getCustomer() {
+		return customer;
 	}
 
 	/**
-	 * @param customerId the customerId to set
+	 * @param customer the customer to set
 	 */
-	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
-	}
-
-	/**
-	 * @return the customerName
-	 */
-	public String getCustomerName() {
-		return customerName;
-	}
-
-	/**
-	 * @param customerName the customerName to set
-	 */
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
+	public void setCustomer(String customer) {
+		this.customer = customer;
 	}
 
 	/**
@@ -152,5 +114,5 @@ public class Invoice extends EntityBase implements Serializable {
 	public void setAmount(String amount) {
 		this.amount = amount;
 	}
-
+	
 }

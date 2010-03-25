@@ -11,7 +11,7 @@ import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.ProductsServiceAsync;
-import cbmarc.ginvoicing.shared.entity.CategoryDisplay;
+import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 import cbmarc.ginvoicing.shared.entity.Product;
 
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -33,7 +33,7 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 		void setDescription(String value);
 		
 		String getCategory();
-		void setCategory(List<CategoryDisplay> categories, String selected);
+		void setCategory(List<EntityDisplay> categories, String selected);
 		
 		String getPrice();
 		void setPrice(String value);
@@ -77,10 +77,10 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 	public void doSave() {
 		updateDataFromDisplay();
 		
-		service.save(product, new AppAsyncCallback<Product>() {
+		service.save(product, new AppAsyncCallback<Void>() {
 			
 			@Override
-			public void onSuccess(Product result) {
+			public void onSuccess(Void result) {
 				History.newItem("main/products");
 			}
 			
@@ -135,10 +135,10 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 		display.setDescription(product.getDescription());
 		
 		CategoriesEventBus.getService().selectDisplay(null, 
-				new AppAsyncCallback<List<CategoryDisplay>>() {
+				new AppAsyncCallback<List<EntityDisplay>>() {
 					
 					@Override
-					public void onSuccess(List<CategoryDisplay> result) {
+					public void onSuccess(List<EntityDisplay> result) {
 						display.setCategory(result, product.getCategory());
 					}
 					

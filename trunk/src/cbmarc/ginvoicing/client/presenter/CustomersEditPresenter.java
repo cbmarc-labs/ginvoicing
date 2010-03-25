@@ -97,10 +97,10 @@ public class CustomersEditPresenter implements Presenter, SubmitCancelHandler {
 	public void doSave() {
 		updateDataFromDisplay();
 		
-		service.save(customer, new AppAsyncCallback<Customer>() {
+		service.save(customer, new AppAsyncCallback<Void>() {
 
 			@Override
-			public void onSuccess(Customer result) {
+			public void onSuccess(Void result) {
 				History.newItem("main/customers");
 			}
 			

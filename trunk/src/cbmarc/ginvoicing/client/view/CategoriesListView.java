@@ -61,7 +61,7 @@ public class CategoriesListView extends Composite
 			}
 		}
 		
-		listheaderLabel.setText(size + " Items");
+		listheaderLabel.setText(size + " " + constants.itemsLabel());
 		
 		if(data.isEmpty()) 
 			setListContentLabel(constants.noData());

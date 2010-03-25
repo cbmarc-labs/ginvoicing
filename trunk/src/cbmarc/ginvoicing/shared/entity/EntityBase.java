@@ -18,7 +18,7 @@ import javax.jdo.annotations.PrimaryKey;
  * @author MCOSTA
  *
  */
-@PersistenceCapable(identityType = IdentityType.APPLICATION) //, detachable="true")
+@PersistenceCapable(identityType = IdentityType.APPLICATION)
 @Inheritance(strategy=InheritanceStrategy.SUBCLASS_TABLE)
 public abstract class EntityBase implements Serializable {
 	
@@ -33,13 +33,6 @@ public abstract class EntityBase implements Serializable {
 	 * 
 	 */
 	public EntityBase() {
-	}
-
-	/**
-	 * @param id
-	 */
-	public EntityBase(String id) {
-		this.id = id;
 	}
 
 	/**

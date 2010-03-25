@@ -5,25 +5,18 @@ package cbmarc.ginvoicing.shared.entity;
 
 import java.io.Serializable;
 
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 
 /**
  * @author MCOSTA
  *
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class Product implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Product extends EntityBase implements Serializable {
 	
-	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
-	private String id;
+	private static final long serialVersionUID = 1L;
 	
 	@Persistent
 	private String name;
@@ -32,7 +25,7 @@ public class Product implements Serializable {
 	private String description;
 	
 	@Persistent
-	private String price;
+	private String price = "0.0";
 	
 	@Persistent
 	private String category;
@@ -41,27 +34,6 @@ public class Product implements Serializable {
 	 * 
 	 */
 	public Product() {
-	}
-
-	/**
-	 * @param name
-	 * @param description
-	 * @param price
-	 * @param category
-	 */
-	public Product(String name, String description, String price,
-			String category) {
-		this.name = name;
-		this.description = description;
-		this.price = price;
-		this.category = category;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
 	}
 
 	/**
@@ -119,4 +91,5 @@ public class Product implements Serializable {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+	
 }

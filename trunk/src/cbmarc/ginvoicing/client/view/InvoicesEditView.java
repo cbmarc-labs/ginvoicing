@@ -10,7 +10,7 @@ import java.util.Map;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.presenter.InvoicesEditPresenter;
-import cbmarc.ginvoicing.shared.entity.CustomerDisplay;
+import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -34,11 +34,11 @@ public class InvoicesEditView extends Composite
 	interface uiBinder extends UiBinder<Widget, InvoicesEditView> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 		
-	@UiField ListBox customerName;
+	@UiField ListBox customer;
 	@UiField Panel linesPanel;
-	
-	private Map<String, CustomerDisplay> customersMap = 
-		new HashMap<String, CustomerDisplay>();
+
+	private Map<String, EntityDisplay> customerDisplayMap = 
+		new HashMap<String, EntityDisplay>();
 	
 	public InvoicesEditView() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -74,7 +74,7 @@ public class InvoicesEditView extends Composite
 
 	@Override
 	public void reset() {
-		customerName.setSelectedIndex(0);
+		customer.setSelectedIndex(0);
 	}
 
 	@Override
@@ -89,24 +89,24 @@ public class InvoicesEditView extends Composite
 	}
 
 	@Override
-	public CustomerDisplay getCustomer() {
-		String id = customerName.getValue(customerName.getSelectedIndex());
-		
-		return customersMap.get(id);
+	public String getCustomer() {
+		return customer.getValue(customer.getSelectedIndex());
 	}
 
 	@Override
-	public void setCustomer(List<CustomerDisplay> customers, String selected) {
+	public void setCustomer(List<EntityDisplay> customers, String selected) {
 		int index = 0;
 		
-		customerName.clear();
-		customersMap.clear();
-		for(CustomerDisplay item : customers) {
-			customersMap.put(item.getId(), item);
-			customerName.addItem(item.getName(), item.getId());
+		customer.clear();
+		customerDisplayMap.clear();
+		for(EntityDisplay item : customers) {
+			String data[] = item.getData();
 			
-			if(item.getId().equals(selected))
-				customerName.setItemSelected(index, true);
+			customer.addItem(data[1], data[0]);
+			customerDisplayMap.put(data[0], item);
+			
+			if(data[0].equals(selected))
+				customer.setItemSelected(index, true);
 			
 			index ++;
 		}

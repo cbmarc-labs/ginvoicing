@@ -47,8 +47,8 @@ public class LinesListView extends Composite
 	/**
 	 * @param data
 	 */
-	public void setData(List<Line> data) {
-		int size = data.size();
+	public void setData(List<Line> lines) {
+		int size = lines.size();
 		
 		setListContentLabel(null);
 		listContent.removeAllRows();
@@ -57,10 +57,10 @@ public class LinesListView extends Composite
 				constants.listQuantity(),
 				constants.listProductPrice()});
 
-		if(data != null) {
-			for(Line line : data) {
+		if(lines != null) {
+			for(Line line : lines) {
 				listContent.addData(new String[] {
-						line.getProductName(),
+						line.getProduct(),
 						line.getQuantity(),
 						line.getProductPrice()});
 			}
@@ -68,7 +68,7 @@ public class LinesListView extends Composite
 		
 		listHeaderLabel.setText(size + " " + constants.itemsLabel());
 		
-		if(data.isEmpty()) 
+		if(lines.isEmpty()) 
 			setListContentLabel(constants.noData());
 	}
 	

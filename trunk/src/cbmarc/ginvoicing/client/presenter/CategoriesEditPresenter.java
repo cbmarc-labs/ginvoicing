@@ -77,10 +77,10 @@ public class CategoriesEditPresenter
 	public void doSave() {
 		updateDataFromDisplay();
 		
-		service.save(category, new AppAsyncCallback<Category>() {
+		service.save(category, new AppAsyncCallback<Void>() {
 
 			@Override
-			public void onSuccess(Category result) {
+			public void onSuccess(Void result) {
 				History.newItem("main/categories");
 			}
 			

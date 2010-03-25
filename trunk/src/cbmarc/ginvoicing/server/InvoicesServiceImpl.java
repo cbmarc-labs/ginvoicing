@@ -11,8 +11,8 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import cbmarc.ginvoicing.client.rpc.InvoicesService;
+import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 import cbmarc.ginvoicing.shared.entity.Invoice;
-import cbmarc.ginvoicing.shared.entity.InvoiceDisplay;
 import cbmarc.ginvoicing.shared.entity.Line;
 import cbmarc.ginvoicing.shared.exception.ServerException;
 
@@ -27,39 +27,14 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class InvoicesServiceImpl extends RemoteServiceServlet 
 		implements InvoicesService {
 
-	/**
-	 * 
-	 */
-	public InvoicesServiceImpl() {
-	}
-
-	@Override
-	public Boolean delete(String id) throws ServerException {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		try {
-			pm.currentTransaction().begin();
-			Invoice bean = pm.getObjectById(Invoice.class, id);
-			pm.deletePersistent(bean);
-			pm.currentTransaction().commit();
-		} catch(Exception e) {
-			pm.currentTransaction().rollback();
-			throw new ServerException(e.toString());
-		} finally {
-			pm.close();
-		}
-		
-		return true;
-	}
-
 	@Override
 	public void delete(ArrayList<String> ids) {
-		for(String i : ids) {
-			try {
-				delete(i);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		for(String id : ids) {
+			Invoice invoice = pm.getObjectById(Invoice.class, id);
+			
+			pm.deletePersistent(invoice);
 		}
 	}
 
@@ -113,12 +88,11 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 		
 		// Is a insert statement?
 		if(invoice.getId() == null) {
-			Query query = pm.newQuery(Invoice.class);
-			query.setResult("count(this)");
-			Integer count = (Integer)query.execute();
+			Query q = pm.newQuery(Invoice.class);
+			q.setResult("count(this)");
 			
 			// Register limit
-			if(count > 25) 
+			if((Integer)q.execute() > 25) 
 				throw new ServerException("Row limit exceeded.");
 			
 			invoice.setDate(new Date());
@@ -129,6 +103,7 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 		try {			
 			pm.currentTransaction().begin();
 			
+			// TODO check this
 			if(invoice.getId() != null) {
 				temp = pm.getObjectById(Invoice.class, invoice.getId());
 				pm.deletePersistentAll(temp.getLines());
@@ -136,8 +111,7 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 				List<Line> newlines = new ArrayList<Line>();
 				for(Line oldline: invoice.getLines()) {
 					Line newline = new Line();
-					newline.setProductId(oldline.getProductId());
-					newline.setProductName(oldline.getProductName());
+					newline.setProduct(oldline.getProduct());
 					newline.setProductPrice(oldline.getProductPrice());
 					newline.setQuantity(oldline.getQuantity());
 					
@@ -148,7 +122,7 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 			}
 			
 			pm.makePersistent(invoice);
-			pm.currentTransaction().commit();			
+			pm.currentTransaction().commit();
 		} catch(Exception e) {
 			pm.currentTransaction().rollback();
 			throw new ServerException(e.toString());
@@ -156,30 +130,13 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 			pm.close();
 		}
 	}
-
-	@Override
-	public Integer count() {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		final Query query = pm.newQuery(Invoice.class);
-		Integer res;
-
-		query.setResult("count(this)");
-		
-		try {
-			res = (Integer) query.execute();
-		} finally {
-			pm.close();
-		}
-		
-		return res;
-	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<InvoiceDisplay> selectDisplay(String filter)
+	public List<EntityDisplay> selectDisplay(String filter)
 			throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		ArrayList<InvoiceDisplay> result = new ArrayList<InvoiceDisplay>();
+		ArrayList<EntityDisplay> result = new ArrayList<EntityDisplay>();
 		
 		try {
 			Query query = pm.newQuery(Invoice.class);
@@ -190,8 +147,9 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 			
 			List<Invoice> invoices = (List<Invoice>) query.execute();
 			for(Invoice i : invoices) {
-				result.add(new InvoiceDisplay(i.getId(), i.getCustomerName(),
-						i.getDate(), i.getAmount()));
+				result.add(new EntityDisplay(
+						new String[] {i.getId(), "cust",
+						i.getDate().toString(), i.getAmount()}));
 			}
 		} catch(Exception e) {
 			throw new ServerException(e.toString());

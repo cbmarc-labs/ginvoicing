@@ -11,8 +11,8 @@ import cbmarc.ginvoicing.client.event.ProductsEventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
+import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 import cbmarc.ginvoicing.shared.entity.Line;
-import cbmarc.ginvoicing.shared.entity.ProductDisplay;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -29,8 +29,8 @@ public class LinesEditPresenter
 		String getQuantity();
 		void setQuantity(String value);
 		
-		ProductDisplay getProductListSelected();
-		void setProductList(List<ProductDisplay> list, String selected);
+		String getProduct();
+		void setProduct(List<EntityDisplay> list, String selected);
 		
 		String getProductPrice();
 		void setProductPrice(String value);
@@ -108,11 +108,7 @@ public class LinesEditPresenter
 	 */
 	public void updateDataFromDisplay() {
 		line.setQuantity(display.getQuantity());
-		
-		ProductDisplay pd = display.getProductListSelected();
-		line.setProductId(pd.getId());
-		line.setProductName(pd.getName());
-				
+		line.setProduct(display.getProduct());		
 		line.setProductPrice(display.getProductPrice());
 	}
 	
@@ -124,11 +120,11 @@ public class LinesEditPresenter
 		display.setQuantity(line.getQuantity());
 		
 		ProductsEventBus.getService().selectDisplay(null, 
-				new AppAsyncCallback<List<ProductDisplay>>() {
+				new AppAsyncCallback<List<EntityDisplay>>() {
 					
 					@Override
-					public void onSuccess(List<ProductDisplay> result) {
-						display.setProductList(result, line.getProductId());
+					public void onSuccess(List<EntityDisplay> result) {
+						display.setProduct(result, line.getProduct());
 					}
 					
 		});

@@ -5,26 +5,19 @@ package cbmarc.ginvoicing.shared.entity;
 
 import java.io.Serializable;
 
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 
 /**
  * @author MCOSTA
  *
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class Customer implements Serializable {
+public class Customer extends EntityBase implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 	
-	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
-	private String id;
-
 	@Persistent
 	private String name;
 	
@@ -52,53 +45,13 @@ public class Customer implements Serializable {
 	@Persistent
 	private String notes;
 	
+	@Persistent
+	private Boolean enbaled;
+	
 	/**
 	 * 
 	 */
 	public Customer() {
-	}
-
-	/**
-	 * @param id
-	 * @param name
-	 * @param contact
-	 * @param address
-	 * @param city
-	 * @param country
-	 * @param phone
-	 * @param fax
-	 * @param email
-	 * @param notes
-	 */
-	public Customer(String id, String name, String contact, String address,
-			String city, String country, String phone, String fax,
-			String email, String notes) {
-		this.id = id;
-		this.name = name;
-		this.contact = contact;
-		this.address = address;
-		this.city = city;
-		this.country = country;
-		this.phone = phone;
-		this.fax = fax;
-		this.email = email;
-		this.notes = notes;
-	}
-
-
-
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	/**
@@ -226,4 +179,19 @@ public class Customer implements Serializable {
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
+
+	/**
+	 * @return the enbaled
+	 */
+	public Boolean getEnbaled() {
+		return enbaled;
+	}
+
+	/**
+	 * @param enbaled the enbaled to set
+	 */
+	public void setEnbaled(Boolean enbaled) {
+		this.enbaled = enbaled;
+	}
+	
 }

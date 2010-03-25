@@ -12,7 +12,7 @@ import cbmarc.ginvoicing.client.event.ProductsEventBus;
 import cbmarc.ginvoicing.client.i18n.ProductsConstants;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.ProductsServiceAsync;
-import cbmarc.ginvoicing.shared.entity.Product;
+import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
@@ -30,7 +30,7 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 		public void setListContentLabel(String msg);
 		
 		List<Integer> getSelectedRows();
-		void setData(List<Product> data);
+		void setData(List<EntityDisplay> data);
 		
 		public HandlerRegistration addHandler(ListHandler handler);
 		Widget asWidget();
@@ -42,7 +42,7 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 	private ProductsConstants constants = ProductsEventBus.getConstants();
 	
 	private String filter = null;
-	private List<Product> list;
+	private List<EntityDisplay> list;
 	
 	public ProductsListPresenter(Display display) {
 		this.display = display;
@@ -67,7 +67,7 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 			if(Window.confirm(constants.areYouSure())) {
 				
 				for(Integer row : selectedRows) {
-					ids.add(list.get(row - 1).getId());
+					ids.add(list.get(row - 1).getData()[0]);
 				}
 		
 				service.delete(ids, new AppAsyncCallback<Void>() {
@@ -117,7 +117,8 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 	public void updateDisplayFromData() {
 		display.setListContentLabel(constants.loading());
 		
-		service.select(this.filter, new AppAsyncCallback<List<Product>>() {
+		service.selectDisplay(this.filter, 
+				new AppAsyncCallback<List<EntityDisplay>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -125,7 +126,7 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 			}
 			
 			@Override
-			public void onSuccess(List<Product> result) {
+			public void onSuccess(List<EntityDisplay> result) {
 				display.setListContentLabel(null);
 				
 				list = result;
@@ -133,17 +134,6 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 			}
 			
 		});
-		
-		// TODO list category filter
-		/*CategoriesEventBus.getService().selectDisplay(null, 
-				new AppAsyncCallback<List<CategoryDisplay>>() {
-					
-					@Override
-					public void onSuccess(List<CategoryDisplay> result) {
-						// TODO 
-					}
-					
-		});*/
 	}
 
 	@Override
@@ -163,7 +153,7 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 
 	@Override
 	public void onList(ListEvent event, int row) {
-		String id = list.get(row).getId();
+		String id = list.get(row).getData()[0];
 		
 		History.newItem("main/products/edit/" + id);
 	}

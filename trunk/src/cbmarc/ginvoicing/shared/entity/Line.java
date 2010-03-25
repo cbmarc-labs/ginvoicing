@@ -13,7 +13,7 @@ import javax.jdo.annotations.Persistent;
  * @author MCOSTA
  *
  */
-@PersistenceCapable(identityType = IdentityType.APPLICATION, detachable="true")
+@PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Line extends EntityBase implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -22,10 +22,7 @@ public class Line extends EntityBase implements Serializable {
 	private String quantity = "1";
 	
 	@Persistent
-	private String productId;
-
-	@Persistent
-	private String productName;
+	private String product;
 
 	@Persistent
 	private String productPrice = "0";
@@ -34,15 +31,6 @@ public class Line extends EntityBase implements Serializable {
 	 * 
 	 */
 	public Line() {
-	}
-	
-	public Line(String id, String quantity, String productId,
-			String productName, String productPrice) {
-		this.id = id;
-		this.quantity = quantity;
-		this.productId = productId;
-		this.productName = productName;
-		this.productPrice = productPrice;
 	}
 
 	/**
@@ -60,31 +48,17 @@ public class Line extends EntityBase implements Serializable {
 	}
 
 	/**
-	 * @return the productId
+	 * @return the product
 	 */
-	public String getProductId() {
-		return productId;
+	public String getProduct() {
+		return product;
 	}
 
 	/**
-	 * @param productId the productId to set
+	 * @param product the product to set
 	 */
-	public void setProductId(String productId) {
-		this.productId = productId;
-	}
-
-	/**
-	 * @return the productName
-	 */
-	public String getProductName() {
-		return productName;
-	}
-
-	/**
-	 * @param productName the productName to set
-	 */
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setProduct(String product) {
+		this.product = product;
 	}
 
 	/**
@@ -100,5 +74,5 @@ public class Line extends EntityBase implements Serializable {
 	public void setProductPrice(String productPrice) {
 		this.productPrice = productPrice;
 	}
-
+	
 }

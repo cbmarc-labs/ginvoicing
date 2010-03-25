@@ -33,6 +33,8 @@ public interface AppConstants extends Constants {
 	String limitExceeded();
 	String areYouSure();
 	
+	String warningDeleteItems();
+	
 	String noItemsSelected();
 	String noData();
 	
