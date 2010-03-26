@@ -126,15 +126,14 @@ public class CustomersEditPresenter implements Presenter, SubmitCancelHandler {
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
-	    container.add(display.asWidget());
-	    
-	    // TODO: fix up this shit
-	    String token = History.getToken();
-	    String[] parts = token.split("/");
-	    if(parts.length > 3) doLoad(parts[parts.length - 1]);
-	    else customer = new Customer();
+		customer = new Customer();
+		
+	    String[] parts = History.getToken().split("/");
+	    if(parts.length > 3)
+	    	doLoad(parts[parts.length - 1]);
 	    
 		updateDisplayFromData();
+		container.add(display.asWidget());
 	}
 	
 	/**

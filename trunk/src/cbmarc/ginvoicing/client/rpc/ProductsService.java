@@ -24,5 +24,5 @@ public interface ProductsService extends RemoteService {
 	
 	List<Product> select(String filter) throws ServerException;
 	List<EntityDisplay> selectDisplay(String filter) throws ServerException;
-	Product selectById(String id);
+	Product selectById(String id) throws ServerException;
 }

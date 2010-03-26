@@ -23,6 +23,9 @@ public class Line extends EntityBase implements Serializable {
 	
 	@Persistent
 	private String product;
+	
+	@Persistent
+	private String productName;
 
 	@Persistent
 	private String productPrice = "0";
@@ -59,6 +62,20 @@ public class Line extends EntityBase implements Serializable {
 	 */
 	public void setProduct(String product) {
 		this.product = product;
+	}
+
+	/**
+	 * @return the productName
+	 */
+	public String getProductName() {
+		return productName;
+	}
+
+	/**
+	 * @param productName the productName to set
+	 */
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 
 	/**

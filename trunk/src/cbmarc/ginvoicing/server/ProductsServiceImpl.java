@@ -45,10 +45,17 @@ public class ProductsServiceImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public Product selectById(String id) {
+	public Product selectById(String id) throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Product product;
 		
-		Product product = pm.getObjectById(Product.class, id);
+		try {
+			product = pm.getObjectById(Product.class, id);
+		} catch(Exception e) {
+			throw new ServerException(e.toString());
+		} finally {
+			pm.close();
+		}
 		
 		return product;
 	}

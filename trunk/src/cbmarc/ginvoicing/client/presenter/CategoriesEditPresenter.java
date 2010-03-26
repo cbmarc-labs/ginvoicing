@@ -109,15 +109,14 @@ public class CategoriesEditPresenter
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
-	    container.add(display.asWidget());
+		category = new Category();
 	    
-	    // TODO: fix up this shit
-	    String token = History.getToken();
-	    String[] parts = token.split("/");
-	    if(parts.length > 3) doLoad(parts[parts.length - 1]);
-	    else category = new Category();
+	    String[] parts = History.getToken().split("/");
+	    if(parts.length > 3)
+	    	doLoad(parts[parts.length - 1]);
 
 		updateDisplayFromData();
+		container.add(display.asWidget());
 	}
 	
 	/**

@@ -44,11 +44,19 @@ public class CustomersServiceImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public Customer selectById(String id) {
+	public Customer selectById(String id) throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Customer bean = pm.getObjectById(Customer.class, id);
+		Customer customer;
+		
+		try {
+			customer = pm.getObjectById(Customer.class, id);
+		} catch(Exception e) {
+			throw new ServerException(e.toString());
+		} finally {
+			pm.close();
+		}
 
-		return bean;
+		return customer;
 	}
 
 	@SuppressWarnings("unchecked")

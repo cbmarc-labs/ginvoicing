@@ -131,9 +131,7 @@ public class LinesEditView extends Composite
 	 */
 	private void setProductPriceFromProductList() {
 		if(productList.getItemCount() > 0) {
-			String selected = getProduct();
-			
-			EntityDisplay obj = productDisplayMap.get(selected);
+			EntityDisplay obj = getProduct();
 			productPrice.setValue(obj.getData()[4]);
 		}
 	}
@@ -153,8 +151,10 @@ public class LinesEditView extends Composite
 	}
 
 	@Override
-	public String getProduct() {
-		return productList.getValue(productList.getSelectedIndex());
+	public EntityDisplay getProduct() {
+		String selected = productList.getValue(productList.getSelectedIndex());
+		
+		return productDisplayMap.get(selected);
 	}
 	
 }

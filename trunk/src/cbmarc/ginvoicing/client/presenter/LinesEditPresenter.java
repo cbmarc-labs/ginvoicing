@@ -29,7 +29,7 @@ public class LinesEditPresenter
 		String getQuantity();
 		void setQuantity(String value);
 		
-		String getProduct();
+		EntityDisplay getProduct();
 		void setProduct(List<EntityDisplay> list, String selected);
 		
 		String getProductPrice();
@@ -108,7 +108,11 @@ public class LinesEditPresenter
 	 */
 	public void updateDataFromDisplay() {
 		line.setQuantity(display.getQuantity());
-		line.setProduct(display.getProduct());		
+		
+		EntityDisplay product = display.getProduct();
+		line.setProduct(product.getData()[0]);
+		line.setProductName(product.getData()[1]);
+		
 		line.setProductPrice(display.getProductPrice());
 	}
 	

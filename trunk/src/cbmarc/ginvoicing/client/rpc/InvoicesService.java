@@ -24,5 +24,5 @@ public interface InvoicesService extends RemoteService {
 	
 	List<Invoice> select(String filter) throws ServerException;
 	List<EntityDisplay> selectDisplay(String filter) throws ServerException;
-	Invoice selectById(String id);
+	Invoice selectById(String id) throws ServerException;
 }

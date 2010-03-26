@@ -88,7 +88,7 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	/**
 	 * 
 	 */
-	private void doLoad(String id) {
+	private void doLoad(String id) {		
 		service.selectById(id, new AppAsyncCallback<Invoice>() {
 
 			@Override
@@ -103,19 +103,16 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	
 	@Override
 	public void go(HasWidgets container) {
+		container.clear();
+		invoice = new Invoice();
 	    linesPresenter.getLinesListPresenter().getList().clear();
 	    
-	    // TODO: fix up
 	    String[] parts = History.getToken().split("/");
-	    if(parts.length > 3) {
+	    if(parts.length > 3)
 	    	doLoad(parts[parts.length - 1]);
-	    } else {
-	    	invoice = new Invoice();
-	    	updateDisplayFromData();
-	    	linesPresenter.go(display.getLinesPanel());
-	    }
 	    
-		container.clear();
+	    updateDisplayFromData();
+	    linesPresenter.go(display.getLinesPanel());
 		container.add(display.asWidget());
 		display.focus();
 	}

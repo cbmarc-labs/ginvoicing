@@ -60,7 +60,7 @@ public class LinesListView extends Composite
 		if(lines != null) {
 			for(Line line : lines) {
 				listContent.addData(new String[] {
-						line.getProduct(),
+						line.getProductName(),
 						line.getQuantity(),
 						line.getProductPrice()});
 			}

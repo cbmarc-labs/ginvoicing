@@ -24,5 +24,5 @@ public interface CustomersService extends RemoteService {
 	
 	List<Customer> select(String filter) throws ServerException;
 	List<EntityDisplay> selectDisplay(String filter) throws ServerException;
-	Customer selectById(String id);
+	Customer selectById(String id) throws ServerException;
 }
