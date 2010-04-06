@@ -29,18 +29,30 @@ public class ProductsServiceImpl extends RemoteServiceServlet
 		implements ProductsService {
 
 	@Override
-	public void delete(ArrayList<String> ids) {
+	public void delete(List<String> ids) throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		String result = "";
 		
 		for(String id : ids) {
-			Product product = pm.getObjectById(Product.class, id);
-			
-			// Check if product is into lines
-			Query q = pm.newQuery(Line.class, "product == '" + id + "'");
-			q.setResult("count(this)");
-			
-			if((Integer)q.execute() == 0)
-				pm.deletePersistent(product);
+			try {
+				Product product = pm.getObjectById(Product.class, id);
+				
+				// Check if product is into lines
+				Query q = pm.newQuery(Line.class, "product == '" + id + "'");
+				q.setResult("count(this)");
+				
+				if((Integer)q.execute() == 0) {
+					pm.deletePersistent(product);
+				} else {
+					throw new ServerException("Product " + id + " not empty, can't delete it.");
+				}
+			} catch(Exception e) {
+				result = result + e.toString();
+			}
+		}
+		
+		if(!result.isEmpty()) {
+			throw new ServerException(result);
 		}
 	}
 
@@ -50,11 +62,9 @@ public class ProductsServiceImpl extends RemoteServiceServlet
 		Product product;
 		
 		try {
-			product = pm.getObjectById(Product.class, id);
+			product = pm.getObjectById(Product.class, id);			
 		} catch(Exception e) {
 			throw new ServerException(e.toString());
-		} finally {
-			pm.close();
 		}
 		
 		return product;
@@ -112,7 +122,7 @@ public class ProductsServiceImpl extends RemoteServiceServlet
 			throw new ServerException(e.toString());
 		}
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<EntityDisplay> selectDisplay(String filter)
@@ -121,13 +131,10 @@ public class ProductsServiceImpl extends RemoteServiceServlet
 		ArrayList<EntityDisplay> result = new ArrayList<EntityDisplay>();
 		
 		try {
-			Query query = pm.newQuery(Product.class);
-			
-			query.setFilter(filter);
+			Query query = pm.newQuery(Product.class, filter);
 			query.setOrdering("name asc");
 			
 			List<Product> product = (List<Product>) query.execute();
-			 
 			for(Product i : product) {
 				Category category = pm.getObjectById(
 						Category.class, i.getCategory());

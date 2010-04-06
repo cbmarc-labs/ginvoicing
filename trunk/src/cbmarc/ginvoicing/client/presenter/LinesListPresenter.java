@@ -57,22 +57,22 @@ public class LinesListPresenter implements Presenter, ListHandler {
 	 */
 	public void deleteSelectedRows() {
 		List<Integer> selectedRows = display.getSelectedRows();
-		List<Line> ids = new ArrayList<Line>();
-		
-		ids.clear();
+		List<String> ids;
 
 		if(selectedRows.isEmpty()) {
 			Window.alert(constants.noItemsSelected());
 		} else {
 			if(Window.confirm(constants.areYouSure())) {
+				ids = new ArrayList<String>();
 				
 				for(Integer row : selectedRows) {
-					if(row > 0) ids.add(list.get(row - 1));
+					if(row > 0) 
+						ids.add(list.get(row - 1).getId());
 				}
 				
 				list.removeAll(ids);
 				
-				updateDisplayFromData();
+				//updateDisplayFromData();
 			}
 		}
 	}
@@ -130,10 +130,7 @@ public class LinesListPresenter implements Presenter, ListHandler {
 
 	@Override
 	public void onList(ListEvent event, int row) {
-		if(list.size() > 24)
-			Window.alert(constants.limitExceeded());
-		else
-			eventBus.fireEvent(ListEditEvent.edit(list.get(row)));
+		eventBus.fireEvent(ListEditEvent.edit(list.get(row)));
 	}
 
 	@Override

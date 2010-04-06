@@ -27,10 +27,7 @@ public class Invoice extends EntityBase implements Serializable {
 	@Persistent
 	private String customer;
 	
-	//@Persistent(serialized="true", defaultFetchGroup="true")
-	//@Order(extensions = @Extension(vendorName="datanucleus", key="list-ordering", value="quantity asc"))
-	//@Persistent(mappedBy = "invoice")
-	//@Element(dependent = "true")
+	@Persistent
 	private List<Line> lines = new ArrayList<Line>();
 	
 	@Persistent

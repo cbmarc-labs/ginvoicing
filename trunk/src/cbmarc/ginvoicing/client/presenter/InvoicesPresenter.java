@@ -34,8 +34,7 @@ public class InvoicesPresenter implements Presenter {
 	    bind();
 	}
 	
-	private void bind() {
-	}
+	private void bind() {}
 	
 	public void updateDataFromDisplay() {}
 	public void updateDisplayFromData() {}

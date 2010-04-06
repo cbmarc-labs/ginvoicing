@@ -35,8 +35,8 @@ public class MainPresenter implements Presenter {
 	private Map<Hyperlink, Presenter> presenters = 
 		new HashMap<Hyperlink, Presenter>();
 	
-	public MainPresenter(Display view) {
-	    this.display = view;
+	public MainPresenter(Display display) {
+	    this.display = display;
 	    
 	    List<Hyperlink> l = display.getMenuTab();
 	    
@@ -48,8 +48,7 @@ public class MainPresenter implements Presenter {
 	    bind();
 	}
 	
-	private void bind() {
-	}
+	private void bind() {}
 	
 	public void updateDataFromDisplay() {}
 	public void updateDisplayFromData() {}

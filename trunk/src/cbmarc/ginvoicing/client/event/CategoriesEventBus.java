@@ -16,10 +16,8 @@ import com.google.gwt.event.shared.HandlerManager;
  */
 public class CategoriesEventBus extends HandlerManager {
 
-	private static CategoriesServiceAsync service = 
-		GWT.create(CategoriesService.class);
-	private static CategoriesConstants constants = 
-		GWT.create(CategoriesConstants.class);
+	private static CategoriesServiceAsync service = GWT.create(CategoriesService.class);
+	private static CategoriesConstants constants = GWT.create(CategoriesConstants.class);
 	
 	/**
      * Make the constructor private so it is not possible to create an instance.

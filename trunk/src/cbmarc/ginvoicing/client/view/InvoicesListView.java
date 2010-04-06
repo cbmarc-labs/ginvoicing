@@ -3,6 +3,7 @@
  */
 package cbmarc.ginvoicing.client.view;
 
+import java.util.Date;
 import java.util.List;
 
 import cbmarc.ginvoicing.client.event.InvoicesEventBus;
@@ -16,6 +17,7 @@ import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -49,16 +51,18 @@ public class InvoicesListView extends Composite
 		
 		setListContentLabel(null);
 		listContent.removeAllRows();
-		listContent.addData(new String[] {
-				constants.listCustomerName(), constants.listDate(),
-				constants.listAmount()});
+		listContent.addData(new String[] {constants.listCustomerName(),
+				constants.listDate(), constants.listAmount()});
 		
-		//DateTimeFormat dtf = DateTimeFormat.getFormat("d/MM/y HH:mm");
-		//dtf.format(date)
-
+		DateTimeFormat dtf = DateTimeFormat.getFormat("d/MM/y HH:mm");
 		if(data != null) {
 			for(EntityDisplay i : data) {
 				String d[] = i.getData();
+				//dtf.format(new Date(d[2]));
+				//try {
+				//	d[2] = dtf.parse(d[2]).toString();
+				//} catch(Exception e) {}
+				
 				listContent.addData(new String[] {d[1], d[2], d[3]});
 			}
 		}

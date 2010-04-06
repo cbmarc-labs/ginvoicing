@@ -30,16 +30,28 @@ public class CustomersServiceImpl extends RemoteServiceServlet
 	@Override
 	public void delete(ArrayList<String> ids) throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		String result = "";
 		
 		for(String id : ids) {
-			Customer customer = pm.getObjectById(Customer.class, id);
-			
-			// Check if invoice have any customer
-			Query q = pm.newQuery(Invoice.class, "customer == '" + id + "'");
-			q.setResult("count(this)");
-			
-			if((Integer)q.execute() == 0)
-				pm.deletePersistent(customer);
+			try {
+				Customer customer = pm.getObjectById(Customer.class, id);
+				
+				// Check if invoice have any customer
+				Query q = pm.newQuery(Invoice.class, "customer == '" + id + "'");
+				q.setResult("count(this)");
+				
+				if((Integer)q.execute() == 0) {
+					pm.deletePersistent(customer);
+				} else {
+					throw new ServerException("Customer " + id + " not empty, can't delete it.");
+				}
+			} catch(Exception e) {
+				result = result + e.toString();
+			}
+		}
+		
+		if(!result.isEmpty()) {
+			throw new ServerException(result);
 		}
 	}
 
@@ -52,8 +64,6 @@ public class CustomersServiceImpl extends RemoteServiceServlet
 			customer = pm.getObjectById(Customer.class, id);
 		} catch(Exception e) {
 			throw new ServerException(e.toString());
-		} finally {
-			pm.close();
 		}
 
 		return customer;
@@ -91,11 +101,8 @@ public class CustomersServiceImpl extends RemoteServiceServlet
 		ArrayList<EntityDisplay> result = new ArrayList<EntityDisplay>();
 		
 		try {
-			Query query = pm.newQuery(Customer.class);
-			
-			query.setFilter(filter);
+			Query query = pm.newQuery(Customer.class, filter);
 			query.setOrdering("name asc");
-			//query.setRange(first, first + count);
 			
 			List<Customer> customers = (List<Customer>) query.execute();
 			for(Customer i : customers) {

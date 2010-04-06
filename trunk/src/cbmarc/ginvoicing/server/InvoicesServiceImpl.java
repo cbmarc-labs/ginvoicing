@@ -11,9 +11,11 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import cbmarc.ginvoicing.client.rpc.InvoicesService;
+import cbmarc.ginvoicing.shared.entity.Customer;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 import cbmarc.ginvoicing.shared.entity.Invoice;
 import cbmarc.ginvoicing.shared.entity.Line;
+import cbmarc.ginvoicing.shared.entity.Product;
 import cbmarc.ginvoicing.shared.exception.ServerException;
 
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
@@ -28,13 +30,21 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 		implements InvoicesService {
 
 	@Override
-	public void delete(ArrayList<String> ids) {
+	public void delete(ArrayList<String> ids) throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		String result = "";
 		
 		for(String id : ids) {
-			Invoice invoice = pm.getObjectById(Invoice.class, id);
-			
-			pm.deletePersistent(invoice);
+			try {
+				Invoice invoice = pm.getObjectById(Invoice.class, id);
+				pm.deletePersistent(invoice);
+			} catch(Exception e) {
+				result = result + e.toString();
+			}
+		}
+		
+		if(!result.isEmpty()) {
+			throw new ServerException(result);
 		}
 	}
 
@@ -50,6 +60,14 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 			invoice.getLines();
 			
 			detached = pm.detachCopy(invoice);
+			
+			List<Line> lines = detached.getLines();
+			for(Line line: lines) {
+				Product product = pm.getObjectById(
+						Product.class, line.getProduct());
+				line.setProductName(product.getName());
+			}
+			
 		} catch(Exception e) {
 			throw new ServerException(e.toString());
 		} finally {
@@ -66,11 +84,8 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 		List<Invoice> result;
 		
 		try {
-			Query query = pm.newQuery(Invoice.class);
-			
-			query.setFilter(filter);
+			Query query = pm.newQuery(Invoice.class, filter);
 			query.setOrdering("date desc");
-			//query.setRange(first, first + count);
 			
 			result = (List<Invoice>) query.execute();
 			result = Lists.newArrayList(pm.detachCopyAll(result));
@@ -114,7 +129,7 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 				for(Line oldline: invoice.getLines()) {
 					Line newline = new Line();
 					newline.setProduct(oldline.getProduct());
-					newline.setProductPrice(oldline.getProductPrice());
+					newline.setPrice(oldline.getPrice());
 					newline.setQuantity(oldline.getQuantity());
 					
 					newlines.add(newline);
@@ -141,17 +156,17 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 		ArrayList<EntityDisplay> result = new ArrayList<EntityDisplay>();
 		
 		try {
-			Query query = pm.newQuery(Invoice.class);
-			
-			query.setFilter(filter);
+			Query query = pm.newQuery(Invoice.class, filter);
 			query.setOrdering("date desc");
-			//query.setRange(first, first + count);
 			
 			List<Invoice> invoices = (List<Invoice>) query.execute();
-			for(Invoice i : invoices) {
-				result.add(new EntityDisplay(
-						new String[] {i.getId(), "cust",
-						i.getDate().toString(), i.getAmount()}));
+			for(Invoice invoice : invoices) {
+				Customer customer = (Customer)pm.getObjectById(
+						Customer.class, invoice.getCustomer());
+				
+				result.add(new EntityDisplay(new String[] {
+						invoice.getId(), customer.getName(), 
+						invoice.getDate().toString(), invoice.getAmount()}));
 			}
 		} catch(Exception e) {
 			throw new ServerException(e.toString());

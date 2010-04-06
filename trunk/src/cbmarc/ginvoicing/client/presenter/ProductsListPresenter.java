@@ -59,7 +59,7 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 	 */
 	public void deleteSelectedRows() {
 		List<Integer> selectedRows = display.getSelectedRows();
-		ArrayList<String> ids = new ArrayList<String>();
+		List<String> ids = new ArrayList<String>();
 
 		if(selectedRows.isEmpty()) {
 			Window.alert(constants.noItemsSelected());

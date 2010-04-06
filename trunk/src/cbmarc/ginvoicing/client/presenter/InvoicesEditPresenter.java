@@ -44,12 +44,11 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	private final Display display;
 	
 	private InvoicesServiceAsync service = InvoicesEventBus.getService();
+	private final LinesPresenter linesPresenter;
 	private Invoice invoice = new Invoice();
 	
-	private final LinesPresenter linesPresenter;
-	
-	public InvoicesEditPresenter(Display view) {
-	    this.display = view;
+	public InvoicesEditPresenter(Display display) {
+	    this.display = display;
 	    
 	    linesPresenter = new LinesPresenter(new LinesView());
 		
@@ -127,14 +126,17 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 		invoice.setLines(lines);
 		
 		// TODO check this
-		/*Integer amount = 0;
+		Float amount = 0f, price, quantity;
 		for(Line l: lines) {
-			if(!l.getProductPrice().isEmpty())
-				amount = amount + (Integer.parseInt(l.getProductPrice()) *
-						Integer.parseInt(l.getQuantity()));
+			if(!l.getPrice().isEmpty()) {
+				price = Float.valueOf(l.getPrice());
+				quantity = Float.valueOf(l.getQuantity());
+				
+				amount = amount + (quantity * price);
+			}
 		}
 		
-		invoice.setAmount(amount.toString());*/
+		invoice.setAmount(amount.toString());
 	}
 	
 	/**

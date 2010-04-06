@@ -10,7 +10,7 @@ import java.util.Map;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.presenter.ProductsEditPresenter;
-import cbmarc.ginvoicing.shared.entity.EntityDisplay;
+import cbmarc.ginvoicing.shared.entity.Category;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -38,12 +38,12 @@ public class ProductsEditView extends Composite
 		
 	@UiField TextBox name;
 	@UiField HasValue<String> description;
-	@UiField ListBox category;
+	@UiField ListBox categoryList;
 	@UiField Label categoryDescription;
 	@UiField HasValue<String> price;
 	
-	private Map<String, EntityDisplay> categoryDisplayMap = 
-		new HashMap<String, EntityDisplay>();
+	private Map<String, Category> categoryMap = 
+		new HashMap<String, Category>();
 	
 	public ProductsEditView() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -68,7 +68,7 @@ public class ProductsEditView extends Composite
 		fireEvent(SubmitCancelEvent.cancel());
 	}
 	
-	@UiHandler("category")
+	@UiHandler("categoryList")
 	protected void categoryListClicked(ChangeEvent event) {
 		setCategoryDescriptionFromCategoryList();
 	}
@@ -83,7 +83,7 @@ public class ProductsEditView extends Composite
 	public void reset() {
 		name.setValue("");
 		description.setValue("");
-		category.setSelectedIndex(0);
+		categoryList.setSelectedIndex(0);
 		price.setValue("");
 	}
 
@@ -108,25 +108,25 @@ public class ProductsEditView extends Composite
 	 */
 	@Override
 	public String getCategory() {
-		return category.getValue(category.getSelectedIndex());
+		int index = categoryList.getSelectedIndex();
+		return categoryList.getValue(index);
 	}
 
 	/**
 	 * @param category the category to set
 	 */
-	public void setCategory(List<EntityDisplay> categories, String selected) {
+	public void setCategory(List<Category> categories, String selected) {
 		int index = 0;
 		
-		category.clear();
-		categoryDisplayMap.clear();
-		for(EntityDisplay item : categories) {
-			String data[] = item.getData();
+		categoryList.clear();
+		categoryMap.clear();
+		for(Category category: categories) {
+			categoryList.addItem(category.getName(), category.getId());
+			categoryMap.put(category.getId(), category);
 			
-			category.addItem(data[1], data[0]);
-			categoryDisplayMap.put(data[0], item);
-			
-			if(data[0].equals(selected))
-				category.setItemSelected(index, true);
+			if(category.getId().equals(selected)) {
+				categoryList.setItemSelected(index, true);
+			}
 			
 			index ++;
 		}
@@ -138,11 +138,11 @@ public class ProductsEditView extends Composite
 	 * 
 	 */
 	private void setCategoryDescriptionFromCategoryList() {
-		if(category.getItemCount() > 0) {
+		if(categoryList.getItemCount() > 0) {
 			String selected = getCategory();
-			EntityDisplay obj = categoryDisplayMap.get(selected);
+			Category category = categoryMap.get(selected);
 			
-			categoryDescription.setText(obj.getData()[2]);
+			categoryDescription.setText(category.getDescription());
 		}
 	}
 

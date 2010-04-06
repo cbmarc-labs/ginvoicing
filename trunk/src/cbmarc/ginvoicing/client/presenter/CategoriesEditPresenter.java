@@ -74,7 +74,7 @@ public class CategoriesEditPresenter
 	/**
 	 * @return
 	 */
-	public void doSave() {
+	private void doSave() {
 		updateDataFromDisplay();
 		
 		service.save(category, new AppAsyncCallback<Void>() {

@@ -4,15 +4,12 @@
 package cbmarc.ginvoicing.client.presenter;
 
 import cbmarc.ginvoicing.client.event.EventBus;
-import cbmarc.ginvoicing.client.event.LinesEventBus;
 import cbmarc.ginvoicing.client.event.ListEditEvent;
 import cbmarc.ginvoicing.client.event.ListEditHandler;
-import cbmarc.ginvoicing.client.i18n.LinesConstants;
 import cbmarc.ginvoicing.client.view.LinesEditView;
 import cbmarc.ginvoicing.client.view.LinesListView;
 import cbmarc.ginvoicing.shared.entity.Line;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,10 +26,11 @@ public class LinesPresenter implements Presenter, ListEditHandler {
 	
 	protected final Display display;
 	private EventBus eventBus = EventBus.getEventBus();
-	private LinesConstants constants = LinesEventBus.getConstants();
-
+	
 	private LinesListPresenter linesListPresenter;
 	private LinesEditPresenter linesEditPresenter;
+	
+	private Line lineEdit = new Line();
 	
 	public LinesPresenter(Display display) {
 	    this.display = display;
@@ -76,28 +74,29 @@ public class LinesPresenter implements Presenter, ListEditHandler {
 	public LinesEditPresenter getLinesEditPresenter() {
 		return linesEditPresenter;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see cbmarc.ginvoicing.client.event.ListEditHandler#onList(cbmarc.ginvoicing.client.event.ListEditEvent, java.lang.Object)
 	 */
 	@Override
 	public void onList(ListEditEvent event, Object object) {
-		// TODO check this
 		if(object != null) {
-			if(linesListPresenter.getList().size() > 9) {
-				Window.alert(constants.limitExceeded());
-				return;
-			} else {
+			if(lineEdit == null) {
 				linesListPresenter.getList().add((Line)object);
 			}
 		}
-
+		
 		linesListPresenter.go(display.getContent());
 	}
 
 	@Override
 	public void onEdit(ListEditEvent event, Object object) {
-		linesEditPresenter.setLine((Line)object);
+		Line line = new Line();
+		
+		lineEdit = (Line)object;
+		if(object != null) line = lineEdit;
+		
+		linesEditPresenter.setLine(line);
 		linesEditPresenter.go(display.getContent());
 	}
 

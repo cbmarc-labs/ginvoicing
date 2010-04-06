@@ -30,24 +30,41 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 	@Override
 	public void delete(List<String> ids) throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		String result = "";
 		
 		for(String id : ids) {
-			Category category = pm.getObjectById(Category.class, id);
+			try {
+				Category category = pm.getObjectById(Category.class, id);
 			
-			// Check if categories have any products
-			Query q = pm.newQuery(Product.class, "category == '" + id + "'");
-			q.setResult("count(this)");
+				// Check if categories have any products
+				Query q = pm.newQuery(Product.class, "category == '" + id + "'");
+				q.setResult("count(this)");
 			
-			if((Integer)q.execute() == 0)
-				pm.deletePersistent(category);
+				if((Integer)q.execute() == 0) {
+					pm.deletePersistent(category);
+				} else {
+					throw new ServerException("Category " + id + " not empty, can't delete it.");
+				}
+			} catch(Exception e) {
+				result = result + e.toString();
+			}
+		}
+		
+		if(!result.isEmpty()) {
+			throw new ServerException(result);
 		}
 	}
 
 	@Override
-	public Category selectById(String id) {
+	public Category selectById(String id) throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Category category;
 		
-		Category category = pm.getObjectById(Category.class, id);
+		try {
+			category = pm.getObjectById(Category.class, id);
+		} catch(Exception e) {
+			throw new ServerException(e.toString());
+		}
 
 		return category;
 	}
@@ -81,17 +98,22 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 			throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		ArrayList<EntityDisplay> result = new ArrayList<EntityDisplay>();
+		String numProducts = "0";
 		
 		try {
-			Query query = pm.newQuery(Category.class);
-			
-			query.setFilter(filter);
+			Query query = pm.newQuery(Category.class, filter);
 			query.setOrdering("name asc");
 			
 			List<Category> categories = (List<Category>) query.execute();
-			for(Category i : categories) {
+			for(Category category: categories) {
+				query = pm.newQuery(Product.class,
+						"category=='" + category.getId() + "'");
+				query.setResult("count(this)");
+				numProducts = ((Integer)query.execute()).toString();
+				
 				result.add(new EntityDisplay(new String[] {
-						i.getId(), i.getName(), i.getDescription()}));
+						category.getId(), category.getName(),
+						category.getDescription(), numProducts}));
 			}
 		} catch(Exception e) {
 			throw new ServerException(e.toString());

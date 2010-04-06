@@ -11,7 +11,7 @@ import cbmarc.ginvoicing.client.event.ListHandler;
 import cbmarc.ginvoicing.client.i18n.CategoriesConstants;
 import cbmarc.ginvoicing.client.presenter.CategoriesListPresenter;
 import cbmarc.ginvoicing.client.ui.ListFlexTable;
-import cbmarc.ginvoicing.shared.entity.Category;
+import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -46,18 +46,19 @@ public class CategoriesListView extends Composite
 	/**
 	 * @param data
 	 */
-	public void setData(List<Category> data) {
+	public void setData(List<EntityDisplay> data) {
 		int size = data.size();
 		
 		setListContentLabel(null);
 		listContent.removeAllRows();
 		listContent.addData(new String[] {
-				constants.listName(), constants.listDescription()});
+				constants.listName(), constants.listDescription(),
+				constants.listProducts()});
 
 		if(data != null) {
-			for(Category category : data) {
-				listContent.addData(new String[] {
-						category.getName(), category.getDescription()});
+			for(EntityDisplay category : data) {
+				String d[] = category.getData();
+				listContent.addData(new String[] {d[1], d[2], d[3]});
 			}
 		}
 		
@@ -115,4 +116,5 @@ public class CategoriesListView extends Composite
 	public List<Integer> getSelectedRows() {
 		return listContent.getSelectedRows();
 	}
+	
 }

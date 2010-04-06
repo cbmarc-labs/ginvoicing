@@ -6,6 +6,7 @@ package cbmarc.ginvoicing.shared.entity;
 import java.io.Serializable;
 
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
@@ -17,23 +18,40 @@ import javax.jdo.annotations.Persistent;
 public class Line extends EntityBase implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-
-	@Persistent
-	private String quantity = "1";
 	
 	@Persistent
 	private String product;
 	
-	@Persistent
+	// Field for display purposes only
+	@NotPersistent
 	private String productName;
+	
+	@Persistent
+	private String quantity = "1";
 
 	@Persistent
-	private String productPrice = "0";
+	private String price = null;
 
 	/**
 	 * 
 	 */
 	public Line() {
+	}
+
+	/**
+	 * @param id
+	 * @param product
+	 * @param productName
+	 * @param quantity
+	 * @param productPrice
+	 */
+	public Line(String id, String product, String productName, 
+			String quantity, String price) {
+		this.id = id;
+		this.product = product;
+		this.productName = productName;
+		this.quantity = quantity;
+		this.price = price;
 	}
 
 	/**
@@ -81,15 +99,15 @@ public class Line extends EntityBase implements Serializable {
 	/**
 	 * @return the productPrice
 	 */
-	public String getProductPrice() {
-		return productPrice;
+	public String getPrice() {
+		return price;
 	}
 
 	/**
 	 * @param productPrice the productPrice to set
 	 */
-	public void setProductPrice(String productPrice) {
-		this.productPrice = productPrice;
+	public void setPrice(String price) {
+		this.price = price;
 	}
 	
 }

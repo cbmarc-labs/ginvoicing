@@ -60,9 +60,8 @@ public class LinesListView extends Composite
 		if(lines != null) {
 			for(Line line : lines) {
 				listContent.addData(new String[] {
-						line.getProductName(),
-						line.getQuantity(),
-						line.getProductPrice()});
+						line.getProductName(), line.getQuantity(),
+						line.getPrice()});
 			}
 		}
 		
@@ -120,4 +119,5 @@ public class LinesListView extends Composite
 	public List<Integer> getSelectedRows() {
 		return listContent.getSelectedRows();
 	}
+	
 }

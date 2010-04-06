@@ -34,12 +34,11 @@ public class CategoriesPresenter implements Presenter {
 	    bind();
 	}
 	
-	private void bind() {
-	}
+	private void bind() {}
 	
 	public void updateDataFromDisplay() {}
 	public void updateDisplayFromData() {}
-
+	
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();

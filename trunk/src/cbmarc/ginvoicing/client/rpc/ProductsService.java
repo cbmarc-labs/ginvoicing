@@ -3,7 +3,6 @@
  */
 package cbmarc.ginvoicing.client.rpc;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
@@ -20,7 +19,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("products")
 public interface ProductsService extends RemoteService {
 	void save(Product product) throws ServerException;
-	void delete(ArrayList<String> ids) throws ServerException;
+	void delete(List<String> ids) throws ServerException;
 	
 	List<Product> select(String filter) throws ServerException;
 	List<EntityDisplay> selectDisplay(String filter) throws ServerException;
