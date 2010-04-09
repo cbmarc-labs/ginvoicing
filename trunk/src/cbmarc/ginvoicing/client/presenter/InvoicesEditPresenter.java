@@ -31,6 +31,9 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 		String getCustomer();
 		void setCustomer(List<EntityDisplay> customers, String selected);
 		
+		String getNotes();
+		void setNotes(String notes);
+		
 		HasWidgets getLinesPanel();
 		
 		public void focus();
@@ -123,6 +126,7 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 		List<Line> lines = linesPresenter.getLinesListPresenter().getList();
 		
 		invoice.setCustomer(display.getCustomer());
+		invoice.setNotes(display.getNotes());
 		invoice.setLines(lines);
 		
 		// TODO check this
@@ -154,6 +158,7 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 					}
 					
 		});
+		display.setNotes(invoice.getNotes());
 		
 		linesPresenter.getLinesListPresenter().setList(invoice.getLines());
 	}

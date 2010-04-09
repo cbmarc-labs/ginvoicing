@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -35,6 +36,7 @@ public class InvoicesEditView extends Composite
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 		
 	@UiField ListBox customer;
+	@UiField TextArea notes; 
 	@UiField Panel linesPanel;
 
 	private Map<String, EntityDisplay> customerDisplayMap = 
@@ -42,9 +44,6 @@ public class InvoicesEditView extends Composite
 	
 	public InvoicesEditView() {
 		initWidget(uiBinder.createAndBindUi(this));
-		
-		//this.fecha.setFormat(new DateBox.DefaultFormat(
-		//		DateTimeFormat.getFormat("dd / MM / yyyy")));
 	}
 	
 	public Widget asWidget() {
@@ -75,6 +74,7 @@ public class InvoicesEditView extends Composite
 	@Override
 	public void reset() {
 		customer.setSelectedIndex(0);
+		notes.setValue("");
 	}
 
 	@Override
@@ -115,5 +115,15 @@ public class InvoicesEditView extends Composite
 	@Override
 	public HasWidgets getLinesPanel() {
 		return linesPanel;
+	}
+
+	@Override
+	public String getNotes() {
+		return notes.getValue();
+	}
+
+	@Override
+	public void setNotes(String value) {
+		notes.setValue(value);
 	}
 }
