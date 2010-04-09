@@ -43,10 +43,10 @@
 			<g:VerticalPanel styleName="tabPanel">
 				<g:HorizontalPanel>
 				
-				<g:Hyperlink ui:field="invoicesTab" styleName="tabItem" targetHistoryToken="main/invoices" text="{cnt.menuInvoices}"></g:Hyperlink>
-				<g:Hyperlink ui:field="customersTab" styleName="tabItem" targetHistoryToken="main/customers" text="{cnt.menuCustomers}"></g:Hyperlink>
-				<g:Hyperlink ui:field="productsTab" styleName="tabItem" targetHistoryToken="main/products" text="{cnt.menuProducts}"></g:Hyperlink>
-				<g:Hyperlink ui:field="categoriesTab" styleName="tabItem" targetHistoryToken="main/categories" text="{cnt.menuCategories}"></g:Hyperlink>
+				<g:Hyperlink ui:field="invoicesTab" styleName="tabItem" targetHistoryToken="main/invoices" text="{cnt.menuInvoices}" />
+				<g:Hyperlink ui:field="customersTab" styleName="tabItem" targetHistoryToken="main/customers" text="{cnt.menuCustomers}" />
+				<g:Hyperlink ui:field="productsTab" styleName="tabItem" targetHistoryToken="main/products" text="{cnt.menuProducts}" />
+				<g:Hyperlink ui:field="categoriesTab" styleName="tabItem" targetHistoryToken="main/categories" text="{cnt.menuCategories}" />
 				
 				</g:HorizontalPanel>
 			</g:VerticalPanel>

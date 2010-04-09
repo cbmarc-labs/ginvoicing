@@ -115,13 +115,13 @@
 
 
 /* FONT SIZE */
-a { font-size: 150%; }
+.tabItem, .tabItemActive { font-size: 150%; }
 .gwt-Label { font-size: 150%; }
 .gwt-Button { font-size: 150%; }
-.gwt-Label { font-size: 150%; }
 .gwt-ListBox { font-size: 150%; }
 .gwt-TextBox { font-size: 150%; }
 .gwt-TextArea { font-size: 150%; }
+.gwt-DisclosurePanel .header td { font-size: 150%; color: #666; }
 
 
 

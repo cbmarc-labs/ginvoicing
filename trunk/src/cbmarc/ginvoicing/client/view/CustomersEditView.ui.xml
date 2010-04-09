@@ -14,8 +14,9 @@
   	</g:HorizontalPanel>
   </g:VerticalPanel>
 
-  <g:VerticalPanel styleName="formPanel">
-  	<g:HTMLPanel>
+	<g:VerticalPanel styleName="formPanel">
+  
+  		<g:HTMLPanel>
   	
 		<table>
 		<tr><td><g:Label text="{cnt.formName}" /></td><td><g:TextBox ui:field="name" /></td></tr>
@@ -29,8 +30,9 @@
 		<tr><td><g:Label text="{cnt.formNotes}" /></td><td><g:TextArea ui:field="notes" width="26em" height="8em" /></td></tr>
 		</table>
 
-  	</g:HTMLPanel>
-  </g:VerticalPanel>
+  		</g:HTMLPanel>
+  	
+	</g:VerticalPanel>
 
 	<g:VerticalPanel styleName="buttonsPanel">
   		<g:HorizontalPanel spacing="5">

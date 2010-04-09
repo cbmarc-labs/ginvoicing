@@ -3,6 +3,7 @@
  */
 package cbmarc.ginvoicing.server;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +29,11 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class InvoicesServiceImpl extends RemoteServiceServlet 
 		implements InvoicesService {
+	
+	//private static final DateTimeFormat dtf = 
+	//	DateTimeFormat.getFormat("d/MM/y HH:mm");
+	private static final SimpleDateFormat sdf = 
+		new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 	@Override
 	public void delete(ArrayList<String> ids) throws ServerException {
@@ -163,10 +169,10 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 			for(Invoice invoice : invoices) {
 				Customer customer = (Customer)pm.getObjectById(
 						Customer.class, invoice.getCustomer());
-				
+								
 				result.add(new EntityDisplay(new String[] {
 						invoice.getId(), customer.getName(), 
-						invoice.getDate().toString(), invoice.getAmount()}));
+						sdf.format(invoice.getDate()), invoice.getAmount()}));
 			}
 		} catch(Exception e) {
 			throw new ServerException(e.toString());
