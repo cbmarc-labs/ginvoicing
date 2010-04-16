@@ -13,6 +13,10 @@
 		<g:Button ui:field="reloadButton" text="{cnt.reloadButton}" />
   		<g:Button ui:field="addButton" text="{cnt.addButton}" />
   		<g:Button ui:field="deleteButton" text="{cnt.delButton}" />
+	  		
+				<g:HTMLPanel><g:Label text="&nbsp;||&nbsp;"/></g:HTMLPanel>
+	
+				<g:ListBox ui:field="filterBox" />
   	</g:HorizontalPanel>
   </g:VerticalPanel>
 	

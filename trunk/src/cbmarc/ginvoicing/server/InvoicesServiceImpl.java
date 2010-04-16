@@ -30,8 +30,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class InvoicesServiceImpl extends RemoteServiceServlet 
 		implements InvoicesService {
 	
-	//private static final DateTimeFormat dtf = 
-	//	DateTimeFormat.getFormat("d/MM/y HH:mm");
 	private static final SimpleDateFormat sdf = 
 		new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
@@ -165,7 +163,7 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 			Query query = pm.newQuery(Invoice.class, filter);
 			query.setOrdering("date desc");
 			
-			List<Invoice> invoices = (List<Invoice>) query.execute();
+			List<Invoice> invoices = (List<Invoice>) query.execute(filter);
 			for(Invoice invoice : invoices) {
 				Customer customer = (Customer)pm.getObjectById(
 						Customer.class, invoice.getCustomer());
@@ -182,5 +180,22 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 		
 		return result;
 	}
+	
+	/*@SuppressWarnings("unchecked")
+	@Override
+	public List<EntityDisplay> selectCustomerFilter(void) 
+		throwns ServerException {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		try {
+			
+		} catch(Exception e) {
+			throw new ServerException(e.toString());
+		} finally {
+			pm.close();
+		}
+		
+		return null;
+	}*/
 
 }

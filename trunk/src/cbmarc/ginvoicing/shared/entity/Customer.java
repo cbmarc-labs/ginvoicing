@@ -92,4 +92,10 @@ public class Customer extends Contact implements Serializable {
 		this.enbaled = enbaled;
 	}
 	
+	public String toString() {
+		return "UserInfo { "
+			+ "id: " + id
+			+ " }";
+	}
+	
 }

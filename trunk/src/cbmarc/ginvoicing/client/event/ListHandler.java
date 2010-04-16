@@ -13,4 +13,5 @@ public interface ListHandler extends EventHandler {
 	public void onAdd(ListEvent event);
 	public void onDelete(ListEvent event);
 	public void onList(ListEvent event, int row);
+	public void onFilter(ListEvent event, String filter);
 }

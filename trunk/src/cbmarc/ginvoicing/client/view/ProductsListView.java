@@ -14,6 +14,7 @@ import cbmarc.ginvoicing.client.ui.ListFlexTable;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -21,6 +22,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -34,7 +36,8 @@ public class ProductsListView extends Composite
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 	
 	private ProductsConstants constants = ProductsEventBus.getConstants();
-	
+
+	@UiField ListBox filterBox;
 	@UiField ListFlexTable listContent;
 	@UiField Label listContentLabel;
 	@UiField Label listheaderLabel;
@@ -85,6 +88,13 @@ public class ProductsListView extends Composite
 		fireEvent(ListEvent.delete());
 	}
 	
+	@UiHandler("filterBox")
+	protected void filterChange(ChangeEvent event) {
+		String id = filterBox.getValue(filterBox.getSelectedIndex());
+		
+		fireEvent(ListEvent.filter(id));
+	}
+	
 	@UiHandler("listContent")
 	protected void listContentClicked(ClickEvent event) {
 		int row = listContent.getClickedRow(event);
@@ -117,5 +127,17 @@ public class ProductsListView extends Composite
 	@Override
 	public List<Integer> getSelectedRows() {
 		return listContent.getSelectedRows();
+	}
+
+	@Override
+	public void setFilterBox(List<EntityDisplay> data) {
+		this.filterBox.clear();
+		
+		this.filterBox.addItem("", "");
+		for(EntityDisplay item: data) {
+			String[] d = item.getData();
+			
+			this.filterBox.addItem(d[1], d[0]);
+		}
 	}
 }

@@ -41,7 +41,7 @@ public class CustomersListPresenter implements Presenter, ListHandler {
 	private CustomersServiceAsync service = CustomersEventBus.getService();
 	private CustomersConstants constants = CustomersEventBus.getConstants();
 	
-	private String filter = null;
+	private String filter = "";
 	private List<Customer> list;
 	
 	public CustomersListPresenter(Display display) {
@@ -86,21 +86,15 @@ public class CustomersListPresenter implements Presenter, ListHandler {
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(display.asWidget());
-
+		
+		setFilter("");
 		updateDisplayFromData();
 	}
-	
-	/**
-	 * @return the numParte
-	 */
-	public String getFilter() {
-		return filter;
-	}
 
 	/**
-	 * @param numParte the numParte to set
+	 * @param filter
 	 */
-	public void setFilter(String filter) {
+	private void setFilter(String filter) {
 		this.filter = filter;
 	}
 	
@@ -115,9 +109,13 @@ public class CustomersListPresenter implements Presenter, ListHandler {
 	 * 
 	 */
 	public void updateDisplayFromData() {
+		String strFilter = null;
 		display.setListContentLabel(constants.loading());
 		
-		service.select(this.filter, new AppAsyncCallback<List<Customer>>() {
+		if(!this.filter.isEmpty())
+			strFilter = "name == '" + this.filter + "'";
+		
+		service.select(strFilter, new AppAsyncCallback<List<Customer>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -147,6 +145,7 @@ public class CustomersListPresenter implements Presenter, ListHandler {
 
 	@Override
 	public void onReload(ListEvent event) {
+		setFilter("");
 		updateDisplayFromData();
 	}
 
@@ -160,5 +159,11 @@ public class CustomersListPresenter implements Presenter, ListHandler {
 	@Override
 	public void processHistoryToken(String token) {
 		// Nothing to do.
+	}
+
+	@Override
+	public void onFilter(ListEvent event, String filter) {
+		setFilter(filter);
+		updateDisplayFromData();
 	}
 }

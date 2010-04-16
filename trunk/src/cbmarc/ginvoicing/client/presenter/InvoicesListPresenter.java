@@ -6,6 +6,7 @@ package cbmarc.ginvoicing.client.presenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import cbmarc.ginvoicing.client.event.CustomersEventBus;
 import cbmarc.ginvoicing.client.event.InvoicesEventBus;
 import cbmarc.ginvoicing.client.event.ListEvent;
 import cbmarc.ginvoicing.client.event.ListHandler;
@@ -27,6 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class InvoicesListPresenter implements Presenter, ListHandler {
 
 	public interface Display {
+		public void setFilterBox(List<EntityDisplay> data);
 		public void setListContentLabel(String msg);
 		
 		List<Integer> getSelectedRows();
@@ -86,7 +88,7 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(display.asWidget());
-
+		
 		updateDisplayFromData();
 	}
 	
@@ -103,7 +105,7 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 	public void updateDisplayFromData() {
 		display.setListContentLabel(constants.loading());
 		
-		service.selectDisplay(this.filter, 
+		service.selectDisplay(filter, 
 				new AppAsyncCallback<List<EntityDisplay>>() {
 
 			@Override
@@ -112,6 +114,25 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 				display.setData(list);
 			}
 		});
+		
+		// Load customers filter list on listbox
+		if(this.filter == null)
+			CustomersEventBus.getService().selectDisplay(
+					null, new AppAsyncCallback<List<EntityDisplay>>() {
+	
+						@Override
+						public void onSuccess(List<EntityDisplay> result) {
+							display.setFilterBox(result);
+						}
+				
+			});
+	}
+
+	/**
+	 * @param filter the filter to set
+	 */
+	public void setFilter(String filter) {
+		this.filter = filter;
 	}
 
 	@Override
@@ -126,6 +147,8 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 
 	@Override
 	public void onReload(ListEvent event) {
+		this.filter = null;
+		
 		updateDisplayFromData();
 	}
 
@@ -139,5 +162,14 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 	@Override
 	public void processHistoryToken(String token) {
 		// Nothing to do.
+	}
+
+	@Override
+	public void onFilter(ListEvent event, String filter) {
+		this.filter = null;
+		if(!filter.isEmpty())
+			this.filter = "customer == '" + filter + "'";
+		
+		updateDisplayFromData();
 	}
 }

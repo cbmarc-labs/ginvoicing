@@ -34,7 +34,7 @@ public class InvoicesEditView extends Composite
 		
 	interface uiBinder extends UiBinder<Widget, InvoicesEditView> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
-		
+	
 	@UiField ListBox customer;
 	@UiField TextArea notes; 
 	@UiField Panel linesPanel;

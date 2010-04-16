@@ -6,6 +6,7 @@ package cbmarc.ginvoicing.client.presenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import cbmarc.ginvoicing.client.event.CategoriesEventBus;
 import cbmarc.ginvoicing.client.event.ListEvent;
 import cbmarc.ginvoicing.client.event.ListHandler;
 import cbmarc.ginvoicing.client.event.ProductsEventBus;
@@ -27,6 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class ProductsListPresenter implements Presenter, ListHandler {
 
 	public interface Display {
+		public void setFilterBox(List<EntityDisplay> data);
 		public void setListContentLabel(String msg);
 		
 		List<Integer> getSelectedRows();
@@ -117,23 +119,28 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 	public void updateDisplayFromData() {
 		display.setListContentLabel(constants.loading());
 		
-		service.selectDisplay(this.filter, 
+		service.selectDisplay(filter, 
 				new AppAsyncCallback<List<EntityDisplay>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				display.setListContentLabel(caught.toString());
-			}
 			
 			@Override
 			public void onSuccess(List<EntityDisplay> result) {
-				display.setListContentLabel(null);
-				
 				list = result;
 				display.setData(list);
 			}
 			
 		});
+		
+		// Load customers filter list on listbox
+		if(this.filter == null)
+			CategoriesEventBus.getService().selectDisplay(
+					null, new AppAsyncCallback<List<EntityDisplay>>() {
+	
+						@Override
+						public void onSuccess(List<EntityDisplay> result) {
+							display.setFilterBox(result);
+						}
+				
+			});
 	}
 
 	@Override
@@ -148,6 +155,7 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 
 	@Override
 	public void onReload(ListEvent event) {
+		this.filter = null;
 		updateDisplayFromData();
 	}
 
@@ -161,5 +169,14 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 	@Override
 	public void processHistoryToken(String token) {
 		// Nothing to do.
+	}
+
+	@Override
+	public void onFilter(ListEvent event, String filter) {
+		this.filter = null;
+		if(!filter.isEmpty())
+			this.filter = "category == '" + filter + "'";
+		
+		updateDisplayFromData();
 	}
 }

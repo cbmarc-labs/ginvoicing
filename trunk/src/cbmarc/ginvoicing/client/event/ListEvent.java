@@ -5,10 +5,11 @@ import com.google.gwt.event.shared.GwtEvent;
 public class ListEvent extends GwtEvent<ListHandler> {
 	public static final Type<ListHandler> TYPE = 
 		new Type<ListHandler>();
-	private enum Operation {RELOAD, ADD, DELETE, LIST};
+	private enum Operation {RELOAD, ADD, DELETE, LIST, FILTER};
 	
 	private Operation operation;
 	private int row;
+	private String filter;
 	
 	public static ListEvent reload() {
 		return new ListEvent(Operation.RELOAD);
@@ -26,6 +27,10 @@ public class ListEvent extends GwtEvent<ListHandler> {
 		return new ListEvent(Operation.LIST, row);
 	}
 	
+	public static ListEvent filter(String filter) {
+		return new ListEvent(Operation.FILTER, filter);
+	}
+	
 	private ListEvent(Operation operation) {
 		this.operation = operation;
 	}
@@ -33,6 +38,11 @@ public class ListEvent extends GwtEvent<ListHandler> {
 	private ListEvent(Operation operation, int row) {
 		this.operation = operation;
 		this.row = row;
+	}
+	
+	private ListEvent(Operation operation, String filter) {
+		this.operation = operation;
+		this.filter = filter;
 	}
 
 	public static Type<ListHandler> getType() {
@@ -54,6 +64,8 @@ public class ListEvent extends GwtEvent<ListHandler> {
 		case LIST:
 			handler.onList(this, row);
 			break;
+		case FILTER:
+			handler.onFilter(this, filter);
 		}
 	}
 

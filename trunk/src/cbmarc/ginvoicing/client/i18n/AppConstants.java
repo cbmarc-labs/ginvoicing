@@ -25,6 +25,7 @@ public interface AppConstants extends Constants {
 	String addButton();
 	String delButton();
 	String listButton();
+	String filterButton();
 	String submitButton();
 	String cancelButton();
 	String resetButton();

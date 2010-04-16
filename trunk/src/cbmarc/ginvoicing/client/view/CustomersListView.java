@@ -57,7 +57,7 @@ public class CustomersListView extends Composite
 				constants.listAddress(),
 				constants.listCity(),
 				constants.listCountry()});
-
+		
 		if(data != null) {
 			for(Customer customer : data) {
 				listContent.addData(new String[] {
