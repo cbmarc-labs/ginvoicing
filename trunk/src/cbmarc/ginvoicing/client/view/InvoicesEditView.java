@@ -35,7 +35,7 @@ public class InvoicesEditView extends Composite
 	interface uiBinder extends UiBinder<Widget, InvoicesEditView> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 	
-	@UiField ListBox customer;
+	@UiField ListBox customerList;
 	@UiField TextArea notes; 
 	@UiField Panel linesPanel;
 
@@ -73,7 +73,7 @@ public class InvoicesEditView extends Composite
 
 	@Override
 	public void reset() {
-		customer.setSelectedIndex(0);
+		customerList.setSelectedIndex(0);
 		notes.setValue("");
 	}
 
@@ -90,26 +90,35 @@ public class InvoicesEditView extends Composite
 
 	@Override
 	public String getCustomer() {
-		return customer.getValue(customer.getSelectedIndex());
+		String cust = null;
+		int index = customerList.getSelectedIndex();
+		
+		try { cust = customerList.getValue(index); } catch(Exception e) {};
+		
+		return cust;
 	}
 
 	@Override
 	public void setCustomer(List<EntityDisplay> customers, String selected) {
 		int index = 0;
 		
-		customer.clear();
+		customerList.setEnabled(false);
+		customerList.clear();
 		customerDisplayMap.clear();
 		for(EntityDisplay item : customers) {
 			String data[] = item.getData();
 			
-			customer.addItem(data[1], data[0]);
+			customerList.addItem(data[1], data[0]);
 			customerDisplayMap.put(data[0], item);
 			
 			if(data[0].equals(selected))
-				customer.setItemSelected(index, true);
+				customerList.setItemSelected(index, true);
 			
 			index ++;
 		}
+		
+		if(customerList.getItemCount() > 0)
+			customerList.setEnabled(true);
 	}
 
 	@Override

@@ -118,7 +118,7 @@
 .tabItem, .tabItemActive { font-size: 150%; }
 .gwt-Label { font-size: 150%; }
 .gwt-Button { font-size: 150%; }
-.gwt-ListBox { font-size: 150%; }
+.gwt-ListBox { font-size: 150%; min-width: 6em; }
 .gwt-TextBox { font-size: 150%; }
 .gwt-TextArea { font-size: 150%; }
 .gwt-SuggestBox { font-size: 150%; }

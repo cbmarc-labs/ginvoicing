@@ -97,9 +97,8 @@ public class ProductsServiceImpl extends RemoteServiceServlet
 	public void save(Product product) throws ServerException {
 		// TODO
 		// Verify that the input is valid. 
-		if(!FieldVerifier.isValidName(product.getName())) {
-			throw new IllegalArgumentException(
-				"Name must be at least 4 characters long");
+		if(!FieldVerifier.isValidString(product.getName())) {
+			throw new IllegalArgumentException("FieldVerifier error.");
 		}
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -142,7 +141,7 @@ public class ProductsServiceImpl extends RemoteServiceServlet
 				result.add(new EntityDisplay(
 						new String[] {i.getId(), i.getName(), 
 								i.getDescription(), category.getName(),
-								i.getPrice()}));
+								i.getPrice().toString()}));
 			}
 		} catch(Exception e) {
 			throw new ServerException(e.toString());

@@ -6,16 +6,20 @@ package cbmarc.ginvoicing.client.presenter;
 import java.util.List;
 
 import cbmarc.ginvoicing.client.event.CategoriesEventBus;
+import cbmarc.ginvoicing.client.event.EventBus;
 import cbmarc.ginvoicing.client.event.ProductsEventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
+import cbmarc.ginvoicing.client.i18n.AppMessages;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.ProductsServiceAsync;
+import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.Category;
 import cbmarc.ginvoicing.shared.entity.Product;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -49,6 +53,8 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 	private final Display display;
 	
 	private ProductsServiceAsync service = ProductsEventBus.getService();
+	private AppMessages messages = EventBus.getMessages();
+	
 	private Product product = new Product();
 	
 	public ProductsEditPresenter(Display view) {
@@ -66,7 +72,26 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 	 */
 	protected boolean hasValidInput() {
 		boolean valid = true;
-		// TODO check input values
+		StringBuilder sb = new StringBuilder();
+		
+		if(!FieldVerifier.isValidString(display.getName())) {
+			sb.append(messages.errorField("Name") + "\n");
+			valid = false;
+		}
+		
+		if(!FieldVerifier.isValidString(display.getCategory())) {
+			sb.append(messages.errorField("Category") + "\n");
+			valid = false;
+		}
+		
+		if(!FieldVerifier.isValidNumber(display.getPrice())) {
+			sb.append(messages.errorField("Price") + "\n");
+			valid = false;
+		}
+		
+		sb.append("   ");
+		if(valid == false)
+			Window.alert(sb.toString());
 		
 		return valid;
 	}
@@ -124,7 +149,7 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 		product.setName(display.getName());
 		product.setDescription(display.getDescription());
 		product.setCategory(display.getCategory());
-		product.setPrice(display.getPrice());
+		product.setPrice(Float.parseFloat(display.getPrice()));
 	}
 	
 	public void updateDisplayFromData() {
@@ -142,7 +167,7 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 					
 		});
 		
-		display.setPrice(product.getPrice());
+		display.setPrice(product.getPrice().toString());
 	}
 
 	@Override

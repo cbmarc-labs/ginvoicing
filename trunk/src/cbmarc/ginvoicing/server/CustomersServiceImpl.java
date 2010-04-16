@@ -121,9 +121,8 @@ public class CustomersServiceImpl extends RemoteServiceServlet
 	@Override
 	public void save(Customer bean) throws ServerException {
 		// Verify that the input is valid. 
-		if(!FieldVerifier.isValidName(bean.getName())) {
-			throw new IllegalArgumentException(
-				"Name must be at least 4 characters long");
+		if(!FieldVerifier.isValidString(bean.getName())) {
+			throw new IllegalArgumentException("FieldVerifier error.");
 		}
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();

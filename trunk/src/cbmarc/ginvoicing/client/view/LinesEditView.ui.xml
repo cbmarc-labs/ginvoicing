@@ -19,8 +19,8 @@
   	
 		<table>
 		<tr><td><g:Label text="{cnt.formQuantity}" /></td><td><g:TextBox ui:field="quantity" /></td></tr>
-		<tr><td><g:Label text="{cnt.formProductName}" /></td><td><g:ListBox ui:field="productList" /></td></tr>
-		<tr><td><g:Label text="{cnt.formProductPrice}" /></td><td><g:TextBox ui:field="productPrice" /></td></tr>
+		<tr><td><g:Label text="{cnt.formProductName}" /></td><td><g:ListBox ui:field="productList" width="5em" /></td></tr>
+		<tr><td><g:Label text="{cnt.formPrice}" /></td><td><g:TextBox ui:field="price" /></td></tr>
 		</table>
 
   	</g:HTMLPanel>

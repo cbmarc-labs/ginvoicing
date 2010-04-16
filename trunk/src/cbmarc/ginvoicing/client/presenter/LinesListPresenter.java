@@ -115,7 +115,10 @@ public class LinesListPresenter implements Presenter, ListHandler {
 
 	@Override
 	public void onAdd(ListEvent event) {
-		eventBus.fireEvent(ListEditEvent.edit(null));
+		if(list.size() > 9)
+			Window.alert(constants.limitExceeded());
+		else			
+			eventBus.fireEvent(ListEditEvent.edit(null));
 	}
 
 	@Override

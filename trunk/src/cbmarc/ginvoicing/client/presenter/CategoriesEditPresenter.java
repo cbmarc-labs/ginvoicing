@@ -4,8 +4,10 @@
 package cbmarc.ginvoicing.client.presenter;
 
 import cbmarc.ginvoicing.client.event.CategoriesEventBus;
+import cbmarc.ginvoicing.client.event.EventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
+import cbmarc.ginvoicing.client.i18n.AppMessages;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.CategoriesServiceAsync;
 import cbmarc.ginvoicing.shared.FieldVerifier;
@@ -42,6 +44,8 @@ public class CategoriesEditPresenter
 	private final Display display;
 	
 	private CategoriesServiceAsync service = CategoriesEventBus.getService();
+	private AppMessages messages = EventBus.getMessages();
+	
 	private Category category = new Category();
 	
 	public CategoriesEditPresenter(Display view) {
@@ -59,14 +63,16 @@ public class CategoriesEditPresenter
 	 */
 	protected boolean hasValidInput() {
 		boolean valid = true;
+		StringBuilder sb = new StringBuilder();
 		
-		// TODO validate all fields
-		// First, we validate the input.
-		if (!FieldVerifier.isValidName(display.getName())) {
-			Window.alert("Please enter at least four characters on name field.");
-			
-			return false;
+		if (!FieldVerifier.isValidString(display.getName())) {
+			sb.append(messages.errorField("Name") + "\n");
+			valid = false;
 		}
+		
+		sb.append("   ");
+		if(valid == false)
+			Window.alert(sb.toString());
 		
 		return valid;
 	}

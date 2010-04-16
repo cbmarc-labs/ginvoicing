@@ -36,7 +36,7 @@ public class LinesEditView extends Composite
 		
 	@UiField TextBox quantity;
 	@UiField ListBox productList;
-	@UiField TextBox productPrice;
+	@UiField TextBox price;
 	
 	private Map<String, EntityDisplay> productDisplayMap = 
 		new HashMap<String, EntityDisplay>();
@@ -72,16 +72,16 @@ public class LinesEditView extends Composite
 	
 	@UiHandler("productList")
 	protected void productListClicked(ChangeEvent event) {
-		setProductPriceFromProductList();
+		setPriceFromProductList();
 	}
 
 	@Override
 	public void reset() {
 		quantity.setValue("1");
 		productList.setSelectedIndex(0);
-		productPrice.setValue("0.0");
+		price.setValue("0.0");
 
-		setProductPriceFromProductList();
+		setPriceFromProductList();
 	}
 
 	@Override
@@ -109,6 +109,7 @@ public class LinesEditView extends Composite
 	public void setProduct(List<EntityDisplay> list, String selected) {
 		int index = 0;
 		
+		productList.setEnabled(false);
 		productList.clear();
 		productDisplayMap.clear();
 		for(EntityDisplay item : list) {
@@ -123,38 +124,47 @@ public class LinesEditView extends Composite
 			index ++;
 		}
 		
-		setProductPriceFromProductList();
+		if(productList.getItemCount() > 0)
+			productList.setEnabled(true);
+		
+		setPriceFromProductList();
 	}
 	
 	/**
 	 * Set field price value from list product
 	 */
-	private void setProductPriceFromProductList() {
+	private void setPriceFromProductList() {
 		if(productList.getItemCount() > 0) {
 			EntityDisplay obj = getProduct();
-			productPrice.setValue(obj.getData()[4]);
+			
+			price.setValue(obj.getData()[4]);
 		}
 	}
 
 	/**
 	 * @return the productPrice
 	 */
-	public String getProductPrice() {
-		return productPrice.getValue();
+	public String getPrice() {
+		return price.getValue();
 	}
 
 	/**
 	 * @param productPrice the productPrice to set
 	 */
-	public void setProductPrice(String value) {
-		productPrice.setValue(value);
+	public void setPrice(String value) {
+		price.setValue(value);
 	}
 
 	@Override
 	public EntityDisplay getProduct() {
-		String selected = productList.getValue(productList.getSelectedIndex());
+		try {
+			int index = productList.getSelectedIndex();
+			String prod = productList.getValue(index);
+			
+			return productDisplayMap.get(prod);
+		} catch(Exception e) {}
 		
-		return productDisplayMap.get(selected);
+		return null;
 	}
 	
 }

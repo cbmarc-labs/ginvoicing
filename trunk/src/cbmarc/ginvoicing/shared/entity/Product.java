@@ -25,7 +25,7 @@ public class Product extends EntityBase implements Serializable {
 	private String description;
 	
 	@Persistent
-	private String price = "0.0";
+	private Float price = 0.0f;
 	
 	@Persistent
 	private String category;
@@ -67,14 +67,14 @@ public class Product extends EntityBase implements Serializable {
 	/**
 	 * @return the price
 	 */
-	public String getPrice() {
+	public Float getPrice() {
 		return price;
 	}
 
 	/**
 	 * @param price the price to set
 	 */
-	public void setPrice(String price) {
+	public void setPrice(Float price) {
 		this.price = price;
 	}
 

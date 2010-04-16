@@ -4,32 +4,32 @@
     xmlns:g='urn:import:com.google.gwt.user.client.ui' 
     xmlns:ginvoicing="urn:import:cbmarc.ginvoicing.client.ui">
     
-  <ui:with field="cnt" type="cbmarc.ginvoicing.client.i18n.ProductsConstants"/>
+	<ui:with field="cnt" type="cbmarc.ginvoicing.client.i18n.ProductsConstants"/>
 
-  <g:HTMLPanel styleName="content">
+	<g:HTMLPanel styleName="content">
   
-  <g:VerticalPanel styleName="toolbarPanel">
-  	<g:HorizontalPanel spacing="5">
-		<g:Button ui:field="reloadButton" text="{cnt.reloadButton}" />
-  		<g:Button ui:field="addButton" text="{cnt.addButton}" />
-  		<g:Button ui:field="deleteButton" text="{cnt.delButton}" />
-	  		
+		<g:VerticalPanel styleName="toolbarPanel">
+			<g:HorizontalPanel spacing="5">
+				<g:Button ui:field="reloadButton" text="{cnt.reloadButton}" />
+				<g:Button ui:field="addButton" text="{cnt.addButton}" />
+				<g:Button ui:field="deleteButton" text="{cnt.delButton}" />
+		  		
 				<g:HTMLPanel><g:Label text="&nbsp;||&nbsp;"/></g:HTMLPanel>
-	
-				<g:ListBox ui:field="filterBox" />
-  	</g:HorizontalPanel>
-  </g:VerticalPanel>
-	
-	<g:VerticalPanel styleName="listPanel">
-		<g:HorizontalPanel styleName="listHeader">
-			<g:cell horizontalAlignment='ALIGN_RIGHT'>
-				<g:Label ui:field="listheaderLabel" />
-			</g:cell>
-		</g:HorizontalPanel>
 		
-		<ginvoicing:ListFlexTable ui:field="listContent" />
-		<g:Label visible="false" ui:field="listContentLabel" />
-  	</g:VerticalPanel>
+				<g:ListBox ui:field="filterBox" width="5em" />
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
+		
+		<g:VerticalPanel styleName="listPanel">
+			<g:HorizontalPanel styleName="listHeader">
+				<g:cell horizontalAlignment='ALIGN_RIGHT'>
+					<g:Label ui:field="listheaderLabel" />
+				</g:cell>
+			</g:HorizontalPanel>
+			
+			<ginvoicing:ListFlexTable ui:field="listContent" />
+			<g:Label visible="false" ui:field="listContentLabel" />
+	  	</g:VerticalPanel>
   	
-  </g:HTMLPanel>
+	</g:HTMLPanel>
 </ui:UiBinder>

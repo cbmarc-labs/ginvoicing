@@ -16,7 +16,7 @@
 	  		
 				<g:HTMLPanel><g:Label text="&nbsp;||&nbsp;"/></g:HTMLPanel>
 	
-				<g:ListBox ui:field="filterBox" />
+				<g:ListBox ui:field="filterBox" width="5em" />
 			</g:HorizontalPanel>
 		</g:VerticalPanel>
 		

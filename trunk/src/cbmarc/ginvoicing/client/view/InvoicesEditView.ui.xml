@@ -18,7 +18,7 @@
 		<g:HTMLPanel>
 	  	
 			<table>
-			<tr><td><g:Label text="{cnt.formCustomerName}" /></td><td><g:ListBox ui:field="customer" /></td></tr>
+			<tr><td><g:Label text="{cnt.formCustomerName}" /></td><td><g:ListBox ui:field="customerList" width="5em" /></td></tr>
 			<tr><td><g:Label text="{cnt.formNotes}" /></td><td><g:TextArea ui:field="notes" width="26em" height="4em" /></td></tr>
 			</table>
 	

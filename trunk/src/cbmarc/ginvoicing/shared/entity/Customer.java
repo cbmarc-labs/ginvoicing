@@ -93,7 +93,7 @@ public class Customer extends Contact implements Serializable {
 	}
 	
 	public String toString() {
-		return "UserInfo { "
+		return "Info { "
 			+ "id: " + id
 			+ " }";
 	}

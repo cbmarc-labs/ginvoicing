@@ -20,17 +20,17 @@ public class Line extends EntityBase implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Persistent
-	private String product;
+	private String quantity = "1";
+	
+	@Persistent
+	private String product = null;
 	
 	// Field for display purposes only
 	@NotPersistent
 	private String productName;
-	
-	@Persistent
-	private String quantity = "1";
 
 	@Persistent
-	private String price = null;
+	private Float price = 0.0f;
 
 	/**
 	 * 
@@ -43,10 +43,10 @@ public class Line extends EntityBase implements Serializable {
 	 * @param product
 	 * @param productName
 	 * @param quantity
-	 * @param productPrice
+	 * @param price
 	 */
 	public Line(String id, String product, String productName, 
-			String quantity, String price) {
+			String quantity, Float price) {
 		this.id = id;
 		this.product = product;
 		this.productName = productName;
@@ -99,14 +99,14 @@ public class Line extends EntityBase implements Serializable {
 	/**
 	 * @return the productPrice
 	 */
-	public String getPrice() {
+	public Float getPrice() {
 		return price;
 	}
 
 	/**
 	 * @param productPrice the productPrice to set
 	 */
-	public void setPrice(String price) {
+	public void setPrice(Float price) {
 		this.price = price;
 	}
 	

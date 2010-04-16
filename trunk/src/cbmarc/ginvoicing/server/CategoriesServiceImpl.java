@@ -43,7 +43,7 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 				if((Integer)q.execute() == 0) {
 					pm.deletePersistent(category);
 				} else {
-					throw new ServerException("Category " + id + " not empty, can't delete it.");
+					throw new ServerException("Category '" + id + "' not empty, can't delete it.");
 				}
 			} catch(Exception e) {
 				result = result + e.toString();
@@ -127,9 +127,8 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 	@Override
 	public void save(Category category) throws ServerException {
 		// Verify that the input is valid. 
-		if(!FieldVerifier.isValidName(category.getName())) {
-			throw new IllegalArgumentException(
-				"Name must be at least 4 characters long");
+		if(!FieldVerifier.isValidString(category.getName())) {
+			throw new IllegalArgumentException("FieldVerifier error.");
 		}
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();

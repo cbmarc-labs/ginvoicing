@@ -6,18 +6,22 @@ package cbmarc.ginvoicing.client.presenter;
 import java.util.List;
 
 import cbmarc.ginvoicing.client.event.CustomersEventBus;
+import cbmarc.ginvoicing.client.event.EventBus;
 import cbmarc.ginvoicing.client.event.InvoicesEventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
+import cbmarc.ginvoicing.client.i18n.AppMessages;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.InvoicesServiceAsync;
 import cbmarc.ginvoicing.client.view.LinesView;
+import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 import cbmarc.ginvoicing.shared.entity.Invoice;
 import cbmarc.ginvoicing.shared.entity.Line;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -47,6 +51,8 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	private final Display display;
 	
 	private InvoicesServiceAsync service = InvoicesEventBus.getService();
+	private AppMessages messages = EventBus.getMessages();
+	
 	private final LinesPresenter linesPresenter;
 	private Invoice invoice = new Invoice();
 	
@@ -67,6 +73,16 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	 */
 	protected boolean hasValidInput() {
 		boolean valid = true;
+		StringBuilder sb = new StringBuilder();
+		
+		if(!FieldVerifier.isValidString(display.getCustomer())) {
+			sb.append(messages.errorField("Customer") + "\n");
+			valid = false;
+		}
+		
+		sb.append("   ");
+		if(valid == false)
+			Window.alert(sb.toString());
 		
 		return valid;
 	}
@@ -131,14 +147,14 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 		
 		// TODO check this
 		Float amount = 0f, price, quantity;
-		for(Line l: lines) {
+		/*for(Line l: lines) {
 			if(!l.getPrice().isEmpty()) {
 				price = Float.valueOf(l.getPrice());
 				quantity = Float.valueOf(l.getQuantity());
 				
 				amount = amount + (quantity * price);
 			}
-		}
+		}*/
 		
 		invoice.setAmount(amount.toString());
 	}

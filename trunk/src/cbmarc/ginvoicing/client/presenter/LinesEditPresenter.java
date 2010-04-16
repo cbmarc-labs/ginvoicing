@@ -10,11 +10,14 @@ import cbmarc.ginvoicing.client.event.ListEditEvent;
 import cbmarc.ginvoicing.client.event.ProductsEventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
+import cbmarc.ginvoicing.client.i18n.AppMessages;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
+import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 import cbmarc.ginvoicing.shared.entity.Line;
 
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -32,8 +35,8 @@ public class LinesEditPresenter
 		EntityDisplay getProduct();
 		void setProduct(List<EntityDisplay> list, String selected);
 		
-		String getProductPrice();
-		void setProductPrice(String value);
+		String getPrice();
+		void setPrice(String value);
 		
 		public void focus();
 		public void reset();
@@ -46,6 +49,8 @@ public class LinesEditPresenter
 	private final Display display;
 	
 	private EventBus eventBus = EventBus.getEventBus();
+	private AppMessages messages = EventBus.getMessages();
+	
 	private Line line = new Line();
 	
 	public LinesEditPresenter(Display view) {
@@ -63,6 +68,30 @@ public class LinesEditPresenter
 	 */
 	protected boolean hasValidInput() {
 		boolean valid = true;
+		StringBuilder sb = new StringBuilder();
+		
+		String prod = null;
+		EntityDisplay product = display.getProduct();
+		if(product != null) prod = product.getData()[0];
+		
+		if(!FieldVerifier.isValidNumber(display.getQuantity())) {
+			sb.append(messages.errorField("Quantity") + "\n");
+			valid = false;
+		}
+		
+		if(!FieldVerifier.isValidString(prod)) {
+			sb.append(messages.errorField("Product") + "\n");
+			valid = false;
+		}
+		
+		if(!FieldVerifier.isValidNumber(display.getPrice())) {
+			sb.append(messages.errorField("Price") + "\n");
+			valid = false;
+		}
+		
+		sb.append("   ");
+		if(valid == false)
+			Window.alert(sb.toString());
 		
 		return valid;
 	}
@@ -101,7 +130,7 @@ public class LinesEditPresenter
 		line.setProduct(product.getData()[0]);
 		line.setProductName(product.getData()[1]);
 		
-		line.setPrice(display.getProductPrice());
+		line.setPrice(Float.parseFloat(display.getPrice()));
 	}
 	
 	/**
@@ -110,7 +139,7 @@ public class LinesEditPresenter
 	public void updateDisplayFromData() {
 		display.reset();
 		display.setQuantity(line.getQuantity());
-		display.setProductPrice(line.getPrice());
+		display.setPrice(line.getPrice().toString());
 		
 		ProductsEventBus.getService().selectDisplay(null, 
 				new AppAsyncCallback<List<EntityDisplay>>() {
@@ -119,8 +148,9 @@ public class LinesEditPresenter
 					public void onSuccess(List<EntityDisplay> result) {
 						display.setProduct(result, line.getProduct());
 						
-						//if(line.getPrice() != null)
-						//	display.setProductPrice(line.getPrice());
+						// no update price if is a modification
+						if(line.getProduct() != null)
+							display.setPrice(line.getPrice().toString());
 					}
 					
 		});

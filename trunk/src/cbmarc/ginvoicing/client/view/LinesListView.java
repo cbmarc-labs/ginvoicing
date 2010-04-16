@@ -55,13 +55,13 @@ public class LinesListView extends Composite
 		listContent.addData(new String[] {
 				constants.listProductName(),
 				constants.listQuantity(),
-				constants.listProductPrice()});
+				constants.listPrice()});
 
 		if(lines != null) {
 			for(Line line : lines) {
 				listContent.addData(new String[] {
 						line.getProductName(), line.getQuantity(),
-						line.getPrice()});
+						line.getPrice().toString()});
 			}
 		}
 		

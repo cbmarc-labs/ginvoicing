@@ -20,8 +20,8 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -39,7 +39,7 @@ public class ProductsEditView extends Composite
 	@UiField TextBox name;
 	@UiField HasValue<String> description;
 	@UiField ListBox categoryList;
-	@UiField Label categoryDescription;
+	@UiField HasText categoryDescription;
 	@UiField HasValue<String> price;
 	
 	private Map<String, Category> categoryMap = 
@@ -84,7 +84,8 @@ public class ProductsEditView extends Composite
 		name.setValue("");
 		description.setValue("");
 		categoryList.setSelectedIndex(0);
-		price.setValue("");
+		categoryDescription.setText("");
+		price.setValue("0.0");
 	}
 
 	@Override
@@ -108,8 +109,12 @@ public class ProductsEditView extends Composite
 	 */
 	@Override
 	public String getCategory() {
+		String cat = null;
 		int index = categoryList.getSelectedIndex();
-		return categoryList.getValue(index);
+		
+		try { cat = categoryList.getValue(index); } catch(Exception e) {};
+		
+		return cat;
 	}
 
 	/**
@@ -118,6 +123,7 @@ public class ProductsEditView extends Composite
 	public void setCategory(List<Category> categories, String selected) {
 		int index = 0;
 		
+		categoryList.setEnabled(false);
 		categoryList.clear();
 		categoryMap.clear();
 		for(Category category: categories) {
@@ -130,6 +136,9 @@ public class ProductsEditView extends Composite
 			
 			index ++;
 		}
+		
+		if(categoryList.getItemCount() > 0)
+			categoryList.setEnabled(true);
 		
 		setCategoryDescriptionFromCategoryList();
 	}

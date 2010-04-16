@@ -10,11 +10,11 @@ package cbmarc.ginvoicing.client.i18n;
 public interface LinesConstants extends AppConstants {	
 	String listQuantity();
 	String listProductName();
-	String listProductPrice();
+	String listPrice();
 
 	String formQuantity();
 	String formProductName();
-	String formProductPrice();
+	String formPrice();
 
 	String totalAmount();
 }
