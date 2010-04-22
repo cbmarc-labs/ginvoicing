@@ -85,7 +85,7 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	}
 	
 	private void updateCustomerList() {
-		CustomersEventBus.getService().selectDisplay(null, 
+		CustomersEventBus.getService().selectDisplay( 
 				new AppAsyncCallback<List<EntityDisplay>>() {
 					
 					@Override

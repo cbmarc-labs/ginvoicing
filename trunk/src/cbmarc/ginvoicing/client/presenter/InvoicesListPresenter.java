@@ -118,7 +118,7 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 		// Load customers filter list on listbox
 		if(this.filter == null)
 			CustomersEventBus.getService().selectDisplay(
-					null, new AppAsyncCallback<List<EntityDisplay>>() {
+					new AppAsyncCallback<List<EntityDisplay>>() {
 	
 						@Override
 						public void onSuccess(List<EntityDisplay> result) {
@@ -168,7 +168,7 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 	public void onFilter(ListEvent event, String filter) {
 		this.filter = null;
 		if(!filter.isEmpty())
-			this.filter = "customer == '" + filter + "'";
+			this.filter = filter;
 		
 		updateDisplayFromData();
 	}

@@ -24,5 +24,4 @@
   <source path='shared'/>
   
   <stylesheet src='default.css' />
-  <stylesheet src='SexyButtons/sexybuttons.css' />
 </module>

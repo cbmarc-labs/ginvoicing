@@ -13,6 +13,7 @@ import cbmarc.ginvoicing.client.i18n.CustomersConstants;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.CustomersServiceAsync;
 import cbmarc.ginvoicing.shared.entity.Customer;
+import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
@@ -41,8 +42,7 @@ public class CustomersListPresenter implements Presenter, ListHandler {
 	private CustomersServiceAsync service = CustomersEventBus.getService();
 	private CustomersConstants constants = CustomersEventBus.getConstants();
 	
-	private String filter = "";
-	private List<Customer> list;
+	private List<EntityDisplay> list;
 	
 	public CustomersListPresenter(Display display) {
 		this.display = display;
@@ -67,7 +67,7 @@ public class CustomersListPresenter implements Presenter, ListHandler {
 			if(Window.confirm(constants.areYouSure())) {
 				
 				for(Integer row : selectedRows) {
-					ids.add(list.get(row - 1).getId());
+					ids.add(list.get(row - 1).getData()[0]);
 				}
 		
 				service.delete(ids, new AppAsyncCallback<Void>() {
@@ -87,15 +87,7 @@ public class CustomersListPresenter implements Presenter, ListHandler {
 		container.clear();
 		container.add(display.asWidget());
 		
-		setFilter("");
 		updateDisplayFromData();
-	}
-
-	/**
-	 * @param filter
-	 */
-	private void setFilter(String filter) {
-		this.filter = filter;
 	}
 	
 	/**
@@ -109,28 +101,7 @@ public class CustomersListPresenter implements Presenter, ListHandler {
 	 * 
 	 */
 	public void updateDisplayFromData() {
-		String strFilter = null;
-		display.setListContentLabel(constants.loading());
-		
-		if(!this.filter.isEmpty())
-			strFilter = "name == '" + this.filter + "'";
-		
-		service.select(strFilter, new AppAsyncCallback<List<Customer>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				display.setListContentLabel(caught.toString());
-			}
-			
-			@Override
-			public void onSuccess(List<Customer> result) {
-				display.setListContentLabel(null);
-				
-				list = result;
-				display.setData(list);
-			}
-			
-		});
+		// Nothing to do
 	}
 
 	@Override
@@ -145,13 +116,12 @@ public class CustomersListPresenter implements Presenter, ListHandler {
 
 	@Override
 	public void onReload(ListEvent event) {
-		setFilter("");
 		updateDisplayFromData();
 	}
 
 	@Override
 	public void onList(ListEvent event, int row) {
-		String id = list.get(row).getId();
+		String id = list.get(row).getData()[0];
 		
 		History.newItem("main/customers/edit/" + id);
 	}
@@ -163,7 +133,6 @@ public class CustomersListPresenter implements Presenter, ListHandler {
 
 	@Override
 	public void onFilter(ListEvent event, String filter) {
-		setFilter(filter);
 		updateDisplayFromData();
 	}
 }

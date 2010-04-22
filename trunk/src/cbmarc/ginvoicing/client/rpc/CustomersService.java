@@ -22,7 +22,6 @@ public interface CustomersService extends RemoteService {
 	void save(Customer bean) throws ServerException;
 	void delete(ArrayList<String> ids) throws ServerException;
 	
-	List<Customer> select(String filter) throws ServerException;
-	List<EntityDisplay> selectDisplay(String filter) throws ServerException;
+	List<EntityDisplay> selectDisplay() throws ServerException;
 	Customer selectById(String id) throws ServerException;
 }

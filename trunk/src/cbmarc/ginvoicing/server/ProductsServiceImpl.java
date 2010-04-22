@@ -130,10 +130,16 @@ public class ProductsServiceImpl extends RemoteServiceServlet
 		ArrayList<EntityDisplay> result = new ArrayList<EntityDisplay>();
 		
 		try {
-			Query query = pm.newQuery(Product.class, filter);
+			Query query = pm.newQuery(Product.class);
+			
+			if(filter != null) {
+				query.setFilter("category == categoryParam");
+				query.declareParameters("String categoryParam");				
+			}
+			
 			query.setOrdering("name asc");
 			
-			List<Product> product = (List<Product>) query.execute();
+			List<Product> product = (List<Product>) query.execute(filter);
 			for(Product i : product) {
 				Category category = pm.getObjectById(
 						Category.class, i.getCategory());

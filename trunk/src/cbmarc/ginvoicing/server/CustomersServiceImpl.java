@@ -16,7 +16,6 @@ import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 import cbmarc.ginvoicing.shared.entity.Invoice;
 import cbmarc.ginvoicing.shared.exception.ServerException;
 
-import com.google.appengine.repackaged.com.google.common.collect.Lists;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -68,46 +67,22 @@ public class CustomersServiceImpl extends RemoteServiceServlet
 
 		return customer;
 	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Customer> select(String filter) throws ServerException {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		List<Customer> result;
-		
-		try {
-			Query query = pm.newQuery(Customer.class);
-			
-			query.setFilter(filter);
-			query.setOrdering("name asc");
-			//query.setRange(first, first + count);
-			
-			result = (List<Customer>) query.execute();
-			result = Lists.newArrayList(pm.detachCopyAll(result));
-		} catch(Exception e) {
-			throw new ServerException(e.toString());
-		} finally {
-			pm.close();
-		}
-		
-		return result;
-	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<EntityDisplay> selectDisplay(String filter) 
-			throws ServerException {
+	public List<EntityDisplay> selectDisplay() throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		ArrayList<EntityDisplay> result = new ArrayList<EntityDisplay>();
 		
 		try {
-			Query query = pm.newQuery(Customer.class, filter);
+			Query query = pm.newQuery(Customer.class);
 			query.setOrdering("name asc");
 			
 			List<Customer> customers = (List<Customer>) query.execute();
 			for(Customer i : customers) {
 				result.add(new EntityDisplay(
-						new String[] {i.getId(), i.getName()}));
+						new String[] {i.getId(), i.getName(), i.getContact(),
+								i.getAddress(), i.getCity(), i.getCountry()}));
 			}
 		} catch(Exception e) {
 			throw new ServerException(e.toString());

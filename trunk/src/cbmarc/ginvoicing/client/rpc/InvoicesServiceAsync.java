@@ -19,7 +19,6 @@ public interface InvoicesServiceAsync {
 	public void save(Invoice invoice, AsyncCallback<Void> callback);	
 	public void delete(ArrayList<String> keys, AsyncCallback<Void> callback);
 	
-	public void select(String filter, AsyncCallback<List<Invoice>> callback);
 	public void selectDisplay(String filter, AsyncCallback<List<EntityDisplay>> callback);
 	public void selectById(String id, AsyncCallback<Invoice> callback);
 }

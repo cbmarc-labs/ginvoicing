@@ -22,7 +22,6 @@ public interface InvoicesService extends RemoteService {
 	void save(Invoice invoice) throws ServerException;
 	void delete(ArrayList<String> ids) throws ServerException;
 	
-	List<Invoice> select(String filter) throws ServerException;
 	List<EntityDisplay> selectDisplay(String filter) throws ServerException;
 	Invoice selectById(String id) throws ServerException;
 }

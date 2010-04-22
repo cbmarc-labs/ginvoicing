@@ -19,7 +19,6 @@ import cbmarc.ginvoicing.shared.entity.Line;
 import cbmarc.ginvoicing.shared.entity.Product;
 import cbmarc.ginvoicing.shared.exception.ServerException;
 
-import com.google.appengine.repackaged.com.google.common.collect.Lists;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -80,27 +79,6 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 		
 		return detached;
 	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Invoice> select(String filter) throws ServerException {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		List<Invoice> result;
-		
-		try {
-			Query query = pm.newQuery(Invoice.class, filter);
-			query.setOrdering("date desc");
-			
-			result = (List<Invoice>) query.execute();
-			result = Lists.newArrayList(pm.detachCopyAll(result));
-		} catch(Exception e) {
-			throw new ServerException(e.toString());
-		} finally {
-			pm.close();
-		}
-		
-		return result;
-	}
 	
 	@Override
 	public void save(Invoice invoice) throws ServerException {		
@@ -160,7 +138,13 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 		ArrayList<EntityDisplay> result = new ArrayList<EntityDisplay>();
 		
 		try {
-			Query query = pm.newQuery(Invoice.class, filter);
+			Query query = pm.newQuery(Invoice.class);
+			
+			if(filter != null) {
+				query.setFilter("customer == customerParam");
+				query.declareParameters("String customerParam");
+			}
+		
 			query.setOrdering("date desc");
 			
 			List<Invoice> invoices = (List<Invoice>) query.execute(filter);
