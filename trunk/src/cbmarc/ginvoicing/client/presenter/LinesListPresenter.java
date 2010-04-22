@@ -27,6 +27,7 @@ public class LinesListPresenter implements Presenter, ListHandler {
 
 	public interface Display {
 		public void setListContentLabel(String msg);
+		public void setListFooterLabel(String msg);
 		
 		List<Integer> getSelectedRows();
 		void setData(List<Line> data);
@@ -81,6 +82,13 @@ public class LinesListPresenter implements Presenter, ListHandler {
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(display.asWidget());
+		
+		// Set total amount of invoice
+		Float amount = 0.0f;
+		for(Line l: list) {
+			amount += (l.getQuantity() * l.getPrice());
+		}
+		display.setListFooterLabel(constants.totalAmount() + amount.toString());
 
 		updateDisplayFromData();
 	}

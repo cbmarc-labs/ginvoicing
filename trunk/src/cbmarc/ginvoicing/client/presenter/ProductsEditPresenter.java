@@ -11,15 +11,19 @@ import cbmarc.ginvoicing.client.event.ProductsEventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.i18n.AppMessages;
+import cbmarc.ginvoicing.client.i18n.ProductsConstants;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.ProductsServiceAsync;
 import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.Category;
 import cbmarc.ginvoicing.shared.entity.Product;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -39,6 +43,8 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 		String getCategory();
 		void setCategory(List<Category> categories, String selected);
 		
+		Button getCategoryReloadButton();
+		
 		String getPrice();
 		void setPrice(String value);
 		
@@ -53,6 +59,7 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 	private final Display display;
 	
 	private ProductsServiceAsync service = ProductsEventBus.getService();
+	private ProductsConstants constants = ProductsEventBus.getConstants();
 	private AppMessages messages = EventBus.getMessages();
 	
 	private Product product = new Product();
@@ -65,6 +72,27 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 	
 	private void bind() {
 		display.addSubmitCancelHandler(this);
+		
+		display.getCategoryReloadButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				updateCategoryList();
+			}
+			
+		});
+	}
+	
+	private void updateCategoryList() {
+		CategoriesEventBus.getService().select(null,
+				new AppAsyncCallback<List<Category>>() {
+
+					@Override
+					public void onSuccess(List<Category> result) {
+						display.setCategory(result, product.getCategory());
+					}
+			
+		});
 	}
 	
 	/**
@@ -75,17 +103,17 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 		StringBuilder sb = new StringBuilder();
 		
 		if(!FieldVerifier.isValidString(display.getName())) {
-			sb.append(messages.errorField("Name") + "\n");
+			sb.append(messages.errorField(constants.formName()) + "\n");
 			valid = false;
 		}
 		
 		if(!FieldVerifier.isValidString(display.getCategory())) {
-			sb.append(messages.errorField("Category") + "\n");
+			sb.append(messages.errorField(constants.formCategory()) + "\n");
 			valid = false;
 		}
 		
 		if(!FieldVerifier.isValidNumber(display.getPrice())) {
-			sb.append(messages.errorField("Price") + "\n");
+			sb.append(messages.errorField(constants.formPrice()) + "\n");
 			valid = false;
 		}
 		
@@ -172,7 +200,6 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 
 	@Override
 	public void onCancel(SubmitCancelEvent event) {
-		// TODO: check this
 		History.newItem("main/products");
 	}
 

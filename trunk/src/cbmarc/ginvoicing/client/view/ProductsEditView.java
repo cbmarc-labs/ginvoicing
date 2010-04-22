@@ -13,14 +13,13 @@ import cbmarc.ginvoicing.client.presenter.ProductsEditPresenter;
 import cbmarc.ginvoicing.shared.entity.Category;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -39,7 +38,7 @@ public class ProductsEditView extends Composite
 	@UiField TextBox name;
 	@UiField HasValue<String> description;
 	@UiField ListBox categoryList;
-	@UiField HasText categoryDescription;
+	@UiField Button categoryReloadButton;
 	@UiField HasValue<String> price;
 	
 	private Map<String, Category> categoryMap = 
@@ -67,11 +66,6 @@ public class ProductsEditView extends Composite
 	protected void cancelClicked(ClickEvent event) {
 		fireEvent(SubmitCancelEvent.cancel());
 	}
-	
-	@UiHandler("categoryList")
-	protected void categoryListClicked(ChangeEvent event) {
-		setCategoryDescriptionFromCategoryList();
-	}
 
 	@UiHandler("resetButton")
 	protected void resetClicked(ClickEvent event) {
@@ -84,7 +78,6 @@ public class ProductsEditView extends Composite
 		name.setValue("");
 		description.setValue("");
 		categoryList.setSelectedIndex(0);
-		categoryDescription.setText("");
 		price.setValue("0.0");
 	}
 
@@ -139,20 +132,6 @@ public class ProductsEditView extends Composite
 		
 		if(categoryList.getItemCount() > 0)
 			categoryList.setEnabled(true);
-		
-		setCategoryDescriptionFromCategoryList();
-	}
-	
-	/**
-	 * 
-	 */
-	private void setCategoryDescriptionFromCategoryList() {
-		if(categoryList.getItemCount() > 0) {
-			String selected = getCategory();
-			Category category = categoryMap.get(selected);
-			
-			categoryDescription.setText(category.getDescription());
-		}
 	}
 
 	@Override
@@ -178,5 +157,10 @@ public class ProductsEditView extends Composite
 	@Override
 	public void setPrice(String value) {
 		price.setValue(value);
+	}
+
+	@Override
+	public Button getCategoryReloadButton() {
+		return categoryReloadButton;
 	}
 }

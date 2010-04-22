@@ -41,7 +41,8 @@ public class LinesListView extends Composite
 	@UiField Label listFooterLabel;
 	
 	public LinesListView() {
-		initWidget(uiBinder.createAndBindUi(this));		
+		initWidget(uiBinder.createAndBindUi(this));
+		listFooterLabel.setText("TOTAL: 123.9");
 	}
 	
 	/**
@@ -52,15 +53,13 @@ public class LinesListView extends Composite
 		
 		setListContentLabel(null);
 		listContent.removeAllRows();
-		listContent.addData(new String[] {
-				constants.listProductName(),
-				constants.listQuantity(),
-				constants.listPrice()});
+		listContent.addData(new String[] { constants.listProductName(),
+				constants.listQuantity(), constants.listPrice()});
 
 		if(lines != null) {
 			for(Line line : lines) {
-				listContent.addData(new String[] {
-						line.getProductName(), line.getQuantity(),
+				listContent.addData(new String[] { line.getProductName(),
+						line.getQuantity().toString(),
 						line.getPrice().toString()});
 			}
 		}
@@ -103,10 +102,10 @@ public class LinesListView extends Composite
 	 */
 	public void setListContentLabel(String msg) {
 		if(msg == null) {
-			this.listContentLabel.setVisible(false);
+			listContentLabel.setVisible(false);
 		} else {
-			this.listContentLabel.setVisible(true);
-			this.listContentLabel.setText(msg);
+			listContentLabel.setVisible(true);
+			listContentLabel.setText(msg);
 		}
 	}
 
@@ -118,6 +117,11 @@ public class LinesListView extends Composite
 	@Override
 	public List<Integer> getSelectedRows() {
 		return listContent.getSelectedRows();
+	}
+
+	@Override
+	public void setListFooterLabel(String msg) {
+		listFooterLabel.setText(msg);
 	}
 	
 }

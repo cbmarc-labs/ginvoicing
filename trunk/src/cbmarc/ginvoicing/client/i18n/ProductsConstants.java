@@ -12,11 +12,9 @@ public interface ProductsConstants extends AppConstants {
 	String formDescription();
 	String formPrice();
 	String formCategory();
-	String formCategoryName();
-	String formCategoryDescription();
 
 	String listName();
 	String listDescription();
 	String listPrice();
-	String listCategoryName();
+	String listCategory();
 }

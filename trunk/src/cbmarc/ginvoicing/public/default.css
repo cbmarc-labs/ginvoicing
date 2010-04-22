@@ -117,13 +117,19 @@
 /* FONT SIZE */
 .tabItem, .tabItemActive { font-size: 150%; }
 .gwt-Label { font-size: 150%; }
-.gwt-Button { font-size: 150%; }
-.gwt-ListBox { font-size: 150%; min-width: 6em; }
+.gwt-Button { font-size: 150%; color: #444; }
+.gwt-ListBox { font-size: 150%; min-width: 6em; max-width: 10em; }
 .gwt-TextBox { font-size: 150%; }
 .gwt-TextArea { font-size: 150%; }
 .gwt-SuggestBox { font-size: 150%; }
 .gwt-DisclosurePanel .header td { font-size: 150%; color: #666; }
 
+
+
+
+/* CUSTOM SEXYBUTTONS */
+.sexybutton span.application_view_list
+	{ background-image: url(SexyButtons/images/icons/silk/application_view_list.png) !important; }
 
 
 
@@ -307,7 +313,6 @@
 	
 	.listFooter {
 		width: 100%;
-		background: #ddd;
 	}
 
 

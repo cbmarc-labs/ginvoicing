@@ -8,6 +8,7 @@ import cbmarc.ginvoicing.client.event.EventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.i18n.AppMessages;
+import cbmarc.ginvoicing.client.i18n.CustomersConstants;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.CustomersServiceAsync;
 import cbmarc.ginvoicing.shared.FieldVerifier;
@@ -64,6 +65,7 @@ public class CustomersEditPresenter implements Presenter, SubmitCancelHandler {
 	private final Display display;
 	
 	private CustomersServiceAsync service = CustomersEventBus.getService();
+	private CustomersConstants constants = CustomersEventBus.getConstants();
 	private AppMessages messages = EventBus.getMessages();
 	
 	private Customer customer = new Customer();
@@ -86,7 +88,7 @@ public class CustomersEditPresenter implements Presenter, SubmitCancelHandler {
 		StringBuilder sb = new StringBuilder();
 		
 		if (!FieldVerifier.isValidString(display.getName())) {
-			sb.append(messages.errorField("Name") + "\n");
+			sb.append(messages.errorField(constants.formName()) + "\n");
 			valid = false;
 		}
 		

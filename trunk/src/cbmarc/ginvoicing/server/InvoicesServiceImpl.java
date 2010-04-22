@@ -170,7 +170,8 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 								
 				result.add(new EntityDisplay(new String[] {
 						invoice.getId(), customer.getName(), 
-						sdf.format(invoice.getDate()), invoice.getAmount()}));
+						sdf.format(invoice.getDate()),
+						invoice.getAmount().toString()}));
 			}
 		} catch(Exception e) {
 			throw new ServerException(e.toString());

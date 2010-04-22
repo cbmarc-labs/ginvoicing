@@ -4,15 +4,18 @@
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
 	xmlns:ginvoicing="urn:import:cbmarc.ginvoicing.client.ui">
     
+    <ui:with field="res" type="cbmarc.ginvoicing.client.ui.Resources"/>
 	<ui:with field="cnt" type="cbmarc.ginvoicing.client.i18n.CustomersConstants"/>
 
 	<g:HTMLPanel styleName="content">
 	  
 		<g:VerticalPanel styleName="toolbarPanel">
 			<g:HorizontalPanel spacing="5">
-				<g:Button ui:field="reloadButton" text="{cnt.reloadButton}" />
-				<g:Button ui:field="addButton" text="{cnt.addButton}" />
-				<g:Button ui:field="deleteButton" text="{cnt.delButton}" />
+				
+				<ginvoicing:SexyButton ui:field="reloadButton" text="{cnt.reloadButton}" resource="{res.reloadIcon}" />
+  				<ginvoicing:SexyButton ui:field="addButton" text="{cnt.addButton}" resource="{res.addIcon}" />
+  				<ginvoicing:SexyButton ui:field="deleteButton" text="{cnt.delButton}" resource="{res.deleteIcon}" />
+  			
 	  		
 				<g:HTMLPanel><g:Label text="&nbsp;||&nbsp;"/></g:HTMLPanel>
 	

@@ -57,7 +57,7 @@ public class ProductsListView extends Composite
 		listContent.addData(new String[] {
 				constants.listName(),
 				constants.listDescription(),
-				constants.listCategoryName(),
+				constants.listCategory(),
 				constants.listPrice()});
 
 		if(data != null) {
@@ -131,13 +131,17 @@ public class ProductsListView extends Composite
 
 	@Override
 	public void setFilterBox(List<EntityDisplay> data) {
-		this.filterBox.clear();
+		filterBox.clear();
 		
-		this.filterBox.addItem("", "");
+		filterBox.setEnabled(false);
+		filterBox.addItem("", "");
 		for(EntityDisplay item: data) {
 			String[] d = item.getData();
 			
-			this.filterBox.addItem(d[1], d[0]);
+			filterBox.addItem(d[1], d[0]);
 		}
+		
+		if(filterBox.getItemCount() > 1)
+			filterBox.setEnabled(true);
 	}
 }

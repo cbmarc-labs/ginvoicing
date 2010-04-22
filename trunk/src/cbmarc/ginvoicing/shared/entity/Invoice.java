@@ -34,7 +34,7 @@ public class Invoice extends EntityBase implements Serializable {
 	private String notes;
 	
 	@Persistent
-	private String amount;
+	private Float amount = 0.0f;
 
 	/**
 	 * 
@@ -101,14 +101,14 @@ public class Invoice extends EntityBase implements Serializable {
 	/**
 	 * @return the amount
 	 */
-	public String getAmount() {
+	public Float getAmount() {
 		return amount;
 	}
 
 	/**
 	 * @param amount the amount to set
 	 */
-	public void setAmount(String amount) {
+	public void setAmount(Float amount) {
 		this.amount = amount;
 	}
 	

@@ -18,6 +18,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.ListBox;
@@ -36,6 +37,7 @@ public class InvoicesEditView extends Composite
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 	
 	@UiField ListBox customerList;
+	@UiField Button customerReloadButton;
 	@UiField TextArea notes; 
 	@UiField Panel linesPanel;
 
@@ -134,5 +136,16 @@ public class InvoicesEditView extends Composite
 	@Override
 	public void setNotes(String value) {
 		notes.setValue(value);
+	}
+
+	@Override
+	public Button getCustomerReloadButton() {
+		return customerReloadButton;
+	}
+
+	@Override
+	public void freeze(boolean freezed) {
+		// TODO Auto-generated method stub
+		
 	}
 }

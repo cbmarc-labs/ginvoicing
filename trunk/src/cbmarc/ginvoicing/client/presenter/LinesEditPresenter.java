@@ -6,11 +6,13 @@ package cbmarc.ginvoicing.client.presenter;
 import java.util.List;
 
 import cbmarc.ginvoicing.client.event.EventBus;
+import cbmarc.ginvoicing.client.event.LinesEventBus;
 import cbmarc.ginvoicing.client.event.ListEditEvent;
 import cbmarc.ginvoicing.client.event.ProductsEventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.i18n.AppMessages;
+import cbmarc.ginvoicing.client.i18n.LinesConstants;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
@@ -49,6 +51,7 @@ public class LinesEditPresenter
 	private final Display display;
 	
 	private EventBus eventBus = EventBus.getEventBus();
+	private LinesConstants constants = LinesEventBus.getConstants();
 	private AppMessages messages = EventBus.getMessages();
 	
 	private Line line = new Line();
@@ -75,17 +78,17 @@ public class LinesEditPresenter
 		if(product != null) prod = product.getData()[0];
 		
 		if(!FieldVerifier.isValidNumber(display.getQuantity())) {
-			sb.append(messages.errorField("Quantity") + "\n");
+			sb.append(messages.errorField(constants.formQuantity()) + "\n");
 			valid = false;
 		}
 		
 		if(!FieldVerifier.isValidString(prod)) {
-			sb.append(messages.errorField("Product") + "\n");
+			sb.append(messages.errorField(constants.formProductName()) + "\n");
 			valid = false;
 		}
 		
 		if(!FieldVerifier.isValidNumber(display.getPrice())) {
-			sb.append(messages.errorField("Price") + "\n");
+			sb.append(messages.errorField(constants.formPrice()) + "\n");
 			valid = false;
 		}
 		
@@ -124,7 +127,7 @@ public class LinesEditPresenter
 	 * 
 	 */
 	public void updateDataFromDisplay() {
-		line.setQuantity(display.getQuantity());
+		line.setQuantity(Float.parseFloat(display.getQuantity()));
 		
 		EntityDisplay product = display.getProduct();
 		line.setProduct(product.getData()[0]);
@@ -138,7 +141,7 @@ public class LinesEditPresenter
 	 */
 	public void updateDisplayFromData() {
 		display.reset();
-		display.setQuantity(line.getQuantity());
+		display.setQuantity(line.getQuantity().toString());
 		display.setPrice(line.getPrice().toString());
 		
 		ProductsEventBus.getService().selectDisplay(null, 

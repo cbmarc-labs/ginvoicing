@@ -8,6 +8,7 @@ import cbmarc.ginvoicing.client.event.EventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.i18n.AppMessages;
+import cbmarc.ginvoicing.client.i18n.CategoriesConstants;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.CategoriesServiceAsync;
 import cbmarc.ginvoicing.shared.FieldVerifier;
@@ -44,6 +45,7 @@ public class CategoriesEditPresenter
 	private final Display display;
 	
 	private CategoriesServiceAsync service = CategoriesEventBus.getService();
+	private CategoriesConstants constants = CategoriesEventBus.getConstants();
 	private AppMessages messages = EventBus.getMessages();
 	
 	private Category category = new Category();
@@ -66,7 +68,7 @@ public class CategoriesEditPresenter
 		StringBuilder sb = new StringBuilder();
 		
 		if (!FieldVerifier.isValidString(display.getName())) {
-			sb.append(messages.errorField("Name") + "\n");
+			sb.append(messages.errorField(constants.formName()) + "\n");
 			valid = false;
 		}
 		

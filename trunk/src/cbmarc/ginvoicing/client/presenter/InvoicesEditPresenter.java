@@ -11,6 +11,7 @@ import cbmarc.ginvoicing.client.event.InvoicesEventBus;
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.i18n.AppMessages;
+import cbmarc.ginvoicing.client.i18n.InvoicesConstants;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.InvoicesServiceAsync;
 import cbmarc.ginvoicing.client.view.LinesView;
@@ -19,9 +20,12 @@ import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 import cbmarc.ginvoicing.shared.entity.Invoice;
 import cbmarc.ginvoicing.shared.entity.Line;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -35,6 +39,8 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 		String getCustomer();
 		void setCustomer(List<EntityDisplay> customers, String selected);
 		
+		Button getCustomerReloadButton();
+		
 		String getNotes();
 		void setNotes(String notes);
 		
@@ -42,6 +48,7 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 		
 		public void focus();
 		public void reset();
+		public void freeze(boolean freezed);
 		
 		public HandlerRegistration addSubmitCancelHandler(
 				SubmitCancelHandler handler);
@@ -51,6 +58,7 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	private final Display display;
 	
 	private InvoicesServiceAsync service = InvoicesEventBus.getService();
+	private InvoicesConstants constants = InvoicesEventBus.getConstants();
 	private AppMessages messages = EventBus.getMessages();
 	
 	private final LinesPresenter linesPresenter;
@@ -66,6 +74,26 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	
 	private void bind() {
 		display.addSubmitCancelHandler(this);
+		
+		display.getCustomerReloadButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				updateCustomerList();
+			}
+		});
+	}
+	
+	private void updateCustomerList() {
+		CustomersEventBus.getService().selectDisplay(null, 
+				new AppAsyncCallback<List<EntityDisplay>>() {
+					
+					@Override
+					public void onSuccess(List<EntityDisplay> result) {
+						display.setCustomer(result, invoice.getCustomer());
+					}
+					
+		});
 	}
 	
 	/**
@@ -76,7 +104,7 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 		StringBuilder sb = new StringBuilder();
 		
 		if(!FieldVerifier.isValidString(display.getCustomer())) {
-			sb.append(messages.errorField("Customer") + "\n");
+			sb.append(messages.errorField(constants.formCustomerName()) + "\n");
 			valid = false;
 		}
 		
@@ -145,18 +173,12 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 		invoice.setNotes(display.getNotes());
 		invoice.setLines(lines);
 		
-		// TODO check this
-		Float amount = 0f, price, quantity;
-		/*for(Line l: lines) {
-			if(!l.getPrice().isEmpty()) {
-				price = Float.valueOf(l.getPrice());
-				quantity = Float.valueOf(l.getQuantity());
-				
-				amount = amount + (quantity * price);
-			}
-		}*/
+		Float amount = 0.0f;
+		for(Line l: lines) {
+			amount += (l.getQuantity() * l.getPrice());
+		}
 		
-		invoice.setAmount(amount.toString());
+		invoice.setAmount(amount);
 	}
 	
 	/**
@@ -165,15 +187,7 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	public void updateDisplayFromData() {
 		display.reset();
 		
-		CustomersEventBus.getService().selectDisplay(null, 
-				new AppAsyncCallback<List<EntityDisplay>>() {
-					
-					@Override
-					public void onSuccess(List<EntityDisplay> result) {
-						display.setCustomer(result, invoice.getCustomer());
-					}
-					
-		});
+		updateCustomerList();
 		display.setNotes(invoice.getNotes());
 		
 		linesPresenter.getLinesListPresenter().setList(invoice.getLines());

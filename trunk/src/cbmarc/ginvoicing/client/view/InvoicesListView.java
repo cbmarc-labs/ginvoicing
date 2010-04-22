@@ -129,12 +129,16 @@ public class InvoicesListView extends Composite
 	public void setFilterBox(List<EntityDisplay> data) {
 		this.filterBox.clear();
 		
+		filterBox.setEnabled(false);
 		this.filterBox.addItem("", "");
 		for(EntityDisplay item: data) {
 			String[] d = item.getData();
 			
 			this.filterBox.addItem(d[1], d[0]);
 		}
+		
+		if(filterBox.getItemCount() > 1)
+			filterBox.setEnabled(true);
 	}
 	
 }

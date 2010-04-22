@@ -90,6 +90,7 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 		container.add(display.asWidget());
 
 		updateDisplayFromData();
+		updateCategoriesList();
 	}
 	
 	/**
@@ -129,18 +130,18 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 			}
 			
 		});
-		
-		// Load customers filter list on listbox
-		if(this.filter == null)
-			CategoriesEventBus.getService().selectDisplay(
-					null, new AppAsyncCallback<List<EntityDisplay>>() {
+	}
 	
-						@Override
-						public void onSuccess(List<EntityDisplay> result) {
-							display.setFilterBox(result);
-						}
-				
-			});
+	private void updateCategoriesList() {
+		CategoriesEventBus.getService().selectDisplay(
+				null, new AppAsyncCallback<List<EntityDisplay>>() {
+
+					@Override
+					public void onSuccess(List<EntityDisplay> result) {
+						display.setFilterBox(result);
+					}
+			
+		});
 	}
 
 	@Override
@@ -157,6 +158,7 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 	public void onReload(ListEvent event) {
 		this.filter = null;
 		updateDisplayFromData();
+		updateCategoriesList();
 	}
 
 	@Override
