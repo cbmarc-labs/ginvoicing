@@ -11,7 +11,7 @@ import cbmarc.ginvoicing.client.event.ListHandler;
 import cbmarc.ginvoicing.client.i18n.CustomersConstants;
 import cbmarc.ginvoicing.client.presenter.CustomersListPresenter;
 import cbmarc.ginvoicing.client.ui.ListFlexTable;
-import cbmarc.ginvoicing.shared.entity.Customer;
+import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -46,7 +46,7 @@ public class CustomersListView extends Composite
 	/**
 	 * @param data
 	 */
-	public void setData(List<Customer> data) {
+	public void setData(List<EntityDisplay> data) {
 		int size = data.size();
 		
 		setListContentLabel(null);
@@ -59,13 +59,10 @@ public class CustomersListView extends Composite
 				constants.listCountry()});
 		
 		if(data != null) {
-			for(Customer customer : data) {
+			for(EntityDisplay customer : data) {
+				String d[] = customer.getData();
 				listContent.addData(new String[] {
-						customer.getName(),
-						customer.getContact(),
-						customer.getAddress(),
-						customer.getCity(),
-						customer.getCountry()});
+						d[1], d[2], d[3], d[4], d[5]});
 			}
 		}
 		

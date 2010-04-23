@@ -18,6 +18,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -43,6 +44,7 @@ public class CategoriesEditPresenter
 	}
 	
 	private final Display display;
+	private HasWidgets container;
 	
 	private CategoriesServiceAsync service = CategoriesEventBus.getService();
 	private CategoriesConstants constants = CategoriesEventBus.getConstants();
@@ -105,7 +107,6 @@ public class CategoriesEditPresenter
 			public void onSuccess(Category result) {
 				category = result;
 				updateDisplayFromData();
-				display.focus();
 			}
 			
 		});
@@ -115,16 +116,18 @@ public class CategoriesEditPresenter
 	 * @see cbmarc.ginvoicing.client.presenter.Presenter#go(com.google.gwt.user.client.ui.HasWidgets)
 	 */
 	@Override
-	public void go(HasWidgets container) {
+	public void go(final HasWidgets container) {
+		this.container = container;
 		container.clear();
+		container.add(new Label(constants.loading()));
+		
 		category = new Category();
 	    
 	    String[] parts = History.getToken().split("/");
 	    if(parts.length > 3)
 	    	doLoad(parts[parts.length - 1]);
-
-		updateDisplayFromData();
-		container.add(display.asWidget());
+	    else
+	    	updateDisplayFromData();
 	}
 	
 	/**
@@ -142,6 +145,11 @@ public class CategoriesEditPresenter
 		display.reset();
 		display.setName(category.getName());
 		display.setDescription(category.getDescription());
+		
+		container.clear();
+		container.add(display.asWidget());
+		
+		display.focus();
 	}
 
 	/* (non-Javadoc)

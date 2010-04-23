@@ -58,22 +58,22 @@ public class LinesListPresenter implements Presenter, ListHandler {
 	 */
 	public void deleteSelectedRows() {
 		List<Integer> selectedRows = display.getSelectedRows();
-		List<String> ids;
+		List<Line> ids;
 
 		if(selectedRows.isEmpty()) {
 			Window.alert(constants.noItemsSelected());
 		} else {
 			if(Window.confirm(constants.areYouSure())) {
-				ids = new ArrayList<String>();
+				ids = new ArrayList<Line>();
 				
 				for(Integer row : selectedRows) {
-					if(row > 0) 
-						ids.add(list.get(row - 1).getId());
+					if(row > 0) {
+						ids.add(list.get(row - 1));
+					}
 				}
 				
 				list.removeAll(ids);
-				
-				//updateDisplayFromData();
+				updateDisplayFromData();
 			}
 		}
 	}

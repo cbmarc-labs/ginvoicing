@@ -18,6 +18,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -38,6 +39,7 @@ public class CategoriesListPresenter
 	}
 	
 	private final Display display;
+	private HasWidgets container;
 	
 	private CategoriesServiceAsync service = CategoriesEventBus.getService();
 	private CategoriesConstants constants = CategoriesEventBus.getConstants();
@@ -84,9 +86,10 @@ public class CategoriesListPresenter
 	}
 
 	@Override
-	public void go(HasWidgets container) {
+	public void go(final HasWidgets container) {
+		this.container = container;
 		container.clear();
-		container.add(display.asWidget());
+		//container.add(display.asWidget());
 
 		updateDisplayFromData();
 	}
@@ -116,19 +119,19 @@ public class CategoriesListPresenter
 	 * 
 	 */
 	public void updateDisplayFromData() {
-		display.setListContentLabel(constants.loading());
+		container.clear();
+		container.add(new Label(constants.loading()));
+		
+		//display.setListContentLabel(constants.loading());
 		
 		service.selectDisplay(this.filter, 
 				new AppAsyncCallback<List<EntityDisplay>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				display.setListContentLabel(caught.toString());
-			}
 			
 			@Override
 			public void onSuccess(List<EntityDisplay> result) {
-				display.setListContentLabel(null);
+				//display.setListContentLabel(null);
+				container.clear();
+				container.add(display.asWidget());
 				
 				list = result;
 				display.setData(list);

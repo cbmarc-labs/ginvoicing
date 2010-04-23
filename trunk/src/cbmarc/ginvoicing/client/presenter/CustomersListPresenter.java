@@ -12,7 +12,6 @@ import cbmarc.ginvoicing.client.event.ListHandler;
 import cbmarc.ginvoicing.client.i18n.CustomersConstants;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.CustomersServiceAsync;
-import cbmarc.ginvoicing.shared.entity.Customer;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -31,7 +30,7 @@ public class CustomersListPresenter implements Presenter, ListHandler {
 		public void setListContentLabel(String msg);
 		
 		List<Integer> getSelectedRows();
-		void setData(List<Customer> data);
+		void setData(List<EntityDisplay> data);
 		
 		public HandlerRegistration addHandler(ListHandler handler);
 		Widget asWidget();
@@ -101,7 +100,24 @@ public class CustomersListPresenter implements Presenter, ListHandler {
 	 * 
 	 */
 	public void updateDisplayFromData() {
-		// Nothing to do
+		display.setListContentLabel(constants.loading());
+		
+		service.selectDisplay(new AppAsyncCallback<List<EntityDisplay>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				display.setListContentLabel(caught.toString());
+			}
+			
+			@Override
+			public void onSuccess(List<EntityDisplay> result) {
+				display.setListContentLabel(null);
+				
+				list = result;
+				display.setData(list);
+			}
+			
+		});
 	}
 
 	@Override

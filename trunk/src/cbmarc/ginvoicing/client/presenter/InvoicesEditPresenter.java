@@ -27,6 +27,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -56,6 +57,7 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	}
 	
 	private final Display display;
+	private HasWidgets container;
 	
 	private InvoicesServiceAsync service = InvoicesEventBus.getService();
 	private InvoicesConstants constants = InvoicesEventBus.getConstants();
@@ -141,26 +143,28 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 			public void onSuccess(Invoice result) {				
 				invoice = result;
 				updateDisplayFromData();
-				linesPresenter.go(display.getLinesPanel());
 			}
 			
 		});
 	}
 	
 	@Override
-	public void go(HasWidgets container) {
+	public void go(final HasWidgets container) {
+		this.container = container;
 		container.clear();
+		container.add(new Label(constants.loading()));
+		
 		invoice = new Invoice();
 	    linesPresenter.getLinesListPresenter().getList().clear();
 	    
 	    String[] parts = History.getToken().split("/");
 	    if(parts.length > 3)
 	    	doLoad(parts[parts.length - 1]);
-	    
-	    updateDisplayFromData();
-	    linesPresenter.go(display.getLinesPanel());
-		container.add(display.asWidget());
-		display.focus();
+	    else
+	    	updateDisplayFromData();
+
+	    updateCustomerList();
+	    //container.add(display.asWidget());
 	}
 	
 	/**
@@ -186,11 +190,13 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	 */
 	public void updateDisplayFromData() {
 		display.reset();
-		
-		updateCustomerList();
 		display.setNotes(invoice.getNotes());
 		
 		linesPresenter.getLinesListPresenter().setList(invoice.getLines());
+		linesPresenter.go(display.getLinesPanel());
+		
+		container.clear();
+		container.add(display.asWidget());
 	}
 
 	@Override
