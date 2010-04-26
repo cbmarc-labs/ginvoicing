@@ -14,8 +14,8 @@
 	}
 	</ui:style>
 
-  <g:HTMLPanel>
-  	<g:SimplePanel ui:field="content" styleName="{style.content}" />
-  </g:HTMLPanel>
-
+	<g:HorizontalPanel width="100%">
+		<g:SimplePanel ui:field="content" styleName="{style.content}" />
+	</g:HorizontalPanel>
+	
 </ui:UiBinder>

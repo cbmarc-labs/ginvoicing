@@ -7,7 +7,7 @@
     <ui:with field="res" type="cbmarc.ginvoicing.client.ui.Resources"/>
 	<ui:with field="cnt" type="cbmarc.ginvoicing.client.i18n.InvoicesConstants"/>
   
-	<g:HTMLPanel styleName="content">
+	<g:HTMLPanel>
   
 	<g:VerticalPanel styleName="toolbarPanel">
 		<g:HorizontalPanel spacing="5">

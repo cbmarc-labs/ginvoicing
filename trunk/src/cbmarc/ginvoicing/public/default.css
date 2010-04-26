@@ -20,7 +20,7 @@
 		}
 		
 		#center {
-			padding: 10px 20px;       /* CC padding */
+			padding: 0 20px;          /* CC padding */
 			width: 100%;
 		}
 		
@@ -115,21 +115,17 @@
 
 
 /* FONT SIZE */
-.tabItem, .tabItemActive { font-size: 150%; }
 .gwt-Label { font-size: 150%; }
 .gwt-Button { font-size: 150%; color: #444; }
 .gwt-ListBox { font-size: 150%; min-width: 6em; max-width: 10em; }
 .gwt-TextBox { font-size: 150%; }
 .gwt-TextArea { font-size: 150%; }
 .gwt-SuggestBox { font-size: 150%; }
+.gwt-Hyperlink { font-size: 150%; }
 .gwt-DisclosurePanel .header td { font-size: 150%; color: #666; }
 
 
 
-
-/* CUSTOM SEXYBUTTONS */
-.sexybutton span.application_view_list
-	{ background-image: url(SexyButtons/images/icons/silk/application_view_list.png) !important; }
 
 
 
@@ -191,6 +187,8 @@
 
 
 
+	.langPanel {
+	}
 
 
 
@@ -201,32 +199,33 @@
 
 
 
-
-	.tabPanel {
+	.menuPanel {
 		border-bottom: 1px solid #ddd;
 		width: 100%;
 		margin: 10px 0;
 		text-align: right;
 	}
 	
-	.tabItem {
+	.menuItem {
 		padding: 0 30px;
 		text-align: center;
 		cursor: pointer;
 		cursor: hand;
 	}
 	
-	.tabItem a {
+	.menuItem a {
+		font-size: 150%;
 		text-decoration: none;
 	}
 	
-	.tabItemActive {
+	.menuItem-selected {
 		padding: 0 30px;
 		text-align: center;
 		background: #ddd;
 	}
 	
-	.tabItemActive a {
+	.menuItem-selected a {
+		font-size: 150%;
 		text-decoration: none;
 	}
 
@@ -252,18 +251,29 @@
 	}
 
 	.content {
-		/* background: #eee; */
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+		-webkit-box-shadow: 5px 5px 2px #888;
+		
+		width: 100%;
+		background-color: #eee;
+		padding: 1em;
 	}
 
 	.menuPanel {
 		margin: 10px 0;
 	}
 	
+	
+	
+	
+	
+	
+	
 	.formPanel {
 		width: 100%;
-		background: #eee;
-		padding: 10px;
-		margin: 10px 0;
+		padding: 1em;
 	}
 	
 	

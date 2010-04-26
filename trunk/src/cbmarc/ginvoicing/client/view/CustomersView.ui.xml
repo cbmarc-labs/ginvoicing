@@ -3,8 +3,8 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
-  <g:HTMLPanel>
-  	<g:SimplePanel ui:field="content" />
-  </g:HTMLPanel>
+	<g:HorizontalPanel width="100%">
+		<g:SimplePanel ui:field="content" />
+	</g:HorizontalPanel>
 
 </ui:UiBinder>

@@ -83,9 +83,10 @@ public class MainView extends Composite implements MainPresenter.Display {
 	@Override
 	public void setActiveTab(Hyperlink hyperlink) {
 		for(Hyperlink h: menuTab)
-			h.setStyleName("tabItem");
+			h.setStyleName("menuItem");
 		
-		hyperlink.setStyleName("tabItemActive");
+		if(hyperlink != null)
+			hyperlink.setStyleName("menuItem-selected");
 	}
 
 	@Override

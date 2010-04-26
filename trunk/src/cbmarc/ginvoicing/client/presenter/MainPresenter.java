@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cbmarc.ginvoicing.client.view.AboutView;
 import cbmarc.ginvoicing.client.view.CategoriesView;
 import cbmarc.ginvoicing.client.view.CustomersView;
 import cbmarc.ginvoicing.client.view.InvoicesView;
@@ -30,10 +31,13 @@ public class MainPresenter implements Presenter {
 		Widget asWidget();
 	}
 	
+	public static final String VIEW_ABOUT = "main/about";
+	
 	private final Display display;
 	
 	private Map<Hyperlink, Presenter> presenters = 
 		new HashMap<Hyperlink, Presenter>();
+	private Presenter aboutPresenter;
 	
 	public MainPresenter(Display display) {
 	    this.display = display;
@@ -44,6 +48,8 @@ public class MainPresenter implements Presenter {
 	    presenters.put(l.get(1), new CustomersPresenter(new CustomersView()));
 	    presenters.put(l.get(2), new ProductsPresenter(new ProductsView()));
 	    presenters.put(l.get(3), new CategoriesPresenter(new CategoriesView()));
+	    
+	    aboutPresenter = new AboutPresenter(new AboutView());
 	    	    
 	    bind();
 	}
@@ -62,15 +68,20 @@ public class MainPresenter implements Presenter {
 	@Override
 	public void processHistoryToken(String token) {
 		Presenter presenter = null;
+		display.setActiveTab(null);
 		
 		if(token != null) {
-			for(Hyperlink h: presenters.keySet())
-				if(token.startsWith(h.getTargetHistoryToken())) {
-					display.setActiveTab(h);
-					presenter = presenters.get(h);
+			if (token.startsWith(VIEW_ABOUT)) {
+				presenter = aboutPresenter;
+			} else {
+				for(Hyperlink h: presenters.keySet())
+					if(token.startsWith(h.getTargetHistoryToken())) {
+						display.setActiveTab(h);
+						presenter = presenters.get(h);
 					
-					break;
-				}
+						break;
+					}
+			}
 		}
 
 		if(presenter != null) {

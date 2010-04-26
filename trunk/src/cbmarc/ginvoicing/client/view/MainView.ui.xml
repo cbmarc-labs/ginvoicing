@@ -15,8 +15,8 @@
 
 	<g:HTMLPanel>
 	
-	<g:VerticalPanel styleName="tabPanel">
-		<g:cell horizontalAlignment='ALIGN_RIGHT'>
+	<g:VerticalPanel styleName="langPanel" width="100%">
+		<g:cell horizontalAlignment='ALIGN_RIGHT' width="100%">
 			<g:HTMLPanel>
 			
 				<g:Anchor styleName="{style.langTab}" ui:field="LangCA">Català</g:Anchor>&nbsp;|&nbsp;
@@ -40,18 +40,19 @@
 	<div id="container">
 		<div id="center" class="column"> 
 		
-			<g:VerticalPanel styleName="tabPanel">
+			<g:VerticalPanel styleName="menuPanel" horizontalAlignment='ALIGN_RIGHT'>
 				<g:HorizontalPanel>
 				
-				<g:Hyperlink ui:field="invoicesTab" styleName="tabItem" targetHistoryToken="main/invoices" text="{cnt.menuInvoices}" />
-				<g:Hyperlink ui:field="customersTab" styleName="tabItem" targetHistoryToken="main/customers" text="{cnt.menuCustomers}" />
-				<g:Hyperlink ui:field="productsTab" styleName="tabItem" targetHistoryToken="main/products" text="{cnt.menuProducts}" />
-				<g:Hyperlink ui:field="categoriesTab" styleName="tabItem" targetHistoryToken="main/categories" text="{cnt.menuCategories}" />
+				<g:Hyperlink ui:field="invoicesTab" styleName="menuItem" targetHistoryToken="main/invoices" text="{cnt.menuInvoices}" />
+				<g:Hyperlink ui:field="customersTab" styleName="menuItem" targetHistoryToken="main/customers" text="{cnt.menuCustomers}" />
+				<g:Hyperlink ui:field="productsTab" styleName="menuItem" targetHistoryToken="main/products" text="{cnt.menuProducts}" />
+				<g:Hyperlink ui:field="categoriesTab" styleName="menuItem" targetHistoryToken="main/categories" text="{cnt.menuCategories}" />
 				
 				</g:HorizontalPanel>
 			</g:VerticalPanel>
 			
-			<g:HorizontalPanel ui:field="content" width="100%" />
+			<g:HorizontalPanel ui:field="content" styleName="content" width="100%" />
+			
 		</div>
 				
 		<div id="left" class="column"></div>
@@ -59,7 +60,16 @@
 	</div>
 	
 	<div id="footer-wrapper">
-		<div id="footer">-= ginvoicing =-</div>
+		<div id="footer">
+		<g:VerticalPanel width="100%">
+			<g:cell horizontalAlignment='ALIGN_CENTER'>
+				<g:HorizontalPanel>
+					<g:Label text="Ginvoicing&nbsp;&nbsp;-&nbsp;&nbsp;"></g:Label>
+					<g:Hyperlink targetHistoryToken="main/about" text="About" />
+				</g:HorizontalPanel>
+			</g:cell>
+		</g:VerticalPanel>
+		</div>
 	</div>
 
   </g:HTMLPanel>

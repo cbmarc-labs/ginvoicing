@@ -1,0 +1,27 @@
+<!-- EditView.ui.xml -->
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+    
+	<ui:style>
+	.about {
+		padding: 0 1em;
+	}
+	
+	.about p {
+		color: #000;
+	}
+	</ui:style>
+    
+	<g:HTMLPanel styleName="{style.about}">
+
+	<h2>Ginvoicing - Invoicing system</h2>
+	<h3>Overview</h3>
+	<p>Ginvoicing provides a invoicing interface that makes it easy to create, modify, delete invoices.</p>
+	
+	<h3>Sources</h3>
+	<p>You can Browse the sources at: <a href="http://code.google.com/p/ginvoicing">code.google.com/p/ginvoicing</a></p>
+	
+	</g:HTMLPanel>
+
+</ui:UiBinder>

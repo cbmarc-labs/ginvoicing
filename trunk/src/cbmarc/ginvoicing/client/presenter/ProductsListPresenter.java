@@ -177,7 +177,7 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 	public void onFilter(ListEvent event, String filter) {
 		this.filter = null;
 		if(!filter.isEmpty())
-			this.filter = "category == '" + filter + "'";
+			this.filter = filter;
 		
 		updateDisplayFromData();
 	}
