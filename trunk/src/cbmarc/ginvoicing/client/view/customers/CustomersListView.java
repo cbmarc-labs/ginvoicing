@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.view;
+package cbmarc.ginvoicing.client.view.customers;
 
 import java.util.List;
 

@@ -3,9 +3,10 @@
  */
 package cbmarc.ginvoicing.client.presenter;
 
-import cbmarc.ginvoicing.client.view.CategoriesEditView;
-import cbmarc.ginvoicing.client.view.CategoriesListView;
+import cbmarc.ginvoicing.client.view.categories.CategoriesEditViewImpl;
+import cbmarc.ginvoicing.client.view.categories.CategoriesListViewImpl;
 
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -28,25 +29,26 @@ public class CategoriesPresenter implements Presenter {
 	public CategoriesPresenter(Display display) {
 	    this.display = display;
 	    
-	    categoriesListPresenter = new CategoriesListPresenter(new CategoriesListView());
-	    categoriesEditPresenter = new CategoriesEditPresenter(new CategoriesEditView());
+	    categoriesListPresenter = new CategoriesListPresenter(
+	    		new CategoriesListViewImpl());
+	    categoriesEditPresenter = new CategoriesEditPresenter(
+	    		new CategoriesEditViewImpl());
 		
 	    bind();
 	}
 	
 	private void bind() {}
 	
-	public void updateDataFromDisplay() {}
-	public void updateDisplayFromData() {}
-	
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
+		processHistoryToken();
 	    container.add(display.asWidget());
 	}
-
-	@Override
-	public void processHistoryToken(String token) {
+	
+	public void processHistoryToken() {
+		String token = History.getToken();
+		
 		if(token != null) {
 			Presenter presenter = categoriesListPresenter;
 			

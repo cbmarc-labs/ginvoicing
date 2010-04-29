@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.view;
+package cbmarc.ginvoicing.client.view.customers;
 
 import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
 import cbmarc.ginvoicing.client.event.SubmitCancelHandler;

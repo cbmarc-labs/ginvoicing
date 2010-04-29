@@ -1,17 +1,17 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.view;
+package cbmarc.ginvoicing.client.view.invoices;
 
 import java.util.List;
 
-import cbmarc.ginvoicing.client.event.CategoriesEventBus;
+import cbmarc.ginvoicing.client.event.LinesEventBus;
 import cbmarc.ginvoicing.client.event.ListEvent;
 import cbmarc.ginvoicing.client.event.ListHandler;
-import cbmarc.ginvoicing.client.i18n.CategoriesConstants;
-import cbmarc.ginvoicing.client.presenter.CategoriesListPresenter;
+import cbmarc.ginvoicing.client.i18n.LinesConstants;
+import cbmarc.ginvoicing.client.presenter.LinesListPresenter;
 import cbmarc.ginvoicing.client.ui.ListFlexTable;
-import cbmarc.ginvoicing.shared.entity.EntityDisplay;
+import cbmarc.ginvoicing.shared.entity.Line;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -27,44 +27,46 @@ import com.google.gwt.user.client.ui.Widget;
  * @author MCOSTA
  *
  */
-public class CategoriesListView extends Composite 
-		implements CategoriesListPresenter.Display {
+public class LinesListView extends Composite 
+		implements LinesListPresenter.Display {
 	
-	interface uiBinder extends UiBinder<Widget, CategoriesListView> {}
+	interface uiBinder extends UiBinder<Widget, LinesListView> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 	
-	private CategoriesConstants constants = CategoriesEventBus.getConstants();
+	private LinesConstants constants = LinesEventBus.getConstants();
 	
 	@UiField ListFlexTable listContent;
 	@UiField Label listContentLabel;
-	@UiField Label listheaderLabel;
+	@UiField Label listHeaderLabel;
+	@UiField Label listFooterLabel;
 	
-	public CategoriesListView() {
-		initWidget(uiBinder.createAndBindUi(this));		
+	public LinesListView() {
+		initWidget(uiBinder.createAndBindUi(this));
+		listFooterLabel.setText("TOTAL: 123.9");
 	}
 	
 	/**
 	 * @param data
 	 */
-	public void setData(List<EntityDisplay> data) {
-		int size = data.size();
+	public void setData(List<Line> lines) {
+		int size = lines.size();
 		
 		setListContentLabel(null);
 		listContent.removeAllRows();
-		listContent.addData(new String[] {
-				constants.listName(), constants.listDescription(),
-				constants.listProducts()});
+		listContent.addData(new String[] { constants.listProductName(),
+				constants.listQuantity(), constants.listPrice()});
 
-		if(data != null) {
-			for(EntityDisplay category : data) {
-				String d[] = category.getData();
-				listContent.addData(new String[] {d[1], d[2], d[3]});
+		if(lines != null) {
+			for(Line line : lines) {
+				listContent.addData(new String[] { line.getProductName(),
+						line.getQuantity().toString(),
+						line.getPrice().toString()});
 			}
 		}
 		
-		listheaderLabel.setText(size + " " + constants.itemsLabel());
+		listHeaderLabel.setText(size + " " + constants.itemsLabel());
 		
-		if(data.isEmpty()) 
+		if(lines.isEmpty()) 
 			setListContentLabel(constants.noData());
 	}
 	
@@ -100,10 +102,10 @@ public class CategoriesListView extends Composite
 	 */
 	public void setListContentLabel(String msg) {
 		if(msg == null) {
-			this.listContentLabel.setVisible(false);
+			listContentLabel.setVisible(false);
 		} else {
-			this.listContentLabel.setVisible(true);
-			this.listContentLabel.setText(msg);
+			listContentLabel.setVisible(true);
+			listContentLabel.setText(msg);
 		}
 	}
 
@@ -115,6 +117,11 @@ public class CategoriesListView extends Composite
 	@Override
 	public List<Integer> getSelectedRows() {
 		return listContent.getSelectedRows();
+	}
+
+	@Override
+	public void setListFooterLabel(String msg) {
+		listFooterLabel.setText(msg);
 	}
 	
 }

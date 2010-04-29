@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.view;
+package cbmarc.ginvoicing.client.view.invoices;
 
 import java.util.HashMap;
 import java.util.List;

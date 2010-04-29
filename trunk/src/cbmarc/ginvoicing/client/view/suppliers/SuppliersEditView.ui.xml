@@ -1,0 +1,25 @@
+<!-- View.ui.xml -->
+
+<ui:UiBinder
+	xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:ginvoicing="urn:import:cbmarc.ginvoicing.client.ui">
+	
+	<ui:with field="res" type="cbmarc.ginvoicing.client.ui.Resources"/>
+	<ui:with field="cnt" type="cbmarc.ginvoicing.client.i18n.SuppliersConstants"/>
+    
+	<ui:style>
+	</ui:style>
+    
+	<g:HTMLPanel>
+		<g:VerticalPanel styleName="toolbarPanel">
+			<g:HorizontalPanel spacing="5">
+
+				<ginvoicing:SexyButton ui:field="listButton" text="{cnt.listButton}" resource="{res.listIcon}" />
+			
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
+		SOY EL SUPPLIERSEDITVIEW
+	</g:HTMLPanel>
+
+</ui:UiBinder>

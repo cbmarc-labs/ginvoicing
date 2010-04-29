@@ -19,6 +19,6 @@ public interface CategoriesServiceAsync {
 	public void delete(List<String> keys, AsyncCallback<Void> callback);
 	
 	public void select(String filter, AsyncCallback<List<Category>> callback);
-	public void selectDisplay(String filter, AsyncCallback<List<EntityDisplay>> callback);
+	public void selectDisplay(AsyncCallback<List<EntityDisplay>> callback);
 	public void selectById(String id, AsyncCallback<Category> callback);
 }

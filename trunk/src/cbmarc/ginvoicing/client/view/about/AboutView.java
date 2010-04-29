@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.view;
+package cbmarc.ginvoicing.client.view.about;
 
 import cbmarc.ginvoicing.client.presenter.AboutPresenter;
 

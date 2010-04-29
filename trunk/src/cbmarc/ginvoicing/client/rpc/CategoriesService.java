@@ -22,6 +22,6 @@ public interface CategoriesService extends RemoteService {
 	void delete(List<String> ids) throws ServerException;
 	
 	List<Category> select(String filter) throws ServerException;
-	List<EntityDisplay> selectDisplay(String filter) throws ServerException;
+	List<EntityDisplay> selectDisplay() throws ServerException;
 	Category selectById(String id) throws ServerException;
 }

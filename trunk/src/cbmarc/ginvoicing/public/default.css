@@ -124,6 +124,7 @@
 .gwt-Hyperlink { font-size: 150%; }
 .gwt-DisclosurePanel .header td { font-size: 150%; color: #666; }
 
+h1, h2, h3, p { font-size: 150%; }
 
 
 
@@ -135,19 +136,10 @@
 	margin: 10px;
 }
 
-/*
- * http://htmlcsstutorials.blogspot.com/2009/07/rounded-corners-using-css.html
- * header rounded corner
- */
-.b1f, .b2f, .b3f, .b4f{font-size:1px; overflow:hidden; display:block;}
-.b1f {height:1px; background:#4E7DD1; margin:0 5px;}
-.b2f {height:1px; background:#4E7DD1; margin:0 3px;}
-.b3f {height:1px; background:#4E7DD1; margin:0 2px;}
-.b4f {height:2px; background:#4E7DD1; margin:0 1px;}
-.contentf {background: #4E7DD1;}
-.contentf div {margin-left: 5px;}
-
 #header {
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
 	padding: 0.5em;
 	font-size: 250%;
 	color: #fff;
@@ -254,7 +246,6 @@
 		-webkit-border-radius: 10px;
 		-moz-border-radius: 10px;
 		border-radius: 10px;
-		-webkit-box-shadow: 5px 5px 2px #888;
 		
 		width: 100%;
 		background-color: #eee;

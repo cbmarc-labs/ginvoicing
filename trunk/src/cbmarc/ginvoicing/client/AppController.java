@@ -45,14 +45,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				presenter = mainPresenter;
 			}
 			
-			presenter.processHistoryToken(token);
 			presenter.go(container);
 		}
-	}
-
-	@Override
-	public void processHistoryToken(String token) {
-		// TODO Auto-generated method stub
-		
 	}
 }

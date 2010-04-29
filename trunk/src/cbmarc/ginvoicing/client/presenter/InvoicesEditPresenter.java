@@ -14,7 +14,7 @@ import cbmarc.ginvoicing.client.i18n.AppMessages;
 import cbmarc.ginvoicing.client.i18n.InvoicesConstants;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.InvoicesServiceAsync;
-import cbmarc.ginvoicing.client.view.LinesView;
+import cbmarc.ginvoicing.client.view.invoices.LinesView;
 import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 import cbmarc.ginvoicing.shared.entity.Invoice;
@@ -208,11 +208,6 @@ public class InvoicesEditPresenter implements Presenter, SubmitCancelHandler {
 	public void onSubmit(SubmitCancelEvent event) {
 		if(hasValidInput())
 			doSave();
-	}
-
-	@Override
-	public void processHistoryToken(String token) {
-		// Nothing to do.
 	}
 
 }

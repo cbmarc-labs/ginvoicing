@@ -6,8 +6,8 @@ package cbmarc.ginvoicing.client.presenter;
 import cbmarc.ginvoicing.client.event.EventBus;
 import cbmarc.ginvoicing.client.event.ListEditEvent;
 import cbmarc.ginvoicing.client.event.ListEditHandler;
-import cbmarc.ginvoicing.client.view.LinesEditView;
-import cbmarc.ginvoicing.client.view.LinesListView;
+import cbmarc.ginvoicing.client.view.invoices.LinesEditView;
+import cbmarc.ginvoicing.client.view.invoices.LinesListView;
 import cbmarc.ginvoicing.shared.entity.Line;
 
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -54,11 +54,6 @@ public class LinesPresenter implements Presenter, ListEditHandler {
 	    container.add(display.asWidget());
 	    
 	    linesListPresenter.go(display.getContent());
-	}
-
-	@Override
-	public void processHistoryToken(String token) {
-		// Nothing to do.
 	}
 	
 	/**

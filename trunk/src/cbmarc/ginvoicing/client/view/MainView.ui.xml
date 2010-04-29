@@ -29,12 +29,10 @@
 	</g:VerticalPanel>
   	
 	<div id="header-wrapper">
-		<b class="b1f"></b><b class="b2f"></b><b class="b3f"></b><b class="b4f"></b><div class="contentf">
 		<div id="header">
 			<g:Image resource="{res.logo}"></g:Image>
 			GInvoicing - Invoicing system
 		</div>
-		</div><b class="b4f"></b><b class="b3f"></b><b class="b2f"></b><b class="b1f"></b>
 	</div>
 	
 	<div id="container">
@@ -47,6 +45,7 @@
 				<g:Hyperlink ui:field="customersTab" styleName="menuItem" targetHistoryToken="main/customers" text="{cnt.menuCustomers}" />
 				<g:Hyperlink ui:field="productsTab" styleName="menuItem" targetHistoryToken="main/products" text="{cnt.menuProducts}" />
 				<g:Hyperlink ui:field="categoriesTab" styleName="menuItem" targetHistoryToken="main/categories" text="{cnt.menuCategories}" />
+				<g:Hyperlink ui:field="suppliersTab" styleName="menuItem" targetHistoryToken="main/suppliers" text="{cnt.menuSuppliers}" />
 				
 				</g:HorizontalPanel>
 			</g:VerticalPanel>

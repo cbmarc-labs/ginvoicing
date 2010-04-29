@@ -94,14 +94,13 @@ public class CategoriesServiceImpl extends RemoteServiceServlet
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<EntityDisplay> selectDisplay(String filter) 
-			throws ServerException {
+	public List<EntityDisplay> selectDisplay() throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		ArrayList<EntityDisplay> result = new ArrayList<EntityDisplay>();
 		String numProducts = "0";
 		
 		try {
-			Query query = pm.newQuery(Category.class, filter);
+			Query query = pm.newQuery(Category.class);
 			query.setOrdering("name asc");
 			
 			List<Category> categories = (List<Category>) query.execute();

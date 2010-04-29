@@ -3,9 +3,10 @@
  */
 package cbmarc.ginvoicing.client.presenter;
 
-import cbmarc.ginvoicing.client.view.InvoicesEditView;
-import cbmarc.ginvoicing.client.view.InvoicesListView;
+import cbmarc.ginvoicing.client.view.invoices.InvoicesEditView;
+import cbmarc.ginvoicing.client.view.invoices.InvoicesListView;
 
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -42,11 +43,13 @@ public class InvoicesPresenter implements Presenter {
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
+		processHistoryToken();
 	    container.add(display.asWidget());
 	}
-
-	@Override
-	public void processHistoryToken(String token) {
+	
+	public void processHistoryToken() {
+		String token = History.getToken();
+		
 		if(token != null) {
 			Presenter presenter = invoicesListPresenter;
 			

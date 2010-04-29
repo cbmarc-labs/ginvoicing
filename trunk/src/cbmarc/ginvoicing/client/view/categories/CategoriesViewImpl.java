@@ -1,13 +1,14 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.view;
+package cbmarc.ginvoicing.client.view.categories;
 
-import cbmarc.ginvoicing.client.presenter.InvoicesPresenter;
+import cbmarc.ginvoicing.client.presenter.CategoriesPresenter;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Panel;
@@ -17,15 +18,16 @@ import com.google.gwt.user.client.ui.Widget;
  * @author MCOSTA
  *
  */
-public class InvoicesView extends Composite 
-		implements InvoicesPresenter.Display {
+public class CategoriesViewImpl extends Composite 
+		implements CategoriesPresenter.Display {
 	
-	interface uiBinder extends UiBinder<Widget, InvoicesView> {}
+	@UiTemplate("CategoriesView.ui.xml")
+	interface uiBinder extends UiBinder<Widget, CategoriesViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
-	
+
 	@UiField Panel content;
-		
-	public InvoicesView() {
+	
+	public CategoriesViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	

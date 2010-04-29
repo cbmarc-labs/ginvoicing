@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.view;
+package cbmarc.ginvoicing.client.view.products;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +18,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
@@ -29,10 +30,11 @@ import com.google.gwt.user.client.ui.Widget;
  * @author MCOSTA
  *
  */
-public class ProductsEditView extends Composite 
+public class ProductsEditViewImpl extends Composite 
 		implements ProductsEditPresenter.Display {
-		
-	interface uiBinder extends UiBinder<Widget, ProductsEditView> {}
+	
+	@UiTemplate("ProductsEditView.ui.xml")
+	interface uiBinder extends UiBinder<Widget, ProductsEditViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 		
 	@UiField TextBox name;
@@ -44,7 +46,7 @@ public class ProductsEditView extends Composite
 	private Map<String, Category> categoryMap = 
 		new HashMap<String, Category>();
 	
-	public ProductsEditView() {
+	public ProductsEditViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	

@@ -39,6 +39,7 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 	}
 	
 	private final Display display;
+	private HasWidgets container;
 	
 	private ProductsServiceAsync service = ProductsEventBus.getService();
 	private ProductsConstants constants = ProductsEventBus.getConstants();
@@ -86,8 +87,9 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 
 	@Override
 	public void go(HasWidgets container) {
-		container.clear();
-		container.add(display.asWidget());
+		this.container = container;
+		//container.clear();
+		//container.add(display.asWidget());
 
 		updateDisplayFromData();
 		updateCategoriesList();
@@ -134,7 +136,7 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 	
 	private void updateCategoriesList() {
 		CategoriesEventBus.getService().selectDisplay(
-				null, new AppAsyncCallback<List<EntityDisplay>>() {
+				new AppAsyncCallback<List<EntityDisplay>>() {
 
 					@Override
 					public void onSuccess(List<EntityDisplay> result) {
@@ -166,11 +168,6 @@ public class ProductsListPresenter implements Presenter, ListHandler {
 		String id = list.get(row).getData()[0];
 		
 		History.newItem("main/products/edit/" + id);
-	}
-
-	@Override
-	public void processHistoryToken(String token) {
-		// Nothing to do.
 	}
 
 	@Override

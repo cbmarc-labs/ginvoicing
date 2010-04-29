@@ -143,11 +143,6 @@ public class CustomersListPresenter implements Presenter, ListHandler {
 	}
 
 	@Override
-	public void processHistoryToken(String token) {
-		// Nothing to do.
-	}
-
-	@Override
 	public void onFilter(ListEvent event, String filter) {
 		updateDisplayFromData();
 	}

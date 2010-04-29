@@ -15,9 +15,10 @@ public interface AppConstants extends Constants {
 	String appCopyright();
 	
 	String menuCategories();
-	String menuProducts();
-	String menuCustomers();
 	String menuInvoices();
+	String menuCustomers();
+	String menuProducts();
+	String menuSuppliers();
 
 	String loading();
 

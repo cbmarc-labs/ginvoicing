@@ -209,9 +209,4 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 			doSave();
 	}
 
-	@Override
-	public void processHistoryToken(String token) {
-		// Nothing to do.
-	}
-
 }

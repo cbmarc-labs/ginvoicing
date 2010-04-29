@@ -5,46 +5,26 @@ package cbmarc.ginvoicing.client.presenter;
 
 import cbmarc.ginvoicing.client.event.CategoriesEventBus;
 import cbmarc.ginvoicing.client.event.EventBus;
-import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
-import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.i18n.AppMessages;
 import cbmarc.ginvoicing.client.i18n.CategoriesConstants;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.CategoriesServiceAsync;
+import cbmarc.ginvoicing.client.view.categories.CategoriesEditView;
 import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.Category;
 
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author MCOSTA
  *
  */
-public class CategoriesEditPresenter 
-		implements Presenter, SubmitCancelHandler {
+public class CategoriesEditPresenter
+		implements Presenter, CategoriesEditView.Presenter {
 	
-	public interface Display {
-		String getName();
-		void setName(String value);
-		
-		String getDescription();
-		void setDescription(String value);
-		
-		public void focus();
-		public void reset();
-		
-		public HandlerRegistration addSubmitCancelHandler(
-				SubmitCancelHandler handler);
-		Widget asWidget();
-	}
-	
-	private final Display display;
-	private HasWidgets container;
+	private final CategoriesEditView view;
 	
 	private CategoriesServiceAsync service = CategoriesEventBus.getService();
 	private CategoriesConstants constants = CategoriesEventBus.getConstants();
@@ -52,14 +32,9 @@ public class CategoriesEditPresenter
 	
 	private Category category = new Category();
 	
-	public CategoriesEditPresenter(Display view) {
-	    this.display = view;
-		
-		bind();
-	}
-	
-	private void bind() {
-		display.addSubmitCancelHandler(this);
+	public CategoriesEditPresenter(CategoriesEditView view) {
+	    this.view = view;
+	    view.setPresenter(this);
 	}
 	
 	/**
@@ -69,7 +44,7 @@ public class CategoriesEditPresenter
 		boolean valid = true;
 		StringBuilder sb = new StringBuilder();
 		
-		if (!FieldVerifier.isValidString(display.getName())) {
+		if (!FieldVerifier.isValidString(view.getName().getValue())) {
 			sb.append(messages.errorField(constants.formName()) + "\n");
 			valid = false;
 		}
@@ -117,9 +92,8 @@ public class CategoriesEditPresenter
 	 */
 	@Override
 	public void go(final HasWidgets container) {
-		this.container = container;
 		container.clear();
-		container.add(new Label(constants.loading()));
+		container.add(view.asWidget());
 		
 		category = new Category();
 	    
@@ -130,51 +104,38 @@ public class CategoriesEditPresenter
 	    	updateDisplayFromData();
 	}
 	
-	/**
-	 * 
-	 */
 	public void updateDataFromDisplay() {
-		category.setName(display.getName());
-		category.setDescription(display.getDescription());
+		category.setName(view.getName().getValue());
+		category.setDescription(view.getDescription().getValue());
 	}
 	
-	/**
-	 * 
-	 */
 	public void updateDisplayFromData() {
-		display.reset();
-		display.setName(category.getName());
-		display.setDescription(category.getDescription());
+		view.reset();
 		
-		container.clear();
-		container.add(display.asWidget());
-		
-		display.focus();
+		view.getName().setValue(category.getName());
+		view.getDescription().setValue(category.getDescription());
 	}
 
-	/* (non-Javadoc)
-	 * @see cbmarc.ginvoicing.client.event.SubmitCancelHandler#onCancel(cbmarc.ginvoicing.client.event.SubmitCancelEvent)
-	 */
 	@Override
-	public void onCancel(SubmitCancelEvent event) {
+	public void onCancelButtonClicked() {
 		History.newItem("main/categories");
 	}
 
-	/* (non-Javadoc)
-	 * @see cbmarc.ginvoicing.client.event.SubmitCancelHandler#onSubmit(cbmarc.ginvoicing.client.event.SubmitCancelEvent)
-	 */
 	@Override
-	public void onSubmit(SubmitCancelEvent event) {
-		if(hasValidInput())
-			doSave();
+	public void onListButtonClicked() {
+		History.newItem("main/categories");
 	}
 
-	/* (non-Javadoc)
-	 * @see cbmarc.ginvoicing.client.presenter.Presenter#processHistoryToken(java.lang.String)
-	 */
 	@Override
-	public void processHistoryToken(String token) {
-		// Nothing to do.
+	public void onResetButtonClicked() {
+		view.reset();
+		view.focus();
+	}
+
+	@Override
+	public void onSubmitButtonClicked() {
+		if(hasValidInput())
+			doSave();
 	}
 
 }

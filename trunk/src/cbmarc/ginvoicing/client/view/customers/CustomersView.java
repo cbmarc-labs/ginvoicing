@@ -1,9 +1,9 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.view;
+package cbmarc.ginvoicing.client.view.customers;
 
-import cbmarc.ginvoicing.client.presenter.ProductsPresenter;
+import cbmarc.ginvoicing.client.presenter.CustomersPresenter;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -17,15 +17,15 @@ import com.google.gwt.user.client.ui.Widget;
  * @author MCOSTA
  *
  */
-public class ProductsView extends Composite 
-		implements ProductsPresenter.Display {
+public class CustomersView extends Composite 
+		implements CustomersPresenter.Display {
 	
-	interface uiBinder extends UiBinder<Widget, ProductsView> {}
+	interface uiBinder extends UiBinder<Widget, CustomersView> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
-
-	@UiField Panel content;
 	
-	public ProductsView() {
+	@UiField Panel content;
+		
+	public CustomersView() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	

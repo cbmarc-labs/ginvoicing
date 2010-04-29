@@ -8,6 +8,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author MCOSTA
+ * 
+ * Represents a about section in an app.
  *
  */
 public class AboutPresenter implements Presenter {
@@ -30,8 +32,5 @@ public class AboutPresenter implements Presenter {
 		container.clear();
 	    container.add(display.asWidget());
 	}
-
-	@Override
-	public void processHistoryToken(String token) {}
 
 }

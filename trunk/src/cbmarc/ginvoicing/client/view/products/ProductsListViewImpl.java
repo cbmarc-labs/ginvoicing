@@ -1,72 +1,77 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.view;
+package cbmarc.ginvoicing.client.view.products;
 
 import java.util.List;
 
-import cbmarc.ginvoicing.client.event.LinesEventBus;
 import cbmarc.ginvoicing.client.event.ListEvent;
 import cbmarc.ginvoicing.client.event.ListHandler;
-import cbmarc.ginvoicing.client.i18n.LinesConstants;
-import cbmarc.ginvoicing.client.presenter.LinesListPresenter;
+import cbmarc.ginvoicing.client.event.ProductsEventBus;
+import cbmarc.ginvoicing.client.i18n.ProductsConstants;
+import cbmarc.ginvoicing.client.presenter.ProductsListPresenter;
 import cbmarc.ginvoicing.client.ui.ListFlexTable;
-import cbmarc.ginvoicing.shared.entity.Line;
+import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author MCOSTA
  *
  */
-public class LinesListView extends Composite 
-		implements LinesListPresenter.Display {
+public class ProductsListViewImpl extends Composite 
+		implements ProductsListPresenter.Display {
 	
-	interface uiBinder extends UiBinder<Widget, LinesListView> {}
+	@UiTemplate("ProductsListView.ui.xml")
+	interface uiBinder extends UiBinder<Widget, ProductsListViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 	
-	private LinesConstants constants = LinesEventBus.getConstants();
-	
+	private ProductsConstants constants = ProductsEventBus.getConstants();
+
+	@UiField ListBox filterBox;
 	@UiField ListFlexTable listContent;
 	@UiField Label listContentLabel;
-	@UiField Label listHeaderLabel;
-	@UiField Label listFooterLabel;
+	@UiField Label listheaderLabel;
 	
-	public LinesListView() {
-		initWidget(uiBinder.createAndBindUi(this));
-		listFooterLabel.setText("TOTAL: 123.9");
+	public ProductsListViewImpl() {
+		initWidget(uiBinder.createAndBindUi(this));		
 	}
 	
 	/**
 	 * @param data
 	 */
-	public void setData(List<Line> lines) {
-		int size = lines.size();
+	public void setData(List<EntityDisplay> data) {
+		int size = data.size();
 		
 		setListContentLabel(null);
 		listContent.removeAllRows();
-		listContent.addData(new String[] { constants.listProductName(),
-				constants.listQuantity(), constants.listPrice()});
+		listContent.addData(new String[] {
+				constants.listName(),
+				constants.listDescription(),
+				constants.listCategory(),
+				constants.listPrice()});
 
-		if(lines != null) {
-			for(Line line : lines) {
-				listContent.addData(new String[] { line.getProductName(),
-						line.getQuantity().toString(),
-						line.getPrice().toString()});
+		if(data != null) {
+			for(EntityDisplay product : data) {
+				String d[] = product.getData();
+				listContent.addData(new String[] {d[1], d[2], d[3], d[4]});
 			}
 		}
 		
-		listHeaderLabel.setText(size + " " + constants.itemsLabel());
+		listheaderLabel.setText(size + " " + constants.itemsLabel());
 		
-		if(lines.isEmpty()) 
+		if(data.isEmpty()) 
 			setListContentLabel(constants.noData());
 	}
 	
@@ -83,6 +88,13 @@ public class LinesListView extends Composite
 	@UiHandler("deleteButton")
 	protected void deleteClicked(ClickEvent event) {
 		fireEvent(ListEvent.delete());
+	}
+	
+	@UiHandler("filterBox")
+	protected void filterChange(ChangeEvent event) {
+		String id = filterBox.getValue(filterBox.getSelectedIndex());
+		
+		fireEvent(ListEvent.filter(id));
 	}
 	
 	@UiHandler("listContent")
@@ -102,10 +114,10 @@ public class LinesListView extends Composite
 	 */
 	public void setListContentLabel(String msg) {
 		if(msg == null) {
-			listContentLabel.setVisible(false);
+			this.listContentLabel.setVisible(false);
 		} else {
-			listContentLabel.setVisible(true);
-			listContentLabel.setText(msg);
+			this.listContentLabel.setVisible(true);
+			this.listContentLabel.setText(msg);
 		}
 	}
 
@@ -120,8 +132,18 @@ public class LinesListView extends Composite
 	}
 
 	@Override
-	public void setListFooterLabel(String msg) {
-		listFooterLabel.setText(msg);
+	public void setFilterBox(List<EntityDisplay> data) {
+		filterBox.clear();
+		
+		filterBox.setEnabled(false);
+		filterBox.addItem("", "");
+		for(EntityDisplay item: data) {
+			String[] d = item.getData();
+			
+			filterBox.addItem(d[1], d[0]);
+		}
+		
+		if(filterBox.getItemCount() > 1)
+			filterBox.setEnabled(true);
 	}
-	
 }

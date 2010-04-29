@@ -7,12 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cbmarc.ginvoicing.client.view.AboutView;
-import cbmarc.ginvoicing.client.view.CategoriesView;
-import cbmarc.ginvoicing.client.view.CustomersView;
-import cbmarc.ginvoicing.client.view.InvoicesView;
-import cbmarc.ginvoicing.client.view.ProductsView;
+import cbmarc.ginvoicing.client.view.about.AboutView;
+import cbmarc.ginvoicing.client.view.categories.CategoriesViewImpl;
+import cbmarc.ginvoicing.client.view.customers.CustomersView;
+import cbmarc.ginvoicing.client.view.invoices.InvoicesView;
+import cbmarc.ginvoicing.client.view.products.ProductsViewImpl;
 
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Widget;
@@ -46,8 +47,9 @@ public class MainPresenter implements Presenter {
 	    
 	    presenters.put(l.get(0), new InvoicesPresenter(new InvoicesView()));
 	    presenters.put(l.get(1), new CustomersPresenter(new CustomersView()));
-	    presenters.put(l.get(2), new ProductsPresenter(new ProductsView()));
-	    presenters.put(l.get(3), new CategoriesPresenter(new CategoriesView()));
+	    presenters.put(l.get(2), new ProductsPresenter(new ProductsViewImpl()));
+	    presenters.put(l.get(3), new CategoriesPresenter(new CategoriesViewImpl()));
+	    presenters.put(l.get(4), new SuppliersPresenter());
 	    
 	    aboutPresenter = new AboutPresenter(new AboutView());
 	    	    
@@ -55,18 +57,16 @@ public class MainPresenter implements Presenter {
 	}
 	
 	private void bind() {}
-	
-	public void updateDataFromDisplay() {}
-	public void updateDisplayFromData() {}
 
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
+		processHistoryToken();
 		container.add(display.asWidget());
 	}
-
-	@Override
-	public void processHistoryToken(String token) {
+	
+	public void processHistoryToken() {
+		String token = History.getToken();
 		Presenter presenter = null;
 		display.setActiveTab(null);
 		
@@ -85,7 +85,6 @@ public class MainPresenter implements Presenter {
 		}
 
 		if(presenter != null) {
-			presenter.processHistoryToken(token);
 			presenter.go(display.getContent());
 		}
 	}

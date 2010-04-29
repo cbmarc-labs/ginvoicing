@@ -170,9 +170,4 @@ public class LinesEditPresenter
 			doSave();
 	}
 
-	@Override
-	public void processHistoryToken(String token) {
-		// Nothing to do.
-	}
-
 }

@@ -34,7 +34,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 	
 	@UiField Panel content;
 	@UiField Anchor LangCA, LangES, LangEN, LangFR;
-	@UiField Hyperlink categoriesTab, productsTab, 
+	@UiField Hyperlink suppliersTab, categoriesTab, productsTab, 
 		customersTab, invoicesTab;
 	
 	private List<Hyperlink> menuTab = new ArrayList<Hyperlink>();
@@ -46,6 +46,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 		menuTab.add(customersTab);
 		menuTab.add(productsTab);
 		menuTab.add(categoriesTab);
+		menuTab.add(suppliersTab);
 	}
 	
 	public Widget asWidget() {

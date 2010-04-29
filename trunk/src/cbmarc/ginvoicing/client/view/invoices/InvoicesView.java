@@ -1,9 +1,9 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.view;
+package cbmarc.ginvoicing.client.view.invoices;
 
-import cbmarc.ginvoicing.client.presenter.LinesPresenter;
+import cbmarc.ginvoicing.client.presenter.InvoicesPresenter;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -17,15 +17,15 @@ import com.google.gwt.user.client.ui.Widget;
  * @author MCOSTA
  *
  */
-public class LinesView extends Composite 
-		implements LinesPresenter.Display {
+public class InvoicesView extends Composite 
+		implements InvoicesPresenter.Display {
 	
-	interface uiBinder extends UiBinder<Widget, LinesView> {}
+	interface uiBinder extends UiBinder<Widget, InvoicesView> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 	
 	@UiField Panel content;
 		
-	public LinesView() {
+	public InvoicesView() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
