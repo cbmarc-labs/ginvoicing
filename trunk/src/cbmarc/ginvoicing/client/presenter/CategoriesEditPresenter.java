@@ -134,8 +134,7 @@ public class CategoriesEditPresenter
 
 	@Override
 	public void onSubmitButtonClicked() {
-		if(hasValidInput())
-			doSave();
+		if(hasValidInput()) doSave();
 	}
 
 }

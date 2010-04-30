@@ -8,10 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import cbmarc.ginvoicing.client.view.about.AboutView;
-import cbmarc.ginvoicing.client.view.categories.CategoriesViewImpl;
 import cbmarc.ginvoicing.client.view.customers.CustomersView;
 import cbmarc.ginvoicing.client.view.invoices.InvoicesView;
-import cbmarc.ginvoicing.client.view.products.ProductsViewImpl;
 
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -47,16 +45,12 @@ public class MainPresenter implements Presenter {
 	    
 	    presenters.put(l.get(0), new InvoicesPresenter(new InvoicesView()));
 	    presenters.put(l.get(1), new CustomersPresenter(new CustomersView()));
-	    presenters.put(l.get(2), new ProductsPresenter(new ProductsViewImpl()));
-	    presenters.put(l.get(3), new CategoriesPresenter(new CategoriesViewImpl()));
+	    presenters.put(l.get(2), new ProductsPresenter());
+	    presenters.put(l.get(3), new CategoriesPresenter());
 	    presenters.put(l.get(4), new SuppliersPresenter());
 	    
 	    aboutPresenter = new AboutPresenter(new AboutView());
-	    	    
-	    bind();
 	}
-	
-	private void bind() {}
 
 	@Override
 	public void go(HasWidgets container) {

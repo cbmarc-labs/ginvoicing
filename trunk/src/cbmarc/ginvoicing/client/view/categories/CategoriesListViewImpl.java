@@ -48,14 +48,14 @@ public class CategoriesListViewImpl extends Composite
 				constants.listDescription(), constants.listProducts()});
 
 		setListHeaderLabel(constants.noData());
-		if(!data.isEmpty()) {
-			for(EntityDisplay i : data) {
-				String d[] = i.getData();
-				listContent.addData(new String[] {d[1], d[2], d[3]});
-			}
-			
-			setListHeaderLabel(data.size() + " " + constants.itemsLabel());
+		if(data == null || data.isEmpty()) return;
+		
+		for(EntityDisplay i : data) {
+			String d[] = i.getData();
+			listContent.addData(new String[] {d[1], d[2], d[3]});
 		}
+			
+		setListHeaderLabel(data.size() + " " + constants.itemsLabel());
 	}
 	
 	@UiHandler("reloadButton")

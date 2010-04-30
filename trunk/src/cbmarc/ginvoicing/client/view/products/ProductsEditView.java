@@ -3,6 +3,10 @@
  */
 package cbmarc.ginvoicing.client.view.products;
 
+import java.util.List;
+
+import cbmarc.ginvoicing.shared.entity.Category;
+
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -21,6 +25,9 @@ public interface ProductsEditView {
 	
 	HasValue<String> getName();
 	HasValue<String> getDescription();
+	String getCategory();
+	void setCategoryList(List<Category> items, String selected);
+	HasValue<String> getPrice();
 	
 	void focus();
 	void reset();

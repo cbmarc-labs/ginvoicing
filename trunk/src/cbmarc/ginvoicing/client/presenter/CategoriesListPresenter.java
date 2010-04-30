@@ -36,8 +36,8 @@ public class CategoriesListPresenter
 		view.setPresenter(this);
 	}
 	
-	public void deleteSelectedRows(List<Integer> rows) {
-		ArrayList<String> ids = new ArrayList<String>();
+	private void deleteSelectedRows(List<Integer> rows) {
+		List<String> ids = new ArrayList<String>();
 
 		if(rows.isEmpty()) {
 			Window.alert(constants.noItemsSelected());
@@ -65,7 +65,7 @@ public class CategoriesListPresenter
 	public void go(final HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget());
-
+		
 		updateDisplayFromData();
 	}
 	
@@ -95,9 +95,9 @@ public class CategoriesListPresenter
 	}
 
 	@Override
-	public void onItemClicked(int row) {
-		if(row > 0) {
-			String id = list.get(row-1).getData()[0];
+	public void onItemClicked(int item) {
+		if(item > 0) {
+			String id = list.get(item - 1).getData()[0];
 		
 			History.newItem("main/categories/edit/" + id);
 		}

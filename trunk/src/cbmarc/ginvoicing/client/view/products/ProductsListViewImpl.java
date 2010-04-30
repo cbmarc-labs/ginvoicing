@@ -5,24 +5,20 @@ package cbmarc.ginvoicing.client.view.products;
 
 import java.util.List;
 
-import cbmarc.ginvoicing.client.event.ListEvent;
-import cbmarc.ginvoicing.client.event.ListHandler;
 import cbmarc.ginvoicing.client.event.ProductsEventBus;
 import cbmarc.ginvoicing.client.i18n.ProductsConstants;
-import cbmarc.ginvoicing.client.presenter.ProductsListPresenter;
 import cbmarc.ginvoicing.client.ui.ListFlexTable;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -31,7 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ProductsListViewImpl extends Composite 
-		implements ProductsListPresenter.Display {
+		implements ProductsListView {
 	
 	@UiTemplate("ProductsListView.ui.xml")
 	interface uiBinder extends UiBinder<Widget, ProductsListViewImpl> {}
@@ -41,94 +37,72 @@ public class ProductsListViewImpl extends Composite
 
 	@UiField ListBox filterBox;
 	@UiField ListFlexTable listContent;
-	@UiField Label listContentLabel;
-	@UiField Label listheaderLabel;
+	@UiField HasText listHeaderLabel;
+	
+	private Presenter presenter = null;
 	
 	public ProductsListViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));		
 	}
 	
-	/**
-	 * @param data
-	 */
 	public void setData(List<EntityDisplay> data) {
-		int size = data.size();
-		
-		setListContentLabel(null);
 		listContent.removeAllRows();
-		listContent.addData(new String[] {
-				constants.listName(),
-				constants.listDescription(),
-				constants.listCategory(),
+		listContent.addData(new String[] {constants.listName(),
+				constants.listDescription(), constants.listCategory(),
 				constants.listPrice()});
 
-		if(data != null) {
-			for(EntityDisplay product : data) {
-				String d[] = product.getData();
-				listContent.addData(new String[] {d[1], d[2], d[3], d[4]});
-			}
+		setListHeaderLabel(constants.noData());
+		if(data == null || data.isEmpty()) return;
+		
+		for(EntityDisplay product : data) {
+			String d[] = product.getData();
+			listContent.addData(new String[] {d[1], d[2], d[3], d[4]});
 		}
-		
-		listheaderLabel.setText(size + " " + constants.itemsLabel());
-		
-		if(data.isEmpty()) 
-			setListContentLabel(constants.noData());
+
+		setListHeaderLabel(data.size() + " " + constants.itemsLabel());
 	}
 	
 	@UiHandler("reloadButton")
 	protected void reloadClicked(ClickEvent event) {
-		fireEvent(ListEvent.reload());
+	    if(presenter != null) {
+			presenter.onReloadButtonClicked();
+	    }
 	}
 	
 	@UiHandler("addButton")
 	protected void addClicked(ClickEvent event) {
-		fireEvent(ListEvent.add());
+	    if(presenter != null) {
+	    	presenter.onAddButtonClicked();
+	    }
 	}
 	
 	@UiHandler("deleteButton")
 	protected void deleteClicked(ClickEvent event) {
-		fireEvent(ListEvent.delete());
+	    if(presenter != null) {
+			presenter.onDeleteButtonClicked(listContent.getSelectedRows());
+	    }
 	}
 	
 	@UiHandler("filterBox")
 	protected void filterChange(ChangeEvent event) {
-		String id = filterBox.getValue(filterBox.getSelectedIndex());
-		
-		fireEvent(ListEvent.filter(id));
+	    if(presenter != null) {
+	    	String item = filterBox.getValue(filterBox.getSelectedIndex());
+	    	
+	    	presenter.onFilterBoxChanged(item);
+	    }
 	}
 	
 	@UiHandler("listContent")
 	protected void listContentClicked(ClickEvent event) {
-		int row = listContent.getClickedRow(event);
-		
-		if(row > 0)
-			fireEvent(ListEvent.list(row - 1));
+	    if(presenter != null) {
+	    	int item = listContent.getClickedRow(event);
+	    	
+	    	presenter.onItemClicked(item);
+	    }
 	}
 
 	public Widget asWidget() {
 		  return this;
-	}
-
-	/**
-	 * @param listContentLabel the listContentLabel to set
-	 */
-	public void setListContentLabel(String msg) {
-		if(msg == null) {
-			this.listContentLabel.setVisible(false);
-		} else {
-			this.listContentLabel.setVisible(true);
-			this.listContentLabel.setText(msg);
-		}
-	}
-
-	@Override
-	public HandlerRegistration addHandler(ListHandler handler) {
-		return addHandler(handler, ListEvent.getType());
-	}
-
-	@Override
-	public List<Integer> getSelectedRows() {
-		return listContent.getSelectedRows();
 	}
 
 	@Override
@@ -145,5 +119,15 @@ public class ProductsListViewImpl extends Composite
 		
 		if(filterBox.getItemCount() > 1)
 			filterBox.setEnabled(true);
+	}
+
+	@Override
+	public void setListHeaderLabel(String text) {
+		listHeaderLabel.setText(text);
+	}
+
+	@Override
+	public void setPresenter(Presenter presenter) {
+		this.presenter = presenter;
 	}
 }

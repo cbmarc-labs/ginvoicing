@@ -8,7 +8,6 @@ import cbmarc.ginvoicing.client.view.products.ProductsListViewImpl;
 
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author MCOSTA
@@ -16,33 +15,18 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ProductsPresenter implements Presenter {
 	
-	public interface Display {
-		HasWidgets getContent();
-		Widget asWidget();
-	}
+	private HasWidgets container;
 	
-	protected final Display display;
-	
-	private ProductsListPresenter productsListPresenter;
-	private ProductsEditPresenter productsEditPresenter;
-	
-	public ProductsPresenter(Display display) {
-	    this.display = display;
-	    
-	    productsListPresenter = new ProductsListPresenter(new ProductsListViewImpl());
-	    productsEditPresenter = new ProductsEditPresenter(new ProductsEditViewImpl());
-	    
-	    bind();
-	}
-	
-	private void bind() {
-	}
+	private ProductsListPresenter productsListPresenter = 
+		new ProductsListPresenter(new ProductsListViewImpl());
+	private ProductsEditPresenter productsEditPresenter = 
+		new ProductsEditPresenter(new ProductsEditViewImpl());
 
 	@Override
-	public void go(HasWidgets container) {
-		container.clear();
+	public void go(final HasWidgets container) {
+		this.container = container;
+		
 		processHistoryToken();
-	    container.add(display.asWidget());
 	}
 	
 	public void processHistoryToken() {
@@ -55,7 +39,7 @@ public class ProductsPresenter implements Presenter {
 				presenter = productsEditPresenter;
 			}
 
-			presenter.go(display.getContent());
+			presenter.go(container);
 		}
 	}
 

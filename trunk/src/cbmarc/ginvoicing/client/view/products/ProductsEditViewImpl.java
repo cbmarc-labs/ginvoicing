@@ -3,23 +3,16 @@
  */
 package cbmarc.ginvoicing.client.view.products;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
-import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
-import cbmarc.ginvoicing.client.presenter.ProductsEditPresenter;
 import cbmarc.ginvoicing.shared.entity.Category;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.ListBox;
@@ -31,7 +24,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ProductsEditViewImpl extends Composite 
-		implements ProductsEditPresenter.Display {
+		implements ProductsEditView {
 	
 	@UiTemplate("ProductsEditView.ui.xml")
 	interface uiBinder extends UiBinder<Widget, ProductsEditViewImpl> {}
@@ -40,11 +33,9 @@ public class ProductsEditViewImpl extends Composite
 	@UiField TextBox name;
 	@UiField HasValue<String> description;
 	@UiField ListBox categoryList;
-	@UiField Button categoryReloadButton;
 	@UiField HasValue<String> price;
 	
-	private Map<String, Category> categoryMap = 
-		new HashMap<String, Category>();
+	private Presenter presenter = null;
 	
 	public ProductsEditViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -56,17 +47,23 @@ public class ProductsEditViewImpl extends Composite
 
 	@UiHandler("listButton")
 	protected void listClicked(ClickEvent event) {
-		fireEvent(SubmitCancelEvent.cancel());
+		if(presenter != null) {
+			presenter.onListButtonClicked();
+		}
 	}
 
 	@UiHandler("submitButton")
 	protected void submitClicked(ClickEvent event) {
-		fireEvent(SubmitCancelEvent.submit());
+		if(presenter != null) {
+			presenter.onSubmitButtonClicked();
+		}
 	}
 
 	@UiHandler("cancelButton")
 	protected void cancelClicked(ClickEvent event) {
-		fireEvent(SubmitCancelEvent.cancel());
+		if(presenter != null) {
+			presenter.onCancelButtonClicked();
+		}
 	}
 
 	@UiHandler("resetButton")
@@ -84,56 +81,18 @@ public class ProductsEditViewImpl extends Composite
 	}
 
 	@Override
-	public String getName() {
-		return this.name.getValue();
+	public HasValue<String> getName() {
+		return name;
 	}
 
 	@Override
-	public String getDescription() {
-		return description.getValue();
+	public HasValue<String> getDescription() {
+		return description;
 	}
 
 	@Override
-	public HandlerRegistration addSubmitCancelHandler(
-			SubmitCancelHandler handler) {
-		return addHandler(handler, SubmitCancelEvent.getType());
-	}
-
-	/**
-	 * @return the category
-	 */
-	@Override
-	public String getCategory() {
-		String cat = null;
-		int index = categoryList.getSelectedIndex();
-		
-		try { cat = categoryList.getValue(index); } catch(Exception e) {};
-		
-		return cat;
-	}
-
-	/**
-	 * @param category the category to set
-	 */
-	public void setCategory(List<Category> categories, String selected) {
-		int index = 0;
-		
-		categoryList.setEnabled(false);
-		categoryList.clear();
-		categoryMap.clear();
-		for(Category category: categories) {
-			categoryList.addItem(category.getName(), category.getId());
-			categoryMap.put(category.getId(), category);
-			
-			if(category.getId().equals(selected)) {
-				categoryList.setItemSelected(index, true);
-			}
-			
-			index ++;
-		}
-		
-		if(categoryList.getItemCount() > 0)
-			categoryList.setEnabled(true);
+	public HasValue<String> getPrice() {
+		return description;
 	}
 
 	@Override
@@ -142,27 +101,36 @@ public class ProductsEditViewImpl extends Composite
 	}
 
 	@Override
-	public void setDescription(String value) {
-		description.setValue(value);
+	public void setPresenter(Presenter presenter) {
+		this.presenter = presenter;
 	}
 
 	@Override
-	public void setName(String value) {
-		name.setValue(value);
+	public String getCategory() {
+		String result = null;
+		int index = categoryList.getSelectedIndex();
+		
+		try { result = categoryList.getValue(index); } catch(Exception e) {};
+		
+		return result;
 	}
 
 	@Override
-	public String getPrice() {
-		return price.getValue();
-	}
-
-	@Override
-	public void setPrice(String value) {
-		price.setValue(value);
-	}
-
-	@Override
-	public Button getCategoryReloadButton() {
-		return categoryReloadButton;
+	public void setCategoryList(List<Category> items, String selected) {
+		int index = 0;
+		
+		categoryList.setEnabled(false);
+		categoryList.clear();
+		for(Category item : items) {
+			categoryList.addItem(item.getName(), item.getId());
+			
+			if(item.getId().equals(selected))
+				categoryList.setItemSelected(index, true);
+			
+			index ++;
+		}
+		
+		if(categoryList.getItemCount() > 0)
+			categoryList.setEnabled(true);
 	}
 }

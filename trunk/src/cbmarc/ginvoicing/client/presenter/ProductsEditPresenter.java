@@ -8,55 +8,27 @@ import java.util.List;
 import cbmarc.ginvoicing.client.event.CategoriesEventBus;
 import cbmarc.ginvoicing.client.event.EventBus;
 import cbmarc.ginvoicing.client.event.ProductsEventBus;
-import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
-import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.i18n.AppMessages;
 import cbmarc.ginvoicing.client.i18n.ProductsConstants;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.ProductsServiceAsync;
+import cbmarc.ginvoicing.client.view.products.ProductsEditView;
 import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.Category;
 import cbmarc.ginvoicing.shared.entity.Product;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author MCOSTA
  *
  */
-public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
+public class ProductsEditPresenter 
+		implements Presenter, ProductsEditView.Presenter {
 	
-	public interface Display {
-		String getName();
-		void setName(String value);
-		
-		String getDescription();
-		void setDescription(String value);
-		
-		String getCategory();
-		void setCategory(List<Category> categories, String selected);
-		
-		Button getCategoryReloadButton();
-		
-		String getPrice();
-		void setPrice(String value);
-		
-		public void reset();
-		public void focus();
-		
-		public HandlerRegistration addSubmitCancelHandler(
-				SubmitCancelHandler handler);
-		Widget asWidget();
-	}
-	
-	private final Display display;
+	private final ProductsEditView view;
 	
 	private ProductsServiceAsync service = ProductsEventBus.getService();
 	private ProductsConstants constants = ProductsEventBus.getConstants();
@@ -64,32 +36,18 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 	
 	private Product product = new Product();
 	
-	public ProductsEditPresenter(Display view) {
-	    this.display = view;
-	    
-		bind();
-	}
-	
-	private void bind() {
-		display.addSubmitCancelHandler(this);
-		
-		display.getCategoryReloadButton().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				updateCategoryList();
-			}
-			
-		});
+	public ProductsEditPresenter(ProductsEditView view) {
+	    this.view = view;
+	    view.setPresenter(this);
 	}
 	
 	private void updateCategoryList() {
-		CategoriesEventBus.getService().select(null,
+		CategoriesEventBus.getService().select(null, 
 				new AppAsyncCallback<List<Category>>() {
 
 					@Override
 					public void onSuccess(List<Category> result) {
-						display.setCategory(result, product.getCategory());
+						view.setCategoryList(result, product.getCategory());
 					}
 			
 		});
@@ -102,17 +60,17 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 		boolean valid = true;
 		StringBuilder sb = new StringBuilder();
 		
-		if(!FieldVerifier.isValidString(display.getName())) {
+		if(!FieldVerifier.isValidString(view.getName().getValue())) {
 			sb.append(messages.errorField(constants.formName()) + "\n");
 			valid = false;
 		}
 		
-		if(!FieldVerifier.isValidString(display.getCategory())) {
+		if(!FieldVerifier.isValidString(view.getCategory())) {
 			sb.append(messages.errorField(constants.formCategory()) + "\n");
 			valid = false;
 		}
 		
-		if(!FieldVerifier.isValidNumber(display.getPrice())) {
+		if(!FieldVerifier.isValidNumber(view.getPrice().getValue())) {
 			sb.append(messages.errorField(constants.formPrice()) + "\n");
 			valid = false;
 		}
@@ -150,7 +108,6 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 			public void onSuccess(Product result) {
 				product = result;
 				updateDisplayFromData();
-				display.focus();
 			}
 			
 		});
@@ -159,54 +116,52 @@ public class ProductsEditPresenter implements Presenter, SubmitCancelHandler {
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
+		container.add(view.asWidget());
+		
 		product = new Product();
 		
 		String[] parts = History.getToken().split("/");
 	    if(parts.length > 3) 
 	    	doLoad(parts[parts.length - 1]);
-
-	    updateDisplayFromData();
-	    container.add(display.asWidget());
-		display.focus();
+	    else
+	    	updateDisplayFromData();
 	}
 	
-	/**
-	 * 
-	 */
 	public void updateDataFromDisplay() {
-		product.setName(display.getName());
-		product.setDescription(display.getDescription());
-		product.setCategory(display.getCategory());
-		product.setPrice(Float.parseFloat(display.getPrice()));
+		product.setName(view.getName().getValue());
+		product.setDescription(view.getDescription().getValue());
+		product.setCategory(view.getCategory());
+		product.setPrice(Float.parseFloat(view.getPrice().getValue()));
 	}
 	
 	public void updateDisplayFromData() {
-		display.reset();
-		display.setName(product.getName());
-		display.setDescription(product.getDescription());
+		view.reset();
 		
-		CategoriesEventBus.getService().select(null, 
-				new AppAsyncCallback<List<Category>>() {
-					
-					@Override
-					public void onSuccess(List<Category> result) {
-						display.setCategory(result, product.getCategory());
-					}
-					
-		});
-		
-		display.setPrice(product.getPrice().toString());
+		view.getName().setValue(product.getName());
+		view.getDescription().setValue(product.getDescription());
+		updateCategoryList();
+		view.getPrice().setValue(product.getPrice().toString());
 	}
 
 	@Override
-	public void onCancel(SubmitCancelEvent event) {
+	public void onCancelButtonClicked() {
 		History.newItem("main/products");
 	}
 
 	@Override
-	public void onSubmit(SubmitCancelEvent event) {
-		if(hasValidInput())
-			doSave();
+	public void onListButtonClicked() {
+		History.newItem("main/products");
+	}
+
+	@Override
+	public void onResetButtonClicked() {
+		view.reset();
+		view.focus();
+	}
+
+	@Override
+	public void onSubmitButtonClicked() {
+		if(hasValidInput()) doSave();
 	}
 
 }

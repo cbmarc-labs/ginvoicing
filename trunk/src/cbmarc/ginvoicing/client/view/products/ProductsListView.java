@@ -18,10 +18,12 @@ public interface ProductsListView {
 	public interface Presenter {
 		void onReloadButtonClicked();
 		void onAddButtonClicked();
-		void onDeleteButtonClicked(List<Integer> rows);
-		void onItemClicked(int row);
+		void onDeleteButtonClicked(List<Integer> items);
+		void onItemClicked(int item);
+		void onFilterBoxChanged(String item);
 	}
 	
+	void setFilterBox(List<EntityDisplay> data);
 	void setListHeaderLabel(String text);
 	void setData(List<EntityDisplay> data);
 	
