@@ -1,12 +1,12 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.view.products;
+package cbmarc.ginvoicing.client.view.invoices;
 
 import java.util.List;
 
-import cbmarc.ginvoicing.client.event.ProductsEventBus;
-import cbmarc.ginvoicing.client.i18n.ProductsConstants;
+import cbmarc.ginvoicing.client.event.InvoicesEventBus;
+import cbmarc.ginvoicing.client.i18n.InvoicesConstants;
 import cbmarc.ginvoicing.client.ui.ListFlexTable;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
@@ -26,37 +26,38 @@ import com.google.gwt.user.client.ui.Widget;
  * @author MCOSTA
  *
  */
-public class ProductsListViewImpl extends Composite 
-		implements ProductsListView {
-	
-	@UiTemplate("ProductsListView.ui.xml")
-	interface uiBinder extends UiBinder<Widget, ProductsListViewImpl> {}
+public class InvoicesListViewImpl extends Composite 
+		implements InvoicesListView {
+
+	@UiTemplate("InvoicesListView.ui.xml")
+	interface uiBinder extends UiBinder<Widget, InvoicesListViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 	
-	private ProductsConstants constants = ProductsEventBus.getConstants();
-
+	private InvoicesConstants constants = InvoicesEventBus.getConstants();
+	
 	@UiField ListBox filterBox;
 	@UiField ListFlexTable listContent;
 	@UiField HasText listHeaderLabel;
 	
 	private Presenter presenter = null;
 	
-	public ProductsListViewImpl() {
-		initWidget(uiBinder.createAndBindUi(this));		
+	public InvoicesListViewImpl() {
+		initWidget(uiBinder.createAndBindUi(this));
 	}
-	
+
+	@Override
 	public void setData(List<EntityDisplay> data) {
+
 		listContent.removeAllRows();
-		listContent.addData(new String[] {constants.listName(),
-				constants.listDescription(), constants.listCategory(),
-				constants.listPrice()});
+		listContent.addData(new String[] {constants.listCustomerName(),
+				constants.listDate(), constants.listAmount()});
 
 		setListHeaderLabel(constants.noData());
 		if(data == null || data.isEmpty()) return;
 		
 		for(EntityDisplay product : data) {
 			String d[] = product.getData();
-			listContent.addData(new String[] {d[1], d[2], d[3], d[4]});
+			listContent.addData(new String[] {d[1], d[2], d[3]});
 		}
 
 		setListHeaderLabel(data.size() + " " + constants.itemsLabel());
@@ -72,7 +73,7 @@ public class ProductsListViewImpl extends Composite
 	@UiHandler("addButton")
 	protected void addClicked(ClickEvent event) {
 	    if(presenter != null) {
-	    	presenter.onAddButtonClicked();
+			presenter.onAddButtonClicked();
 	    }
 	}
 	
@@ -132,4 +133,5 @@ public class ProductsListViewImpl extends Composite
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
+	
 }

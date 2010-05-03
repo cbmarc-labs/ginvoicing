@@ -18,8 +18,8 @@ public interface CategoriesListView {
 	public interface Presenter {
 		void onReloadButtonClicked();
 		void onAddButtonClicked();
-		void onDeleteButtonClicked(List<Integer> rows);
-		void onItemClicked(int row);
+		void onDeleteButtonClicked(List<Integer> items);
+		void onItemClicked(int item);
 	}
 	
 	void setListHeaderLabel(String text);

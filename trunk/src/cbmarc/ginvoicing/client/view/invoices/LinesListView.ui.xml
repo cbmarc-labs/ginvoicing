@@ -27,7 +27,6 @@
 		</g:HorizontalPanel>
 		
 		<ginvoicing:ListFlexTable ui:field="listContent" />
-		<g:Label visible="false" ui:field="listContentLabel" />
 		
 		<g:HorizontalPanel styleName="listFooter">
 			<g:cell horizontalAlignment='ALIGN_RIGHT'>

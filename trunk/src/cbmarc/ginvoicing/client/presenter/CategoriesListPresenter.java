@@ -37,13 +37,11 @@ public class CategoriesListPresenter
 	}
 	
 	private void deleteSelectedRows(List<Integer> rows) {
-		List<String> ids = new ArrayList<String>();
-
 		if(rows.isEmpty()) {
 			Window.alert(constants.noItemsSelected());
 		} else {
 			if(Window.confirm(constants.areYouSure())) {
-				
+				List<String> ids = new ArrayList<String>();
 				for(Integer row : rows) {
 					ids.add(list.get(row - 1).getData()[0]);
 				}
@@ -68,8 +66,6 @@ public class CategoriesListPresenter
 		
 		updateDisplayFromData();
 	}
-	
-	public void updateDataFromDisplay() { }
 	
 	public void updateDisplayFromData() {
 		view.setListHeaderLabel(constants.loading());

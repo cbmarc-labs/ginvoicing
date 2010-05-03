@@ -52,6 +52,13 @@ public class ProductsEditViewImpl extends Composite
 		}
 	}
 
+	@UiHandler("categoriesReloadButton")
+	protected void categoriesClicked(ClickEvent event) {
+		if(presenter != null) {
+			presenter.onCategoriesReloadButtonClicked();
+		}
+	}
+
 	@UiHandler("submitButton")
 	protected void submitClicked(ClickEvent event) {
 		if(presenter != null) {
@@ -92,7 +99,7 @@ public class ProductsEditViewImpl extends Composite
 
 	@Override
 	public HasValue<String> getPrice() {
-		return description;
+		return price;
 	}
 
 	@Override

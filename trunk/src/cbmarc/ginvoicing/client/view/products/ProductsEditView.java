@@ -20,7 +20,8 @@ public interface ProductsEditView {
 		void onListButtonClicked();
 		void onSubmitButtonClicked();
 		void onCancelButtonClicked();
-		void onResetButtonClicked();
+		
+		void onCategoriesReloadButtonClicked();
 	}
 	
 	HasValue<String> getName();

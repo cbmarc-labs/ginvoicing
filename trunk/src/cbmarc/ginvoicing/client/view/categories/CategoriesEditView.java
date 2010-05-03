@@ -16,7 +16,6 @@ public interface CategoriesEditView {
 		void onListButtonClicked();
 		void onSubmitButtonClicked();
 		void onCancelButtonClicked();
-		void onResetButtonClicked();
 	}
 	
 	HasValue<String> getName();

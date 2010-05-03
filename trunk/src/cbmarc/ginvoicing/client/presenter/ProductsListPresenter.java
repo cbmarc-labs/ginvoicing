@@ -35,18 +35,19 @@ public class ProductsListPresenter
 	
 	public ProductsListPresenter(ProductsListView view) {
 		this.view = view;
+		
 		view.setPresenter(this);
 	}
 	
-	private void deleteSelectedRows(List<Integer> rows) {
+	private void deleteSelectedRows(List<Integer> items) {
 		List<String> ids = new ArrayList<String>();
 
-		if(rows.isEmpty()) {
+		if(items.isEmpty()) {
 			Window.alert(constants.noItemsSelected());
 		} else {
 			if(Window.confirm(constants.areYouSure())) {
 				
-				for(Integer row : rows) {
+				for(Integer row : items) {
 					ids.add(list.get(row - 1).getData()[0]);
 				}
 		
@@ -71,9 +72,7 @@ public class ProductsListPresenter
 		updateCategoriesList();
 	}
 	
-	public void updateDataFromDisplay() {}
-	
-	public void updateDisplayFromData() {
+	private void updateDisplayFromData() {
 		view.setListHeaderLabel(constants.loading());
 		service.selectDisplay(filter, 
 				new AppAsyncCallback<List<EntityDisplay>>() {
@@ -112,7 +111,6 @@ public class ProductsListPresenter
 	@Override
 	public void onFilterBoxChanged(String item) {
 		filter = null;
-		
 		if(!item.isEmpty())
 			this.filter = item;
 		

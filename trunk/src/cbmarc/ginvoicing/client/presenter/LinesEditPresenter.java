@@ -9,61 +9,34 @@ import cbmarc.ginvoicing.client.event.EventBus;
 import cbmarc.ginvoicing.client.event.LinesEventBus;
 import cbmarc.ginvoicing.client.event.ListEditEvent;
 import cbmarc.ginvoicing.client.event.ProductsEventBus;
-import cbmarc.ginvoicing.client.event.SubmitCancelEvent;
-import cbmarc.ginvoicing.client.event.SubmitCancelHandler;
 import cbmarc.ginvoicing.client.i18n.AppMessages;
 import cbmarc.ginvoicing.client.i18n.LinesConstants;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
+import cbmarc.ginvoicing.client.view.invoices.LinesEditView;
 import cbmarc.ginvoicing.shared.FieldVerifier;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 import cbmarc.ginvoicing.shared.entity.Line;
 
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author MCOSTA
  *
  */
-public class LinesEditPresenter 
-		implements Presenter, SubmitCancelHandler {
-	
-	public interface Display {
-		String getQuantity();
-		void setQuantity(String value);
+public class LinesEditPresenter implements Presenter, LinesEditView.Presenter {
 		
-		EntityDisplay getProduct();
-		void setProduct(List<EntityDisplay> list, String selected);
-		
-		String getPrice();
-		void setPrice(String value);
-		
-		public void focus();
-		public void reset();
-		
-		public HandlerRegistration addSubmitCancelHandler(
-				SubmitCancelHandler handler);
-		Widget asWidget();
-	}
-	
-	private final Display display;
-	
+	private final LinesEditView view;
+
 	private EventBus eventBus = EventBus.getEventBus();
 	private LinesConstants constants = LinesEventBus.getConstants();
 	private AppMessages messages = EventBus.getMessages();
 	
 	private Line line = new Line();
 	
-	public LinesEditPresenter(Display view) {
-	    this.display = view;
-		
-		bind();
-	}
-	
-	private void bind() {
-		display.addSubmitCancelHandler(this);
+	public LinesEditPresenter(LinesEditView view) {
+	    this.view = view;
+	    view.setPresenter(this);
 	}
 	
 	/**
@@ -73,21 +46,21 @@ public class LinesEditPresenter
 		boolean valid = true;
 		StringBuilder sb = new StringBuilder();
 		
-		String prod = null;
-		EntityDisplay product = display.getProduct();
-		if(product != null) prod = product.getData()[0];
-		
-		if(!FieldVerifier.isValidNumber(display.getQuantity())) {
+		if(!FieldVerifier.isValidNumber(view.getQuantity().getValue())) {
 			sb.append(messages.errorField(constants.formQuantity()) + "\n");
 			valid = false;
 		}
+		
+		String prod = null;
+        EntityDisplay product = view.getProduct();
+        if(product != null) prod = product.getData()[0];
 		
 		if(!FieldVerifier.isValidString(prod)) {
 			sb.append(messages.errorField(constants.formProductName()) + "\n");
 			valid = false;
 		}
 		
-		if(!FieldVerifier.isValidNumber(display.getPrice())) {
+		if(!FieldVerifier.isValidNumber(view.getPrice().getValue())) {
 			sb.append(messages.errorField(constants.formPrice()) + "\n");
 			valid = false;
 		}
@@ -111,7 +84,7 @@ public class LinesEditPresenter
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
-	    container.add(display.asWidget());
+	    container.add(view.asWidget());
 
 		updateDisplayFromData();
 	}
@@ -127,47 +100,60 @@ public class LinesEditPresenter
 	 * 
 	 */
 	public void updateDataFromDisplay() {
-		line.setQuantity(Float.parseFloat(display.getQuantity()));
+		line.setQuantity(Float.parseFloat(view.getQuantity().getValue()));
 		
-		EntityDisplay product = display.getProduct();
+		EntityDisplay product = view.getProduct();
 		line.setProduct(product.getData()[0]);
 		line.setProductName(product.getData()[1]);
 		
-		line.setPrice(Float.parseFloat(display.getPrice()));
+		line.setPrice(Float.parseFloat(view.getPrice().getValue()));
 	}
 	
 	/**
 	 * 
 	 */
 	public void updateDisplayFromData() {
-		display.reset();
-		display.setQuantity(line.getQuantity().toString());
-		display.setPrice(line.getPrice().toString());
+		view.reset();
 		
+		view.getQuantity().setValue(line.getQuantity().toString());
+		updateProductsList();
+		view.getPrice().setValue(line.getPrice().toString());
+	}
+	
+	private void updateProductsList() {
 		ProductsEventBus.getService().selectDisplay(null, 
 				new AppAsyncCallback<List<EntityDisplay>>() {
 					
 					@Override
 					public void onSuccess(List<EntityDisplay> result) {
-						display.setProduct(result, line.getProduct());
+						view.setProductList(result, line.getProduct());
 						
 						// no update price if is a modification
 						if(line.getProduct() != null)
-							display.setPrice(line.getPrice().toString());
+							view.getPrice().setValue(line.getPrice().toString());
 					}
 					
 		});
 	}
 
 	@Override
-	public void onCancel(SubmitCancelEvent event) {
+	public void onCancelButtonClicked() {
 		eventBus.fireEvent(ListEditEvent.list(null));
 	}
 
 	@Override
-	public void onSubmit(SubmitCancelEvent event) {
-		if(hasValidInput())
-			doSave();
+	public void onListButtonClicked() {
+		eventBus.fireEvent(ListEditEvent.list(null));
+	}
+
+	@Override
+	public void onSubmitButtonClicked() {
+		if(hasValidInput()) doSave();
+	}
+
+	@Override
+	public void onProductsReloadButtonClicked() {
+		updateProductsList();
 	}
 
 }

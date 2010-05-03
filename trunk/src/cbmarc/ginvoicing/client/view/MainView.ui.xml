@@ -45,7 +45,6 @@
 				<g:Hyperlink ui:field="customersTab" styleName="menuItem" targetHistoryToken="main/customers" text="{cnt.menuCustomers}" />
 				<g:Hyperlink ui:field="productsTab" styleName="menuItem" targetHistoryToken="main/products" text="{cnt.menuProducts}" />
 				<g:Hyperlink ui:field="categoriesTab" styleName="menuItem" targetHistoryToken="main/categories" text="{cnt.menuCategories}" />
-				<g:Hyperlink ui:field="suppliersTab" styleName="menuItem" targetHistoryToken="main/suppliers" text="{cnt.menuSuppliers}" />
 				
 				</g:HorizontalPanel>
 			</g:VerticalPanel>

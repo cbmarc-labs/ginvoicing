@@ -26,12 +26,11 @@
 		<g:VerticalPanel styleName="listPanel">
 			<g:HorizontalPanel styleName="listHeader">
 				<g:cell horizontalAlignment='ALIGN_RIGHT'>
-					<g:Label ui:field="listheaderLabel" />
+					<g:Label ui:field="listHeaderLabel" />
 				</g:cell>
 			</g:HorizontalPanel>
 			
 			<ginvoicing:ListFlexTable ui:field="listContent" />
-			<g:Label visible="false" ui:field="listContentLabel" />
 	  	</g:VerticalPanel>
   	
 	</g:HTMLPanel>

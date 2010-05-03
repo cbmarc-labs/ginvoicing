@@ -3,48 +3,34 @@
  */
 package cbmarc.ginvoicing.client.presenter;
 
-import cbmarc.ginvoicing.client.view.invoices.InvoicesEditView;
-import cbmarc.ginvoicing.client.view.invoices.InvoicesListView;
+import cbmarc.ginvoicing.client.view.invoices.InvoicesEditViewImpl;
+import cbmarc.ginvoicing.client.view.invoices.InvoicesListViewImpl;
+import cbmarc.ginvoicing.client.view.invoices.InvoicesView;
 
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author MCOSTA
  *
  */
-public class InvoicesPresenter implements Presenter {
+public class InvoicesPresenter implements Presenter, InvoicesView.Presenter {
 	
-	public interface Display {
-		HasWidgets getContent();
-		Widget asWidget();
+	protected final InvoicesView view;
+
+	private InvoicesListPresenter invoicesListPresenter = new InvoicesListPresenter(new InvoicesListViewImpl());
+	private InvoicesEditPresenter invoicesEditPresenter = new InvoicesEditPresenter(new InvoicesEditViewImpl());
+	
+	public InvoicesPresenter(InvoicesView view) {
+	    this.view = view;
 	}
-	
-	protected final Display display;
-
-	private InvoicesListPresenter invoicesListPresenter;
-	private InvoicesEditPresenter invoicesEditPresenter;
-	
-	public InvoicesPresenter(Display display) {
-	    this.display = display;
-
-	    invoicesListPresenter = new InvoicesListPresenter(new InvoicesListView());
-	    invoicesEditPresenter = new InvoicesEditPresenter(new InvoicesEditView());
-
-	    bind();
-	}
-	
-	private void bind() {}
-	
-	public void updateDataFromDisplay() {}
-	public void updateDisplayFromData() {}
 
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
+		container.add(view.asWidget());
+		
 		processHistoryToken();
-	    container.add(display.asWidget());
 	}
 	
 	public void processHistoryToken() {
@@ -57,7 +43,7 @@ public class InvoicesPresenter implements Presenter {
 				presenter = invoicesEditPresenter;
 			}
 			
-			presenter.go(display.getContent());
+			presenter.go(view.getContent());
 		}
 	}
 

@@ -27,7 +27,7 @@ public class CustomersServiceImpl extends RemoteServiceServlet
 		implements CustomersService {
 
 	@Override
-	public void delete(ArrayList<String> ids) throws ServerException {
+	public void delete(List<String> ids) throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		String result = "";
 		

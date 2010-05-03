@@ -127,12 +127,6 @@ public class CategoriesEditPresenter
 	}
 
 	@Override
-	public void onResetButtonClicked() {
-		view.reset();
-		view.focus();
-	}
-
-	@Override
 	public void onSubmitButtonClicked() {
 		if(hasValidInput()) doSave();
 	}

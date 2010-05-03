@@ -1,20 +1,20 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.view;
+package cbmarc.ginvoicing.client.view.products;
 
+import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author MCOSTA
  *
  */
-public interface IEditView {
+public interface ProductsView {
 	
 	public interface Presenter {
-		void onListButtonClicked();
 	}
 	
-	void setPresenter(Presenter presenter);
+	HasWidgets getContent();
 	Widget asWidget();
 }

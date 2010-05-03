@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.view.invoices;
+package cbmarc.ginvoicing.client.view.categories;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
@@ -10,11 +10,12 @@ import com.google.gwt.user.client.ui.Widget;
  * @author MCOSTA
  *
  */
-public interface InvoicesView {
+public interface CategoriesView {
 	
 	public interface Presenter {
 	}
 	
 	HasWidgets getContent();
+	
 	Widget asWidget();
 }

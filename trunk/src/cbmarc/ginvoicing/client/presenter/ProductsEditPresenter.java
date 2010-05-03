@@ -154,14 +154,13 @@ public class ProductsEditPresenter
 	}
 
 	@Override
-	public void onResetButtonClicked() {
-		view.reset();
-		view.focus();
+	public void onSubmitButtonClicked() {
+		if(hasValidInput()) doSave();
 	}
 
 	@Override
-	public void onSubmitButtonClicked() {
-		if(hasValidInput()) doSave();
+	public void onCategoriesReloadButtonClicked() {
+		updateCategoryList();
 	}
 
 }

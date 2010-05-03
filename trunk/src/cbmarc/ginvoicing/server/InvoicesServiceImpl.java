@@ -33,7 +33,7 @@ public class InvoicesServiceImpl extends RemoteServiceServlet
 		new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 	@Override
-	public void delete(ArrayList<String> ids) throws ServerException {
+	public void delete(List<String> ids) throws ServerException {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		String result = "";
 		

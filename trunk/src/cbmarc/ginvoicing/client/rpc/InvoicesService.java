@@ -3,7 +3,6 @@
  */
 package cbmarc.ginvoicing.client.rpc;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
@@ -20,7 +19,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("invoices")
 public interface InvoicesService extends RemoteService {
 	void save(Invoice invoice) throws ServerException;
-	void delete(ArrayList<String> ids) throws ServerException;
+	void delete(List<String> ids) throws ServerException;
 	
 	List<EntityDisplay> selectDisplay(String filter) throws ServerException;
 	Invoice selectById(String id) throws ServerException;

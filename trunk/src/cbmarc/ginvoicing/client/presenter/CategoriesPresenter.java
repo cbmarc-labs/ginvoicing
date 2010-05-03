@@ -5,6 +5,7 @@ package cbmarc.ginvoicing.client.presenter;
 
 import cbmarc.ginvoicing.client.view.categories.CategoriesEditViewImpl;
 import cbmarc.ginvoicing.client.view.categories.CategoriesListViewImpl;
+import cbmarc.ginvoicing.client.view.categories.CategoriesView;
 
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -13,19 +14,26 @@ import com.google.gwt.user.client.ui.HasWidgets;
  * @author MCOSTA
  *
  */
-public class CategoriesPresenter implements Presenter {
+public class CategoriesPresenter 
+		implements Presenter, CategoriesView.Presenter {
 	
-	private HasWidgets container;
+	private final CategoriesView view;
 	
-	private CategoriesListPresenter categoriesListPresenter = 
-		new CategoriesListPresenter(new CategoriesListViewImpl());
-	private CategoriesEditPresenter categoriesEditPresenter =
-		new CategoriesEditPresenter(new CategoriesEditViewImpl());
-		
+	private CategoriesListPresenter categoriesListPresenter = new CategoriesListPresenter(new CategoriesListViewImpl());
+	private CategoriesEditPresenter categoriesEditPresenter = new CategoriesEditPresenter(new CategoriesEditViewImpl());
+	
+	/**
+	 * @param view
+	 */
+	public CategoriesPresenter(CategoriesView view) {
+		this.view = view;
+	}
+
 	@Override
 	public void go(final HasWidgets container) {
-		this.container = container;
-
+		container.clear();
+		container.add(view.asWidget());
+		
 		processHistoryToken();
 	}
 	
@@ -39,7 +47,7 @@ public class CategoriesPresenter implements Presenter {
 				presenter = categoriesEditPresenter;
 			}
 
-			presenter.go(container);
+			presenter.go(view.getContent());
 		}
 	}
 

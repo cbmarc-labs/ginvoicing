@@ -22,7 +22,7 @@
 		<g:HTMLPanel>
 	  	
 			<table>
-			<tr><td><g:Label text="{cnt.formCustomerName}" /></td><td><g:ListBox ui:field="customerList" />&nbsp;<ginvoicing:SexyButton ui:field="customerReloadButton" text="{cnt.reloadButton}" resource="{res.reloadIcon}" /></td></tr>
+			<tr><td><g:Label text="{cnt.formCustomerName}" /></td><td><g:ListBox ui:field="customerList" />&nbsp;<ginvoicing:SexyButton ui:field="customersReloadButton" text="{cnt.reloadButton}" resource="{res.reloadIcon}" /></td></tr>
 			<tr><td><g:Label text="{cnt.formNotes}" /></td><td><g:TextArea ui:field="notes" width="26em" height="4em" /></td></tr>
 			</table>
 	

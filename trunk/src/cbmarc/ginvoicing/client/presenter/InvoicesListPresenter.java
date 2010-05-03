@@ -8,37 +8,24 @@ import java.util.List;
 
 import cbmarc.ginvoicing.client.event.CustomersEventBus;
 import cbmarc.ginvoicing.client.event.InvoicesEventBus;
-import cbmarc.ginvoicing.client.event.ListEvent;
-import cbmarc.ginvoicing.client.event.ListHandler;
 import cbmarc.ginvoicing.client.i18n.InvoicesConstants;
 import cbmarc.ginvoicing.client.rpc.AppAsyncCallback;
 import cbmarc.ginvoicing.client.rpc.InvoicesServiceAsync;
+import cbmarc.ginvoicing.client.view.invoices.InvoicesListView;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author MCOSTA
  * 
  */
-public class InvoicesListPresenter implements Presenter, ListHandler {
-
-	public interface Display {
-		public void setFilterBox(List<EntityDisplay> data);
-		public void setListContentLabel(String msg);
-		
-		List<Integer> getSelectedRows();
-		void setData(List<EntityDisplay> data);
-		
-		public HandlerRegistration addHandler(ListHandler handler);
-		Widget asWidget();
-	}
+public class InvoicesListPresenter 
+		implements Presenter, InvoicesListView.Presenter {
 	
-	private final Display display;
+	private final InvoicesListView view;
 	
 	private InvoicesServiceAsync service = InvoicesEventBus.getService();
 	private InvoicesConstants constants = InvoicesEventBus.getConstants();
@@ -46,29 +33,24 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 	private String filter = null;
 	private List<EntityDisplay> list;
 	
-	public InvoicesListPresenter(Display display) {
-		this.display = display;
-		
-		bind();
-	}
-	
-	private void bind() {
-		display.addHandler(this);
+	public InvoicesListPresenter(InvoicesListView view) {
+		this.view = view;
+
+		view.setPresenter(this);
 	}
 	
 	/**
 	 * 
 	 */
-	public void deleteSelectedRows() {
-		List<Integer> selectedRows = display.getSelectedRows();
-		ArrayList<String> ids = new ArrayList<String>();
+	public void deleteSelectedRows(List<Integer> items) {
+		List<String> ids = new ArrayList<String>();
 
-		if(selectedRows.isEmpty()) {
+		if(items.isEmpty()) {
 			Window.alert(constants.noItemsSelected());
 		} else {
 			if(Window.confirm(constants.areYouSure())) {
 				
-				for(Integer row : selectedRows) {
+				for(Integer row : items) {
 					ids.add(list.get(row - 1).getData()[0]);
 				}
 		
@@ -85,86 +67,73 @@ public class InvoicesListPresenter implements Presenter, ListHandler {
 	}
 
 	@Override
-	public void go(HasWidgets container) {
+	public void go(final HasWidgets container) {
 		container.clear();
-		container.add(display.asWidget());
+		container.add(view.asWidget());
 		
 		updateDisplayFromData();
+		updateCategoriesList();
 	}
 	
-	/**
-	 * 
-	 */
-	public void updateDataFromDisplay() {
-		// Nothing to do
-	}
-	
-	/**
-	 * 
-	 */
-	public void updateDisplayFromData() {
-		display.setListContentLabel(constants.loading());
-		
+	private void updateDisplayFromData() {
+		view.setListHeaderLabel(constants.loading());
 		service.selectDisplay(filter, 
 				new AppAsyncCallback<List<EntityDisplay>>() {
 
 			@Override
 			public void onSuccess(List<EntityDisplay> result) {
 				list = result;
-				display.setData(list);
+				view.setData(list);
 			}
 		});
-		
-		// Load customers filter list on listbox
-		if(this.filter == null)
-			CustomersEventBus.getService().selectDisplay(
-					new AppAsyncCallback<List<EntityDisplay>>() {
-	
-						@Override
-						public void onSuccess(List<EntityDisplay> result) {
-							display.setFilterBox(result);
-						}
-				
-			});
 	}
-
-	/**
-	 * @param filter the filter to set
-	 */
-	public void setFilter(String filter) {
-		this.filter = filter;
+	
+	private void updateCategoriesList() {
+		CustomersEventBus.getService().selectDisplay(
+				new AppAsyncCallback<List<EntityDisplay>>() {
+	
+					@Override
+					public void onSuccess(List<EntityDisplay> result) {
+						view.setFilterBox(result);
+					}
+				
+		});
 	}
 
 	@Override
-	public void onAdd(ListEvent event) {
+	public void onAddButtonClicked() {
 		History.newItem("main/invoices/edit");
 	}
 
 	@Override
-	public void onDelete(ListEvent event) {
-		deleteSelectedRows();
+	public void onDeleteButtonClicked(List<Integer> items) {
+		deleteSelectedRows(items);
 	}
 
 	@Override
-	public void onReload(ListEvent event) {
-		this.filter = null;
+	public void onFilterBoxChanged(String item) {
+		filter = null;
+		if(!item.isEmpty())
+			this.filter = item;
 		
 		updateDisplayFromData();
 	}
 
 	@Override
-	public void onList(ListEvent event, int row) {
-		String id = list.get(row).getData()[0];
+	public void onItemClicked(int item) {
+		if(item > 0) {
+			String id = list.get(item - 1).getData()[0];
 		
-		History.newItem("main/invoices/edit/" + id);
+			History.newItem("main/invoices/edit/" + id);
+		}
 	}
 
 	@Override
-	public void onFilter(ListEvent event, String filter) {
+	public void onReloadButtonClicked() {
 		this.filter = null;
-		if(!filter.isEmpty())
-			this.filter = filter;
 		
 		updateDisplayFromData();
+		updateCategoriesList();
 	}
+
 }

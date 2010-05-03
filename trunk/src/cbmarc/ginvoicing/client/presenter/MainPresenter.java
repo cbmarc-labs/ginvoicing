@@ -7,9 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cbmarc.ginvoicing.client.view.about.AboutView;
-import cbmarc.ginvoicing.client.view.customers.CustomersView;
-import cbmarc.ginvoicing.client.view.invoices.InvoicesView;
+import cbmarc.ginvoicing.client.view.about.AboutViewImpl;
+import cbmarc.ginvoicing.client.view.categories.CategoriesViewImpl;
+import cbmarc.ginvoicing.client.view.customers.CustomersViewImpl;
+import cbmarc.ginvoicing.client.view.invoices.InvoicesViewImpl;
+import cbmarc.ginvoicing.client.view.products.ProductsViewImpl;
 
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -43,13 +45,12 @@ public class MainPresenter implements Presenter {
 	    
 	    List<Hyperlink> l = display.getMenuTab();
 	    
-	    presenters.put(l.get(0), new InvoicesPresenter(new InvoicesView()));
-	    presenters.put(l.get(1), new CustomersPresenter(new CustomersView()));
-	    presenters.put(l.get(2), new ProductsPresenter());
-	    presenters.put(l.get(3), new CategoriesPresenter());
-	    presenters.put(l.get(4), new SuppliersPresenter());
+	    presenters.put(l.get(0), new InvoicesPresenter(new InvoicesViewImpl()));
+	    presenters.put(l.get(1), new CustomersPresenter(new CustomersViewImpl()));
+	    presenters.put(l.get(2), new ProductsPresenter(new ProductsViewImpl()));
+	    presenters.put(l.get(3), new CategoriesPresenter(new CategoriesViewImpl()));
 	    
-	    aboutPresenter = new AboutPresenter(new AboutView());
+	    aboutPresenter = new AboutPresenter(new AboutViewImpl());
 	}
 
 	@Override

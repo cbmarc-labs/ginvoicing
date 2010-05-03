@@ -22,7 +22,7 @@
 		<table>
 		<tr><td><g:Label text="{cnt.formName}" /></td><td><g:TextBox ui:field="name" /></td></tr>
 		<tr><td><g:Label text="{cnt.formDescription}" /></td><td><g:TextBox ui:field="description" width="20em" /></td></tr>
-		<tr><td><g:Label text="{cnt.formCategory}" /></td><td><g:ListBox ui:field="categoryList" />&nbsp;<ginvoicing:SexyButton ui:field="categoryReloadButton" text="{cnt.reloadButton}" resource="{res.reloadIcon}" /></td></tr>
+		<tr><td><g:Label text="{cnt.formCategory}" /></td><td><g:ListBox ui:field="categoryList" />&nbsp;<ginvoicing:SexyButton ui:field="categoriesReloadButton" text="{cnt.reloadButton}" resource="{res.reloadIcon}" /></td></tr>
 		<tr><td><g:Label text="{cnt.formPrice}" /></td><td><g:TextBox ui:field="price" width="5em" /></td></tr>
 		</table>
 

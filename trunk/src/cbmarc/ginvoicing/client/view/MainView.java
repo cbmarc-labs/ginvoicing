@@ -10,12 +10,10 @@ import cbmarc.ginvoicing.client.presenter.MainPresenter;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -34,8 +32,7 @@ public class MainView extends Composite implements MainPresenter.Display {
 	
 	@UiField Panel content;
 	@UiField Anchor LangCA, LangES, LangEN, LangFR;
-	@UiField Hyperlink suppliersTab, categoriesTab, productsTab, 
-		customersTab, invoicesTab;
+	@UiField Hyperlink categoriesTab, productsTab, customersTab, invoicesTab;
 	
 	private List<Hyperlink> menuTab = new ArrayList<Hyperlink>();
 	
@@ -46,7 +43,6 @@ public class MainView extends Composite implements MainPresenter.Display {
 		menuTab.add(customersTab);
 		menuTab.add(productsTab);
 		menuTab.add(categoriesTab);
-		menuTab.add(suppliersTab);
 	}
 	
 	public Widget asWidget() {
@@ -54,9 +50,10 @@ public class MainView extends Composite implements MainPresenter.Display {
 	}
 	
 	protected void changeLanguage(String lang) {
-		UrlBuilder builder = Location.createUrlBuilder()
-			.setParameter("locale", lang);
-		Window.Location.replace(builder.buildString());
+		Window.alert("Work in progress ...");
+		//UrlBuilder builder = Location.createUrlBuilder()
+		//	.setParameter("locale", lang);
+		//Window.Location.replace(builder.buildString());
 	}
 	
 	// BEGIN LANG PANEL

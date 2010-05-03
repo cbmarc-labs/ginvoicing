@@ -6,37 +6,30 @@ package cbmarc.ginvoicing.client.presenter;
 import cbmarc.ginvoicing.client.event.EventBus;
 import cbmarc.ginvoicing.client.event.ListEditEvent;
 import cbmarc.ginvoicing.client.event.ListEditHandler;
-import cbmarc.ginvoicing.client.view.invoices.LinesEditView;
-import cbmarc.ginvoicing.client.view.invoices.LinesListView;
+import cbmarc.ginvoicing.client.view.invoices.LinesEditViewImpl;
+import cbmarc.ginvoicing.client.view.invoices.LinesListViewImpl;
+import cbmarc.ginvoicing.client.view.invoices.LinesView;
 import cbmarc.ginvoicing.shared.entity.Line;
 
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author MCOSTA
  *
  */
-public class LinesPresenter implements Presenter, ListEditHandler {
+public class LinesPresenter 
+		implements Presenter, LinesView.Presenter, ListEditHandler {
 	
-	public interface Display {
-		HasWidgets getContent();
-		Widget asWidget();
-	}
-	
-	protected final Display display;
+	protected final LinesView view;
 	private EventBus eventBus = EventBus.getEventBus();
 	
-	private LinesListPresenter linesListPresenter;
-	private LinesEditPresenter linesEditPresenter;
+	private LinesListPresenter linesListPresenter = new LinesListPresenter(new LinesListViewImpl());
+	private LinesEditPresenter linesEditPresenter = new LinesEditPresenter(new LinesEditViewImpl());
 	
 	private Line lineEdit = new Line();
 	
-	public LinesPresenter(Display display) {
-	    this.display = display;
-	    
-	    linesListPresenter = new LinesListPresenter(new LinesListView());
-	    linesEditPresenter = new LinesEditPresenter(new LinesEditView());
+	public LinesPresenter(LinesView view) {
+		this.view = view;
 		
 	    bind();
 	}
@@ -44,16 +37,13 @@ public class LinesPresenter implements Presenter, ListEditHandler {
 	private void bind() {
 		eventBus.addHandler(ListEditEvent.getType(), this);
 	}
-	
-	public void updateDataFromDisplay() {}
-	public void updateDisplayFromData() {}
 
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
-	    container.add(display.asWidget());
+	    container.add(view.asWidget());
 	    
-	    linesListPresenter.go(display.getContent());
+	    linesListPresenter.go(view.getContent());
 	}
 	
 	/**
@@ -75,13 +65,11 @@ public class LinesPresenter implements Presenter, ListEditHandler {
 	 */
 	@Override
 	public void onList(ListEditEvent event, Object object) {
-		if(object != null) {
-			if(lineEdit == null) {
-				linesListPresenter.getList().add((Line)object);
-			}
-		}
+		// Perform an insert on list
+		if(object != null && lineEdit == null)
+			linesListPresenter.getList().add((Line)object);
 		
-		linesListPresenter.go(display.getContent());
+		linesListPresenter.go(view.getContent());
 	}
 
 	@Override
@@ -92,7 +80,7 @@ public class LinesPresenter implements Presenter, ListEditHandler {
 		if(object != null) line = lineEdit;
 		
 		linesEditPresenter.setLine(line);
-		linesEditPresenter.go(display.getContent());
+		linesEditPresenter.go(view.getContent());
 	}
 
 }

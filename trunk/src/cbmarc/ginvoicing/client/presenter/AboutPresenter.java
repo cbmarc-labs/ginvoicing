@@ -3,34 +3,31 @@
  */
 package cbmarc.ginvoicing.client.presenter;
 
+import cbmarc.ginvoicing.client.view.about.AboutView;
+
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author MCOSTA
  * 
- * Represents a about section in an app.
+ * Represents a about section.
  *
  */
-public class AboutPresenter implements Presenter {
+public class AboutPresenter implements Presenter, AboutView.Presenter {
+
+	private final AboutView view;
 	
-	public interface Display {
-		Widget asWidget();
+	/**
+	 * @param view
+	 */
+	public AboutPresenter(AboutView view) {
+		this.view = view;
 	}
-	
-	protected final Display display;
-	
-	public AboutPresenter(Display display) {
-	    this.display = display;
-	    bind();
-	}
-	
-	private void bind() {}
-	
+
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
-	    container.add(display.asWidget());
+	    container.add(view.asWidget());
 	}
 
 }

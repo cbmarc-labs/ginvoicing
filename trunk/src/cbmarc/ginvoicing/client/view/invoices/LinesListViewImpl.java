@@ -1,17 +1,16 @@
 /**
  * 
  */
-package cbmarc.ginvoicing.client.view.products;
+package cbmarc.ginvoicing.client.view.invoices;
 
 import java.util.List;
 
-import cbmarc.ginvoicing.client.event.ProductsEventBus;
-import cbmarc.ginvoicing.client.i18n.ProductsConstants;
+import cbmarc.ginvoicing.client.event.LinesEventBus;
+import cbmarc.ginvoicing.client.i18n.LinesConstants;
 import cbmarc.ginvoicing.client.ui.ListFlexTable;
-import cbmarc.ginvoicing.shared.entity.EntityDisplay;
+import cbmarc.ginvoicing.shared.entity.Line;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -19,44 +18,45 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author MCOSTA
  *
  */
-public class ProductsListViewImpl extends Composite 
-		implements ProductsListView {
-	
-	@UiTemplate("ProductsListView.ui.xml")
-	interface uiBinder extends UiBinder<Widget, ProductsListViewImpl> {}
+public class LinesListViewImpl extends Composite implements LinesListView {
+
+	@UiTemplate("LinesListView.ui.xml")
+	interface uiBinder extends UiBinder<Widget, LinesListViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 	
-	private ProductsConstants constants = ProductsEventBus.getConstants();
-
-	@UiField ListBox filterBox;
+	private LinesConstants constants = LinesEventBus.getConstants();
+	
 	@UiField ListFlexTable listContent;
 	@UiField HasText listHeaderLabel;
+	@UiField HasText listFooterLabel;
 	
 	private Presenter presenter = null;
 	
-	public ProductsListViewImpl() {
-		initWidget(uiBinder.createAndBindUi(this));		
+	public LinesListViewImpl() {
+		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
-	public void setData(List<EntityDisplay> data) {
+	/**
+	 * @param data
+	 */
+	public void setData(List<Line> data) {
 		listContent.removeAllRows();
-		listContent.addData(new String[] {constants.listName(),
-				constants.listDescription(), constants.listCategory(),
-				constants.listPrice()});
+		listContent.addData(new String[] { constants.listProductName(),
+				constants.listQuantity(), constants.listPrice()});
 
 		setListHeaderLabel(constants.noData());
 		if(data == null || data.isEmpty()) return;
 		
-		for(EntityDisplay product : data) {
-			String d[] = product.getData();
-			listContent.addData(new String[] {d[1], d[2], d[3], d[4]});
+		for(Line line : data) {
+			listContent.addData(new String[] { line.getProductName(),
+					line.getQuantity().toString(),
+					line.getPrice().toString()});
 		}
 
 		setListHeaderLabel(data.size() + " " + constants.itemsLabel());
@@ -72,7 +72,7 @@ public class ProductsListViewImpl extends Composite
 	@UiHandler("addButton")
 	protected void addClicked(ClickEvent event) {
 	    if(presenter != null) {
-	    	presenter.onAddButtonClicked();
+			presenter.onAddButtonClicked();
 	    }
 	}
 	
@@ -82,15 +82,6 @@ public class ProductsListViewImpl extends Composite
 	    	List<Integer> items = listContent.getSelectedRows();
 	    	
 			presenter.onDeleteButtonClicked(items);
-	    }
-	}
-	
-	@UiHandler("filterBox")
-	protected void filterChange(ChangeEvent event) {
-	    if(presenter != null) {
-	    	String item = filterBox.getValue(filterBox.getSelectedIndex());
-	    	
-	    	presenter.onFilterBoxChanged(item);
 	    }
 	}
 	
@@ -108,19 +99,8 @@ public class ProductsListViewImpl extends Composite
 	}
 
 	@Override
-	public void setFilterBox(List<EntityDisplay> data) {
-		filterBox.clear();
-		
-		filterBox.setEnabled(false);
-		filterBox.addItem("", "");
-		for(EntityDisplay item: data) {
-			String[] d = item.getData();
-			
-			filterBox.addItem(d[1], d[0]);
-		}
-		
-		if(filterBox.getItemCount() > 1)
-			filterBox.setEnabled(true);
+	public void setListFooterLabel(String text) {
+		listFooterLabel.setText(text);
 	}
 
 	@Override
@@ -132,4 +112,5 @@ public class ProductsListViewImpl extends Composite
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
+	
 }
