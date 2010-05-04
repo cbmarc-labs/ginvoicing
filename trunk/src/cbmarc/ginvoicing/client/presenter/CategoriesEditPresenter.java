@@ -30,11 +30,15 @@ public class CategoriesEditPresenter
 	private CategoriesConstants constants = CategoriesEventBus.getConstants();
 	private AppMessages messages = EventBus.getMessages();
 	
-	private Category category = new Category();
+	private Category category;
 	
-	public CategoriesEditPresenter(CategoriesEditView view) {
+	public CategoriesEditPresenter(CategoriesEditView view, String id) {
 	    this.view = view;
 	    view.setPresenter(this);
+	    
+	    category = new Category();
+	    if(id != null) doLoad(id);
+	    	else updateDisplayFromData();
 	}
 	
 	/**
@@ -95,13 +99,7 @@ public class CategoriesEditPresenter
 		container.clear();
 		container.add(view.asWidget());
 		
-		category = new Category();
-	    
-	    String[] parts = History.getToken().split("/");
-	    if(parts.length > 3)
-	    	doLoad(parts[parts.length - 1]);
-	    else
-	    	updateDisplayFromData();
+		view.focus();
 	}
 	
 	public void updateDataFromDisplay() {

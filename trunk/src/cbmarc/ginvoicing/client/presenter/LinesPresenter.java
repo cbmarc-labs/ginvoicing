@@ -3,6 +3,8 @@
  */
 package cbmarc.ginvoicing.client.presenter;
 
+import java.util.List;
+
 import cbmarc.ginvoicing.client.event.EventBus;
 import cbmarc.ginvoicing.client.event.ListEditEvent;
 import cbmarc.ginvoicing.client.event.ListEditHandler;
@@ -20,16 +22,19 @@ import com.google.gwt.user.client.ui.HasWidgets;
 public class LinesPresenter 
 		implements Presenter, LinesView.Presenter, ListEditHandler {
 	
-	protected final LinesView view;
 	private EventBus eventBus = EventBus.getEventBus();
 	
-	private LinesListPresenter linesListPresenter = new LinesListPresenter(new LinesListViewImpl());
-	private LinesEditPresenter linesEditPresenter = new LinesEditPresenter(new LinesEditViewImpl());
+	private static LinesListViewImpl linesListView = null;
+	private static LinesEditViewImpl linesEditView = null;
 	
-	private Line lineEdit = new Line();
+	private final LinesView view;
 	
-	public LinesPresenter(LinesView view) {
+	private List<Line> list = null;
+	private Line line = null;
+	
+	public LinesPresenter(LinesView view, List<Line> list) {
 		this.view = view;
+		this.list = list;
 		
 	    bind();
 	}
@@ -43,44 +48,31 @@ public class LinesPresenter
 		container.clear();
 	    container.add(view.asWidget());
 	    
-	    linesListPresenter.go(view.getContent());
-	}
-	
-	/**
-	 * @return the linesListPresenter
-	 */
-	public LinesListPresenter getLinesListPresenter() {
-		return linesListPresenter;
+	    // maybe better way to initialize the view.
+	    onList(null, null);
 	}
 
-	/**
-	 * @return the linesEditPresenter
-	 */
-	public LinesEditPresenter getLinesEditPresenter() {
-		return linesEditPresenter;
-	}
-	
 	/* (non-Javadoc)
 	 * @see cbmarc.ginvoicing.client.event.ListEditHandler#onList(cbmarc.ginvoicing.client.event.ListEditEvent, java.lang.Object)
 	 */
 	@Override
 	public void onList(ListEditEvent event, Object object) {
-		// Perform an insert on list
-		if(object != null && lineEdit == null)
-			linesListPresenter.getList().add((Line)object);
+	    if(linesListView == null)
+	    	linesListView = new LinesListViewImpl();
+	    
+	    if(object != null && line == null)
+	    	this.list.add((Line)object);
 		
-		linesListPresenter.go(view.getContent());
+		new LinesListPresenter(linesListView, list).go(view.getContent());
 	}
 
 	@Override
 	public void onEdit(ListEditEvent event, Object object) {
-		Line line = new Line();
+		if(linesEditView == null)
+	    	linesEditView = new LinesEditViewImpl();
 		
-		lineEdit = (Line)object;
-		if(object != null) line = lineEdit;
-		
-		linesEditPresenter.setLine(line);
-		linesEditPresenter.go(view.getContent());
+		line = (Line)object;
+		new LinesEditPresenter(linesEditView, line).go(view.getContent());
 	}
 
 }

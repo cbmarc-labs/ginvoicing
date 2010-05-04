@@ -27,10 +27,11 @@ public class LinesListPresenter implements Presenter, LinesListView.Presenter {
 	private EventBus eventBus = EventBus.getEventBus();
 	private LinesConstants constants = LinesEventBus.getConstants();
 	
-	private List<Line> list = new ArrayList<Line>();
+	private List<Line> list = null;
 	
-	public LinesListPresenter(LinesListView view) {
+	public LinesListPresenter(LinesListView view, List<Line> list) {
 		this.view = view;
+		this.list = list;
 		
 		view.setPresenter(this);
 	}
@@ -59,20 +60,6 @@ public class LinesListPresenter implements Presenter, LinesListView.Presenter {
 		container.add(view.asWidget());
 				
 		updateDisplayFromData();
-	}
-	
-	/**
-	 * @return the list
-	 */
-	public List<Line> getList() {
-		return list;
-	}
-
-	/**
-	 * @param list the list to set
-	 */
-	public void setList(List<Line> list) {
-		this.list = list;
 	}
 	
 	/**

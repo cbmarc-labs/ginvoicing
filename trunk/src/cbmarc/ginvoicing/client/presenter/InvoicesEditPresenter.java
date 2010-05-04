@@ -36,12 +36,17 @@ public class InvoicesEditPresenter
 	private InvoicesConstants constants = InvoicesEventBus.getConstants();
 	private AppMessages messages = EventBus.getMessages();
 	
-	private final LinesPresenter linesPresenter = new LinesPresenter(new LinesViewImpl());
-	private Invoice invoice = new Invoice();
+	private static LinesViewImpl linesView = null;
+
+	private Invoice invoice;
 	
-	public InvoicesEditPresenter(InvoicesEditView view) {
+	public InvoicesEditPresenter(InvoicesEditView view, String id) {
 	    this.view = view;
 	    view.setPresenter(this);
+	    
+	    invoice = new Invoice();
+	    if(id != null) doLoad(id);
+    		else updateDisplayFromData();
 	}
 	
 	private void updateCustomerList() {
@@ -78,7 +83,7 @@ public class InvoicesEditPresenter
 	/**
 	 * @return
 	 */
-	public void doSave() {
+	private void doSave() {
 		updateDataFromDisplay();
 		
 		service.save(invoice, new AppAsyncCallback<Void>() {
@@ -111,28 +116,19 @@ public class InvoicesEditPresenter
 		container.clear();
 		container.add(view.asWidget());
 		
-		invoice = new Invoice();
-	    linesPresenter.getLinesListPresenter().getList().clear();
-	    
-	    String[] parts = History.getToken().split("/");
-	    if(parts.length > 3)
-	    	doLoad(parts[parts.length - 1]);
-	    else
-	    	updateDisplayFromData();
+		view.focus();
 	}
 	
 	/**
 	 * 
 	 */
 	public void updateDataFromDisplay() {
-		List<Line> lines = linesPresenter.getLinesListPresenter().getList();
-		
 		invoice.setCustomer(view.getCustomer());
 		invoice.setNotes(view.getNotes().getValue());
-		invoice.setLines(lines);
 		
 		Float amount = 0.0f;
-		for(Line l: lines) amount += (l.getQuantity() * l.getPrice());
+		for(Line l: invoice.getLines())
+			amount += (l.getQuantity() * l.getPrice());
 		
 		invoice.setAmount(amount);
 	}
@@ -146,8 +142,11 @@ public class InvoicesEditPresenter
 		updateCustomerList();
 		view.getNotes().setValue(invoice.getNotes());
 		
-		linesPresenter.getLinesListPresenter().setList(invoice.getLines());
-		linesPresenter.go(view.getLinesPanel());
+		if(linesView == null)
+			linesView = new LinesViewImpl();
+		
+		new LinesPresenter(linesView, invoice.getLines()).
+			go(view.getLinesPanel());
 	}
 
 	@Override

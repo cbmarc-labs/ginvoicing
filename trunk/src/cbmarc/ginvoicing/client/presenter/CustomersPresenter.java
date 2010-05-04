@@ -15,22 +15,23 @@ import com.google.gwt.user.client.ui.HasWidgets;
  *
  */
 public class CustomersPresenter implements Presenter, CustomersView.Presenter {
-		
-	protected final CustomersView view;
+	
+	private static final String VIEW = MainPresenter.VIEW_CUSTOMERS;
 
-	private CustomersListPresenter customersListPresenter = new CustomersListPresenter(new CustomersListViewImpl());
-	private CustomersEditPresenter customersEditPresenter = new CustomersEditPresenter(new CustomersEditViewImpl());
+	private CustomersListViewImpl customersListView = null;
+	private CustomersEditViewImpl customersEditView = null;
+		
+	private final CustomersView view;
 	
 	/**
 	 * @param view
 	 */
 	public CustomersPresenter(CustomersView view) {
 	    this.view = view;
-	    view.setPresenter(this);
 	}
 
 	@Override
-	public void go(HasWidgets container) {
+	public void go(final HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget());
 		
@@ -41,13 +42,25 @@ public class CustomersPresenter implements Presenter, CustomersView.Presenter {
 		String token = History.getToken();
 		
 		if(token != null) {
-			Presenter presenter = customersListPresenter;
-			
-			if(token.startsWith("main/customers/edit")) {
-				presenter = customersEditPresenter;
+			if (token.startsWith(VIEW + "/edit")) {
+				String[] parts = token.split("/");
+				String id = null; 
+				
+				if(customersEditView == null)
+					customersEditView = new CustomersEditViewImpl();
+				
+				// is a edit statement?
+				if(parts.length > 3) id = parts[parts.length - 1];
+				
+				new CustomersEditPresenter(customersEditView, id).
+					go(view.getContent());
+			} else {
+				if(customersListView == null)
+					customersListView = new CustomersListViewImpl();
+				
+				new CustomersListPresenter(customersListView).
+					go(view.getContent());
 			}
-
-			presenter.go(view.getContent());
 		}
 	}
 

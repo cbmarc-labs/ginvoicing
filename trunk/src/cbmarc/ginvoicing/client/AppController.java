@@ -2,7 +2,7 @@ package cbmarc.ginvoicing.client;
 
 import cbmarc.ginvoicing.client.presenter.MainPresenter;
 import cbmarc.ginvoicing.client.presenter.Presenter;
-import cbmarc.ginvoicing.client.view.MainView;
+import cbmarc.ginvoicing.client.view.MainViewImpl;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -15,7 +15,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private MainPresenter mainPresenter;
   
 	public AppController() {
-		mainPresenter = new MainPresenter(new MainView());
+		mainPresenter = new MainPresenter(new MainViewImpl());
 		
 		bind();
 	}

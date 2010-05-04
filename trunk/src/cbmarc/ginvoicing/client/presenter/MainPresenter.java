@@ -3,84 +3,143 @@
  */
 package cbmarc.ginvoicing.client.presenter;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import cbmarc.ginvoicing.client.view.MainView;
 import cbmarc.ginvoicing.client.view.about.AboutViewImpl;
 import cbmarc.ginvoicing.client.view.categories.CategoriesViewImpl;
 import cbmarc.ginvoicing.client.view.customers.CustomersViewImpl;
 import cbmarc.ginvoicing.client.view.invoices.InvoicesViewImpl;
 import cbmarc.ginvoicing.client.view.products.ProductsViewImpl;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author MCOSTA
  *
  */
-public class MainPresenter implements Presenter {
+public class MainPresenter implements Presenter, MainView.Presenter {
 	
-	public interface Display {
-		List<Hyperlink> getMenuTab();
-		void setActiveTab(Hyperlink hyperlink);
-		
-		HasWidgets getContent();
-		Widget asWidget();
-	}
+	public static final String VIEW_MAIN = "main";
+	public static final String VIEW_ABOUT = VIEW_MAIN + "/about";
+	public static final String VIEW_INVOICES = VIEW_MAIN + "/invoices";
+	public static final String VIEW_CUSTOMERS = VIEW_MAIN + "/customers";
+	public static final String VIEW_PRODUCTS = VIEW_MAIN + "/products";
+	public static final String VIEW_CATEGORIES = VIEW_MAIN + "/categories";
 	
-	public static final String VIEW_ABOUT = "main/about";
+	private final MainView view;
 	
-	private final Display display;
+    private InvoicesViewImpl invoicesView = null;
+    private CustomersViewImpl customersView = null;
+    private ProductsViewImpl productsView = null;
+    private CategoriesViewImpl categoriesView = null;
+	private AboutViewImpl aboutView = null;
 	
-	private Map<Hyperlink, Presenter> presenters = 
-		new HashMap<Hyperlink, Presenter>();
-	private Presenter aboutPresenter;
-	
-	public MainPresenter(Display display) {
-	    this.display = display;
-	    
-	    List<Hyperlink> l = display.getMenuTab();
-	    
-	    presenters.put(l.get(0), new InvoicesPresenter(new InvoicesViewImpl()));
-	    presenters.put(l.get(1), new CustomersPresenter(new CustomersViewImpl()));
-	    presenters.put(l.get(2), new ProductsPresenter(new ProductsViewImpl()));
-	    presenters.put(l.get(3), new CategoriesPresenter(new CategoriesViewImpl()));
-	    
-	    aboutPresenter = new AboutPresenter(new AboutViewImpl());
+	public MainPresenter(MainView view) {
+	    this.view = view;
 	}
 
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
+		container.add(view.asWidget());
+		
 		processHistoryToken();
-		container.add(display.asWidget());
 	}
 	
 	public void processHistoryToken() {
 		String token = History.getToken();
-		Presenter presenter = null;
-		display.setActiveTab(null);
+		view.setActiveTab(null);
 		
-		if(token != null) {
+		if(token != null) {			
 			if (token.startsWith(VIEW_ABOUT)) {
-				presenter = aboutPresenter;
-			} else {
-				for(Hyperlink h: presenters.keySet())
-					if(token.startsWith(h.getTargetHistoryToken())) {
-						display.setActiveTab(h);
-						presenter = presenters.get(h);
-					
-						break;
-					}
-			}
-		}
+				GWT.runAsync(new RunAsyncCallback() {
 
-		if(presenter != null) {
-			presenter.go(display.getContent());
+					@Override
+					public void onFailure(Throwable reason) {
+						Window.alert("runAsync ERROR");
+					}
+
+					@Override
+					public void onSuccess() {
+						if(aboutView == null) 
+							aboutView = new AboutViewImpl();
+						
+						new AboutPresenter(aboutView).go(view.getContent());
+					}
+					
+				});
+			} else if(token.startsWith(VIEW_CATEGORIES)) {
+				GWT.runAsync(new RunAsyncCallback() {
+
+					@Override
+					public void onFailure(Throwable reason) {
+						Window.alert("runAsync ERROR");
+					}
+
+					@Override
+					public void onSuccess() {
+						if(categoriesView == null) 
+							categoriesView = new CategoriesViewImpl();
+						
+						new CategoriesPresenter(categoriesView).go(view.getContent());
+					}
+					
+				});
+			} else if(token.startsWith(VIEW_CUSTOMERS)) {
+				GWT.runAsync(new RunAsyncCallback() {
+
+					@Override
+					public void onFailure(Throwable reason) {
+						Window.alert("runAsync ERROR");
+					}
+
+					@Override
+					public void onSuccess() {
+						if(customersView == null) 
+							customersView = new CustomersViewImpl();
+						
+						new CustomersPresenter(customersView).go(view.getContent());
+					}
+					
+				});
+			} else if(token.startsWith(VIEW_INVOICES)) {
+				GWT.runAsync(new RunAsyncCallback() {
+
+					@Override
+					public void onFailure(Throwable reason) {
+						Window.alert("runAsync ERROR");
+					}
+
+					@Override
+					public void onSuccess() {
+						if(invoicesView == null) 
+							invoicesView = new InvoicesViewImpl();
+						
+						new InvoicesPresenter(invoicesView).go(view.getContent());
+					}
+					
+				});
+			} else if(token.startsWith(VIEW_PRODUCTS)) {
+				GWT.runAsync(new RunAsyncCallback() {
+
+					@Override
+					public void onFailure(Throwable reason) {
+						Window.alert("runAsync ERROR");
+					}
+
+					@Override
+					public void onSuccess() {
+						if(productsView == null) 
+							productsView = new ProductsViewImpl();
+						
+						new ProductsPresenter(productsView).go(view.getContent());
+					}
+					
+				});
+			} 
 		}
 	}
 	

@@ -16,10 +16,12 @@ import com.google.gwt.user.client.ui.HasWidgets;
  */
 public class ProductsPresenter implements Presenter, ProductsView.Presenter {
 	
-	private final ProductsView view;
+	private static final String VIEW = MainPresenter.VIEW_PRODUCTS;
 	
-	private ProductsListPresenter productsListPresenter = new ProductsListPresenter(new ProductsListViewImpl());
-	private ProductsEditPresenter productsEditPresenter = new ProductsEditPresenter(new ProductsEditViewImpl());
+	private static ProductsListViewImpl productsListView = null;
+	private static ProductsEditViewImpl productsEditView = null;
+	
+	private final ProductsView view;
 
 	/**
 	 * @param view
@@ -40,13 +42,25 @@ public class ProductsPresenter implements Presenter, ProductsView.Presenter {
 		String token = History.getToken();
 		
 		if(token != null) {
-			Presenter presenter = productsListPresenter;
-			
-			if(token.startsWith("main/products/edit")) {
-				presenter = productsEditPresenter;
+			if (token.startsWith(VIEW + "/edit")) {
+				String[] parts = token.split("/");
+				String id = null; 
+				
+				if(productsEditView == null)
+					productsEditView = new ProductsEditViewImpl();
+				
+				// is a edit statement?
+				if(parts.length > 3) id = parts[parts.length - 1];
+				
+				new ProductsEditPresenter(productsEditView, id).
+					go(view.getContent());
+			} else {
+				if(productsListView == null)
+					productsListView = new ProductsListViewImpl();
+				
+				new ProductsListPresenter(productsListView).
+					go(view.getContent());
 			}
-
-			presenter.go(view.getContent());
 		}
 	}
 

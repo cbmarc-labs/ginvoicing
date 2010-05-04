@@ -30,11 +30,15 @@ public class CustomersEditPresenter
 	private CustomersConstants constants = CustomersEventBus.getConstants();
 	private AppMessages messages = EventBus.getMessages();
 	
-	private Customer customer = new Customer();
+	private Customer customer;
 	
-	public CustomersEditPresenter(CustomersEditView view) {
+	public CustomersEditPresenter(CustomersEditView view, String id) {
 	    this.view = view;
 	    view.setPresenter(this);
+	    
+	    customer = new Customer();
+	    if(id != null) doLoad(id);
+	    	else updateDisplayFromData();
 	}
 	
 	/**
@@ -59,7 +63,7 @@ public class CustomersEditPresenter
 	/**
 	 * @return
 	 */
-	public void doSave() {
+	private void doSave() {
 		updateDataFromDisplay();
 		
 		service.save(customer, new AppAsyncCallback<Void>() {
@@ -81,7 +85,6 @@ public class CustomersEditPresenter
 			@Override
 			public void onSuccess(Customer result) {
 				customer = result;
-				
 				updateDisplayFromData();
 			}
 			
@@ -93,13 +96,7 @@ public class CustomersEditPresenter
 		container.clear();
 		container.add(view.asWidget());
 		
-		customer = new Customer();
-		
-	    String[] parts = History.getToken().split("/");
-	    if(parts.length > 3)
-	    	doLoad(parts[parts.length - 1]);
-	    else
-	    	updateDisplayFromData();
+		view.focus();
 	}
 	
 	/**

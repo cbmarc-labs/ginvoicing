@@ -16,6 +16,5 @@ public interface CategoriesView {
 	}
 	
 	HasWidgets getContent();
-	
 	Widget asWidget();
 }

@@ -17,10 +17,12 @@ import com.google.gwt.user.client.ui.HasWidgets;
 public class CategoriesPresenter 
 		implements Presenter, CategoriesView.Presenter {
 	
-	private final CategoriesView view;
+	private static final String VIEW = MainPresenter.VIEW_CATEGORIES;
 	
-	private CategoriesListPresenter categoriesListPresenter = new CategoriesListPresenter(new CategoriesListViewImpl());
-	private CategoriesEditPresenter categoriesEditPresenter = new CategoriesEditPresenter(new CategoriesEditViewImpl());
+	private static CategoriesListViewImpl categoriesListView = null;
+	private static CategoriesEditViewImpl categoriesEditView = null;
+	
+	private final CategoriesView view;
 	
 	/**
 	 * @param view
@@ -41,14 +43,26 @@ public class CategoriesPresenter
 		String token = History.getToken();
 		
 		if(token != null) {
-			Presenter presenter = categoriesListPresenter;
-			
-			if(token.startsWith("main/categories/edit")) {
-				presenter = categoriesEditPresenter;
+			if (token.startsWith(VIEW + "/edit")) {
+				String[] parts = token.split("/");
+				String id = null; 
+				
+				if(categoriesEditView == null)
+					categoriesEditView = new CategoriesEditViewImpl();
+				
+				// is a edit statement?
+				if(parts.length > 3) id = parts[parts.length - 1];
+				
+				new CategoriesEditPresenter(categoriesEditView, id).
+					go(view.getContent());
+			} else {
+				if(categoriesListView == null)
+					categoriesListView = new CategoriesListViewImpl();
+				
+				new CategoriesListPresenter(categoriesListView).
+					go(view.getContent());
 			}
-
-			presenter.go(view.getContent());
 		}
 	}
-
+	
 }

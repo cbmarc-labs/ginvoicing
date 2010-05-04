@@ -34,11 +34,15 @@ public class ProductsEditPresenter
 	private ProductsConstants constants = ProductsEventBus.getConstants();
 	private AppMessages messages = EventBus.getMessages();
 	
-	private Product product = new Product();
+	private Product product;
 	
-	public ProductsEditPresenter(ProductsEditView view) {
+	public ProductsEditPresenter(ProductsEditView view, String id) {
 	    this.view = view;
 	    view.setPresenter(this);
+	    
+	    product = new Product();
+	    if(id != null) doLoad(id);
+	    	else updateDisplayFromData();
 	}
 	
 	private void updateCategoryList() {
@@ -117,14 +121,8 @@ public class ProductsEditPresenter
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget());
-		
-		product = new Product();
-		
-		String[] parts = History.getToken().split("/");
-	    if(parts.length > 3) 
-	    	doLoad(parts[parts.length - 1]);
-	    else
-	    	updateDisplayFromData();
+
+		view.focus();
 	}
 	
 	public void updateDataFromDisplay() {

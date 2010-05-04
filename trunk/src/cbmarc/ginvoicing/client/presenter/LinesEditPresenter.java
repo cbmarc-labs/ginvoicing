@@ -32,11 +32,17 @@ public class LinesEditPresenter implements Presenter, LinesEditView.Presenter {
 	private LinesConstants constants = LinesEventBus.getConstants();
 	private AppMessages messages = EventBus.getMessages();
 	
-	private Line line = new Line();
+	private Line line;
 	
-	public LinesEditPresenter(LinesEditView view) {
+	public LinesEditPresenter(LinesEditView view, Line line) {
 	    this.view = view;
 	    view.setPresenter(this);
+	    
+	    this.line = new Line();
+	    if(line != null)
+	    	this.line = line;
+	    
+	    updateDisplayFromData();
 	}
 	
 	/**
@@ -85,15 +91,8 @@ public class LinesEditPresenter implements Presenter, LinesEditView.Presenter {
 	public void go(HasWidgets container) {
 		container.clear();
 	    container.add(view.asWidget());
-
-		updateDisplayFromData();
-	}
-	
-	/**
-	 * @param line the line to set
-	 */
-	public void setLine(Line line) {
-		this.line = line;
+	    
+		view.focus();
 	}
 
 	/**

@@ -16,10 +16,12 @@ import com.google.gwt.user.client.ui.HasWidgets;
  */
 public class InvoicesPresenter implements Presenter, InvoicesView.Presenter {
 	
-	protected final InvoicesView view;
+	private static final String VIEW = MainPresenter.VIEW_INVOICES;
 
-	private InvoicesListPresenter invoicesListPresenter = new InvoicesListPresenter(new InvoicesListViewImpl());
-	private InvoicesEditPresenter invoicesEditPresenter = new InvoicesEditPresenter(new InvoicesEditViewImpl());
+	private InvoicesListViewImpl invoicesListView;
+	private InvoicesEditViewImpl invoicesEditView;
+
+	private final InvoicesView view;
 	
 	public InvoicesPresenter(InvoicesView view) {
 	    this.view = view;
@@ -37,13 +39,25 @@ public class InvoicesPresenter implements Presenter, InvoicesView.Presenter {
 		String token = History.getToken();
 		
 		if(token != null) {
-			Presenter presenter = invoicesListPresenter;
-			
-			if(token.startsWith("main/invoices/edit")) {
-				presenter = invoicesEditPresenter;
+			if (token.startsWith(VIEW + "/edit")) {
+				String[] parts = token.split("/");
+				String id = null; 
+				
+				if(invoicesEditView == null)
+					invoicesEditView = new InvoicesEditViewImpl();
+				
+				// is a edit statement?
+				if(parts.length > 3) id = parts[parts.length - 1];
+				
+				new InvoicesEditPresenter(invoicesEditView, id).
+					go(view.getContent());
+			} else {
+				if(invoicesListView == null)
+					invoicesListView = new InvoicesListViewImpl();
+				
+				new InvoicesListPresenter(invoicesListView).
+					go(view.getContent());
 			}
-			
-			presenter.go(view.getContent());
 		}
 	}
 
