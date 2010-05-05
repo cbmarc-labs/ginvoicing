@@ -26,7 +26,7 @@
 			</g:cell>
 		</g:HorizontalPanel>
 		
-		<ginvoicing:ListFlexTable ui:field="listContent" />
+		<ginvoicing:ListFlexTable ui:field="listTable" />
   	</g:VerticalPanel>
   	
   </g:HTMLPanel>

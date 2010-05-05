@@ -62,28 +62,34 @@ public class ProductsListPresenter
 			}
 		}
 	}
-
-	@Override
-	public void go(final HasWidgets container) {
-		container.clear();
-		container.add(view.asWidget());
-
-		updateDisplayFromData();
-		updateCategoriesList();
-	}
 	
-	private void updateDisplayFromData() {
+	private void doLoad() {
 		view.setListHeaderLabel(constants.loading());
+		view.getListTable().setVisible(false);
 		service.selectDisplay(filter, 
 				new AppAsyncCallback<List<EntityDisplay>>() {
 			
 			@Override
 			public void onSuccess(List<EntityDisplay> result) {
 				list = result;
-				view.setData(list);
+				updateDisplayFromData();
 			}
 			
 		});
+	}
+
+	@Override
+	public void go(final HasWidgets container) {
+		container.clear();
+		container.add(view.asWidget());
+		view.getListTable().removeAllRows();
+
+		doLoad();
+		updateCategoriesList();
+	}
+	
+	private void updateDisplayFromData() {
+		view.setData(list);
 	}
 	
 	private void updateCategoriesList() {
@@ -130,7 +136,7 @@ public class ProductsListPresenter
 	public void onReloadButtonClicked() {
 		this.filter = null;
 		
-		updateDisplayFromData();
+		doLoad();
 		updateCategoriesList();
 	}
 }

@@ -17,6 +17,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -32,7 +33,7 @@ public class LinesListViewImpl extends Composite implements LinesListView {
 	
 	private LinesConstants constants = LinesEventBus.getConstants();
 	
-	@UiField ListFlexTable listContent;
+	@UiField ListFlexTable listTable;
 	@UiField HasText listHeaderLabel;
 	@UiField HasText listFooterLabel;
 	
@@ -46,15 +47,15 @@ public class LinesListViewImpl extends Composite implements LinesListView {
 	 * @param data
 	 */
 	public void setData(List<Line> data) {
-		listContent.removeAllRows();
-		listContent.addData(new String[] { constants.listProductName(),
+		listTable.removeAllRows();
+		listTable.addData(new String[] { constants.listProductName(),
 				constants.listQuantity(), constants.listPrice()});
 
 		setListHeaderLabel(constants.noData());
 		if(data == null || data.isEmpty()) return;
 		
 		for(Line line : data) {
-			listContent.addData(new String[] { line.getProductName(),
+			listTable.addData(new String[] { line.getProductName(),
 					line.getQuantity().toString(),
 					line.getPrice().toString()});
 		}
@@ -79,16 +80,16 @@ public class LinesListViewImpl extends Composite implements LinesListView {
 	@UiHandler("deleteButton")
 	protected void deleteClicked(ClickEvent event) {
 	    if(presenter != null) {
-	    	List<Integer> items = listContent.getSelectedRows();
+	    	List<Integer> items = listTable.getSelectedRows();
 	    	
 			presenter.onDeleteButtonClicked(items);
 	    }
 	}
 	
-	@UiHandler("listContent")
+	@UiHandler("listTable")
 	protected void listContentClicked(ClickEvent event) {
 	    if(presenter != null) {
-	    	int item = listContent.getClickedRow(event);
+	    	int item = listTable.getClickedRow(event);
 	    	
 	    	presenter.onItemClicked(item);
 	    }
@@ -111,6 +112,11 @@ public class LinesListViewImpl extends Composite implements LinesListView {
 	@Override
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
+	}
+
+	@Override
+	public FlexTable getListTable() {
+		return listTable;
 	}
 	
 }

@@ -16,7 +16,5 @@ public interface CustomersView {
 	}
 	
 	HasWidgets getContent();
-	
-	void setPresenter(Presenter presenter);
 	Widget asWidget();
 }

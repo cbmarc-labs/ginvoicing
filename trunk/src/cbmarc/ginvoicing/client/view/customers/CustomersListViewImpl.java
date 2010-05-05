@@ -17,6 +17,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -33,7 +34,7 @@ public class CustomersListViewImpl extends Composite
 	
 	private CustomersConstants constants = CustomersEventBus.getConstants();
 
-	@UiField ListFlexTable listContent;
+	@UiField ListFlexTable listTable;
 	@UiField HasText listHeaderLabel;
 	
 	private Presenter presenter = null;
@@ -46,8 +47,8 @@ public class CustomersListViewImpl extends Composite
 	 * @param data
 	 */
 	public void setData(List<EntityDisplay> data) {
-		listContent.removeAllRows();
-		listContent.addData(new String[] {constants.listName(),
+		listTable.removeAllRows();
+		listTable.addData(new String[] {constants.listName(),
 				constants.listContact(), constants.listAddress(),
 				constants.listCity(), constants.listCountry()});
 
@@ -56,7 +57,7 @@ public class CustomersListViewImpl extends Composite
 		
 		for(EntityDisplay i : data) {
 			String d[] = i.getData();
-			listContent.addData(new String[] {d[1], d[2], d[3], d[4], d[5]});
+			listTable.addData(new String[] {d[1], d[2], d[3], d[4], d[5]});
 		}
 			
 		setListHeaderLabel(data.size() + " " + constants.itemsLabel());
@@ -79,14 +80,14 @@ public class CustomersListViewImpl extends Composite
 	@UiHandler("deleteButton")
 	protected void deleteClicked(ClickEvent event) {
 	    if(presenter != null) {
-	    	presenter.onDeleteButtonClicked(listContent.getSelectedRows());
+	    	presenter.onDeleteButtonClicked(listTable.getSelectedRows());
 	    }
 	}
 	
-	@UiHandler("listContent")
+	@UiHandler("listTable")
 	protected void listContentClicked(ClickEvent event) {
 	    if(presenter != null) {
-	    	int row = listContent.getClickedRow(event);
+	    	int row = listTable.getClickedRow(event);
 
 	    	presenter.onItemClicked(row);
 	    }
@@ -104,5 +105,10 @@ public class CustomersListViewImpl extends Composite
 	@Override
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
+	}
+
+	@Override
+	public FlexTable getListTable() {
+		return listTable;
 	}
 }

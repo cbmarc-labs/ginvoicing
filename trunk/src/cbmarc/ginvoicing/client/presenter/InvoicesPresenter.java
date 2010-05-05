@@ -18,8 +18,8 @@ public class InvoicesPresenter implements Presenter, InvoicesView.Presenter {
 	
 	private static final String VIEW = MainPresenter.VIEW_INVOICES;
 
-	private InvoicesListViewImpl invoicesListView;
-	private InvoicesEditViewImpl invoicesEditView;
+	private static InvoicesListViewImpl invoicesListView;
+	private static InvoicesEditViewImpl invoicesEditView;
 
 	private final InvoicesView view;
 	

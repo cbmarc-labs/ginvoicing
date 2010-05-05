@@ -16,6 +16,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,7 +30,8 @@ public class ProductsEditViewImpl extends Composite
 	@UiTemplate("ProductsEditView.ui.xml")
 	interface uiBinder extends UiBinder<Widget, ProductsEditViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
-		
+
+	@UiField Panel formPanel;
 	@UiField TextBox name;
 	@UiField HasValue<String> description;
 	@UiField ListBox categoryList;
@@ -139,5 +141,10 @@ public class ProductsEditViewImpl extends Composite
 		
 		if(categoryList.getItemCount() > 0)
 			categoryList.setEnabled(true);
+	}
+
+	@Override
+	public Panel getFormPanel() {
+		return formPanel;
 	}
 }

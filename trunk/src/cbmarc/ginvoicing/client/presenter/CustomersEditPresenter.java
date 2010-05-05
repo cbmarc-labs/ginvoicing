@@ -80,11 +80,13 @@ public class CustomersEditPresenter
 	 * 
 	 */
 	private void doLoad(String id) {
+		view.getFormPanel().setVisible(false);
 		service.selectById(id, new AppAsyncCallback<Customer>() {
 
 			@Override
 			public void onSuccess(Customer result) {
 				customer = result;
+				view.getFormPanel().setVisible(true);
 				updateDisplayFromData();
 			}
 			
@@ -119,7 +121,6 @@ public class CustomersEditPresenter
 	 */
 	public void updateDisplayFromData() {
 		view.reset();
-		
 		view.getName().setValue(customer.getName());
 		view.getContact().setValue(customer.getContact());
 		view.getAddress().setValue(customer.getAddress());
@@ -129,6 +130,7 @@ public class CustomersEditPresenter
 		view.getFax().setValue(customer.getFax());
 		view.getEmail().setValue(customer.getEmail());
 		view.getNotes().setValue(customer.getNotes());
+		view.focus();
 	}
 
 	@Override

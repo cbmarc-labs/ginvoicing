@@ -49,7 +49,10 @@
 				</g:HorizontalPanel>
 			</g:VerticalPanel>
 			
-			<g:HorizontalPanel ui:field="content" styleName="content" width="100%" />
+			<g:HorizontalPanel ui:field="messagesPanel" styleName="messagesPanel" width="100%">
+				<g:Label ui:field="messagesCloseLabel" text="close"></g:Label>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel ui:field="contentPanel" styleName="contentPanel" width="100%" />
 			
 		</div>
 				

@@ -8,6 +8,7 @@ import java.util.List;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -23,7 +24,8 @@ public interface LinesEditView {
 		
 		void onProductsReloadButtonClicked();
 	}
-	
+
+	Panel getFormPanel();
 	HasValue<String> getQuantity();
 	EntityDisplay getProduct();
 	void setProductList(List<EntityDisplay> items, String selected);

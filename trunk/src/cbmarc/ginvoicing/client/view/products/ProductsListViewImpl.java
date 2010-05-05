@@ -18,6 +18,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -36,7 +37,7 @@ public class ProductsListViewImpl extends Composite
 	private ProductsConstants constants = ProductsEventBus.getConstants();
 
 	@UiField ListBox filterBox;
-	@UiField ListFlexTable listContent;
+	@UiField ListFlexTable listTable;
 	@UiField HasText listHeaderLabel;
 	
 	private Presenter presenter = null;
@@ -46,8 +47,8 @@ public class ProductsListViewImpl extends Composite
 	}
 	
 	public void setData(List<EntityDisplay> data) {
-		listContent.removeAllRows();
-		listContent.addData(new String[] {constants.listName(),
+		listTable.removeAllRows();
+		listTable.addData(new String[] {constants.listName(),
 				constants.listDescription(), constants.listCategory(),
 				constants.listPrice()});
 
@@ -56,7 +57,7 @@ public class ProductsListViewImpl extends Composite
 		
 		for(EntityDisplay product : data) {
 			String d[] = product.getData();
-			listContent.addData(new String[] {d[1], d[2], d[3], d[4]});
+			listTable.addData(new String[] {d[1], d[2], d[3], d[4]});
 		}
 
 		setListHeaderLabel(data.size() + " " + constants.itemsLabel());
@@ -79,7 +80,7 @@ public class ProductsListViewImpl extends Composite
 	@UiHandler("deleteButton")
 	protected void deleteClicked(ClickEvent event) {
 	    if(presenter != null) {
-	    	List<Integer> items = listContent.getSelectedRows();
+	    	List<Integer> items = listTable.getSelectedRows();
 	    	
 			presenter.onDeleteButtonClicked(items);
 	    }
@@ -94,10 +95,10 @@ public class ProductsListViewImpl extends Composite
 	    }
 	}
 	
-	@UiHandler("listContent")
+	@UiHandler("listTable")
 	protected void listContentClicked(ClickEvent event) {
 	    if(presenter != null) {
-	    	int item = listContent.getClickedRow(event);
+	    	int item = listTable.getClickedRow(event);
 	    	
 	    	presenter.onItemClicked(item);
 	    }
@@ -131,5 +132,10 @@ public class ProductsListViewImpl extends Composite
 	@Override
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
+	}
+
+	@Override
+	public FlexTable getListTable() {
+		return listTable;
 	}
 }

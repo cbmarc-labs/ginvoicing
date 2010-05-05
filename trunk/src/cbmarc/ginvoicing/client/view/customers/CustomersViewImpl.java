@@ -15,17 +15,13 @@ import com.google.gwt.user.client.ui.Widget;
  * @author MCOSTA
  *
  */
-public class CustomersViewImpl extends Composite 
-		implements CustomersView {
+public class CustomersViewImpl extends Composite implements CustomersView {
 
 	@UiTemplate("CustomersView.ui.xml")
 	interface uiBinder extends UiBinder<Widget, CustomersViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 
 	@UiField HasWidgets content;
-	
-	@SuppressWarnings("unused")
-	private Presenter presenter = null;
 		
 	public CustomersViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -38,10 +34,5 @@ public class CustomersViewImpl extends Composite
 	@Override
 	public HasWidgets getContent() {
 		return content;
-	}
-
-	@Override
-	public void setPresenter(Presenter presenter) {
-		this.presenter = presenter;
 	}
 }

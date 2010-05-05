@@ -4,6 +4,7 @@
 package cbmarc.ginvoicing.client.view.customers;
 
 import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -17,7 +18,8 @@ public interface CustomersEditView {
 		void onSubmitButtonClicked();
 		void onCancelButtonClicked();
 	}
-	
+
+	Panel getFormPanel();
 	HasValue<String> getName();
 	HasValue<String> getContact();
 	HasValue<String> getAddress();

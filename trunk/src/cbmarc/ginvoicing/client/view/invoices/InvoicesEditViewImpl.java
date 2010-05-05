@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -29,7 +30,8 @@ public class InvoicesEditViewImpl extends Composite
 	@UiTemplate("InvoicesEditView.ui.xml")
 	interface uiBinder extends UiBinder<Widget, InvoicesEditViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
-	
+
+	@UiField Panel formPanel;
 	@UiField ListBox customerList;
 	@UiField HasValue<String> notes; 
 	@UiField HasWidgets linesPanel;
@@ -131,6 +133,11 @@ public class InvoicesEditViewImpl extends Composite
 	@Override
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
+	}
+
+	@Override
+	public Panel getFormPanel() {
+		return formPanel;
 	}
 	
 }

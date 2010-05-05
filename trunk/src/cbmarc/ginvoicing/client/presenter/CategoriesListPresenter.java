@@ -58,26 +58,32 @@ public class CategoriesListPresenter
 			}
 		}
 	}
+	
+	private void doLoad() {
+		view.setListHeaderLabel(constants.loading());
+		view.getListTable().setVisible(false);
+		service.selectDisplay(new AppAsyncCallback<List<EntityDisplay>>() {
+			
+			@Override
+			public void onSuccess(List<EntityDisplay> result) {
+				list = result;
+				view.getListTable().setVisible(true);
+				updateDisplayFromData();
+			}
+			
+		});
+	}
 
 	@Override
 	public void go(final HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget());
 		
-		updateDisplayFromData();
+		doLoad();
 	}
 	
 	public void updateDisplayFromData() {
-		view.setListHeaderLabel(constants.loading());
-		service.selectDisplay(new AppAsyncCallback<List<EntityDisplay>>() {
-			
-			@Override
-			public void onSuccess(List<EntityDisplay> result) {
-				list = result;
-				view.setData(list);
-			}
-			
-		});
+		view.setData(list);
 	}
 
 	@Override
@@ -101,7 +107,7 @@ public class CategoriesListPresenter
 
 	@Override
 	public void onReloadButtonClicked() {
-		updateDisplayFromData();
+		doLoad();
 	}
 	
 }

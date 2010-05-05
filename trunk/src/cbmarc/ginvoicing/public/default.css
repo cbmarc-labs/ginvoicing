@@ -232,17 +232,18 @@ h1, h2, h3, p { font-size: 150%; }
 
 
 
+	/* PANELSSSSSSSSSSSSSSSSS */
 	.toolbarPanel {
 		background: #d9e7f8;
 		width: 100%;
 	}
 	
 	.buttonsPanel {
-		/* background: #ddd; */
+		margin: 10px 0;
 		width: 100%;
 	}
 
-	.content {
+	.contentPanel {
 		-webkit-border-radius: 10px;
 		-moz-border-radius: 10px;
 		border-radius: 10px;
@@ -250,6 +251,18 @@ h1, h2, h3, p { font-size: 150%; }
 		width: 100%;
 		background-color: #eee;
 		padding: 1em;
+	}
+
+	.messagesPanel {
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+		
+		width: 100%;
+		background-color: #fdd;
+		padding: 1em;
+		margin: 10px 0;
+		display: none;
 	}
 
 	.menuPanel {

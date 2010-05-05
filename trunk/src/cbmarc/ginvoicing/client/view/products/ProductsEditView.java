@@ -8,6 +8,7 @@ import java.util.List;
 import cbmarc.ginvoicing.shared.entity.Category;
 
 import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -23,7 +24,8 @@ public interface ProductsEditView {
 		
 		void onCategoriesReloadButtonClicked();
 	}
-	
+
+	Panel getFormPanel();
 	HasValue<String> getName();
 	HasValue<String> getDescription();
 	String getCategory();

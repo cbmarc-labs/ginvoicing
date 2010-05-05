@@ -53,7 +53,7 @@ public class LinesListPresenter implements Presenter, LinesListView.Presenter {
 			}
 		}
 	}
-
+	
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();

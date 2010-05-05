@@ -7,6 +7,7 @@ import java.util.List;
 
 import cbmarc.ginvoicing.shared.entity.Line;
 
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -21,7 +22,8 @@ public interface LinesListView {
 		void onDeleteButtonClicked(List<Integer> items);
 		void onItemClicked(int item);
 	}
-	
+
+	FlexTable getListTable();
 	void setListHeaderLabel(String text);
 	void setData(List<Line> data);
 	void setListFooterLabel(String text);

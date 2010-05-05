@@ -85,7 +85,6 @@ public class InvoicesEditPresenter
 	 */
 	private void doSave() {
 		updateDataFromDisplay();
-		
 		service.save(invoice, new AppAsyncCallback<Void>() {
 
 			@Override
@@ -99,12 +98,14 @@ public class InvoicesEditPresenter
 	/**
 	 * 
 	 */
-	private void doLoad(String id) {		
+	private void doLoad(String id) {	
+		view.getFormPanel().setVisible(false);	
 		service.selectById(id, new AppAsyncCallback<Invoice>() {
 
 			@Override
 			public void onSuccess(Invoice result) {				
 				invoice = result;
+				view.getFormPanel().setVisible(true);
 				updateDisplayFromData();
 			}
 			
@@ -138,7 +139,6 @@ public class InvoicesEditPresenter
 	 */
 	public void updateDisplayFromData() {
 		view.reset();
-		
 		updateCustomerList();
 		view.getNotes().setValue(invoice.getNotes());
 		
@@ -147,6 +147,8 @@ public class InvoicesEditPresenter
 		
 		new LinesPresenter(linesView, invoice.getLines()).
 			go(view.getLinesPanel());
+		
+		view.focus();
 	}
 
 	@Override

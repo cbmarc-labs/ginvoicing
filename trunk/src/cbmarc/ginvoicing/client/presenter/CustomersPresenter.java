@@ -18,8 +18,8 @@ public class CustomersPresenter implements Presenter, CustomersView.Presenter {
 	
 	private static final String VIEW = MainPresenter.VIEW_CUSTOMERS;
 
-	private CustomersListViewImpl customersListView = null;
-	private CustomersEditViewImpl customersEditView = null;
+	private static CustomersListViewImpl customersListView = null;
+	private static CustomersEditViewImpl customersEditView = null;
 		
 	private final CustomersView view;
 	

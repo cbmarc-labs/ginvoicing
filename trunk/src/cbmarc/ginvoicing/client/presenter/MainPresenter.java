@@ -51,10 +51,10 @@ public class MainPresenter implements Presenter, MainView.Presenter {
 	
 	public void processHistoryToken() {
 		String token = History.getToken();
-		view.setActiveTab(null);
 		
 		if(token != null) {			
 			if (token.startsWith(VIEW_ABOUT)) {
+				view.setActiveTab(null);
 				GWT.runAsync(new RunAsyncCallback() {
 
 					@Override
@@ -67,11 +67,12 @@ public class MainPresenter implements Presenter, MainView.Presenter {
 						if(aboutView == null) 
 							aboutView = new AboutViewImpl();
 						
-						new AboutPresenter(aboutView).go(view.getContent());
+						new AboutPresenter(aboutView).go(view.getContentPanel());
 					}
 					
 				});
 			} else if(token.startsWith(VIEW_CATEGORIES)) {
+				view.setActiveTab(3);
 				GWT.runAsync(new RunAsyncCallback() {
 
 					@Override
@@ -84,11 +85,12 @@ public class MainPresenter implements Presenter, MainView.Presenter {
 						if(categoriesView == null) 
 							categoriesView = new CategoriesViewImpl();
 						
-						new CategoriesPresenter(categoriesView).go(view.getContent());
+						new CategoriesPresenter(categoriesView).go(view.getContentPanel());
 					}
 					
 				});
 			} else if(token.startsWith(VIEW_CUSTOMERS)) {
+				view.setActiveTab(1);
 				GWT.runAsync(new RunAsyncCallback() {
 
 					@Override
@@ -101,11 +103,12 @@ public class MainPresenter implements Presenter, MainView.Presenter {
 						if(customersView == null) 
 							customersView = new CustomersViewImpl();
 						
-						new CustomersPresenter(customersView).go(view.getContent());
+						new CustomersPresenter(customersView).go(view.getContentPanel());
 					}
 					
 				});
 			} else if(token.startsWith(VIEW_INVOICES)) {
+				view.setActiveTab(0);
 				GWT.runAsync(new RunAsyncCallback() {
 
 					@Override
@@ -118,11 +121,12 @@ public class MainPresenter implements Presenter, MainView.Presenter {
 						if(invoicesView == null) 
 							invoicesView = new InvoicesViewImpl();
 						
-						new InvoicesPresenter(invoicesView).go(view.getContent());
+						new InvoicesPresenter(invoicesView).go(view.getContentPanel());
 					}
 					
 				});
 			} else if(token.startsWith(VIEW_PRODUCTS)) {
+				view.setActiveTab(2);
 				GWT.runAsync(new RunAsyncCallback() {
 
 					@Override
@@ -135,7 +139,7 @@ public class MainPresenter implements Presenter, MainView.Presenter {
 						if(productsView == null) 
 							productsView = new ProductsViewImpl();
 						
-						new ProductsPresenter(productsView).go(view.getContent());
+						new ProductsPresenter(productsView).go(view.getContentPanel());
 					}
 					
 				});

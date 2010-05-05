@@ -7,6 +7,7 @@ import java.util.List;
 
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -22,7 +23,8 @@ public interface ProductsListView {
 		void onItemClicked(int item);
 		void onFilterBoxChanged(String item);
 	}
-	
+
+	FlexTable getListTable();
 	void setFilterBox(List<EntityDisplay> data);
 	void setListHeaderLabel(String text);
 	void setData(List<EntityDisplay> data);

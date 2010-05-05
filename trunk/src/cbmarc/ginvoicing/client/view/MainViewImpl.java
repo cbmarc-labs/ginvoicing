@@ -16,6 +16,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,7 +30,8 @@ public class MainViewImpl extends Composite implements MainView {
 	interface uiBinder extends UiBinder<Widget, MainViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 	
-	@UiField HasWidgets content;
+	@UiField HasWidgets contentPanel;
+	@UiField HorizontalPanel messagesPanel;
 	@UiField Anchor LangCA, LangES, LangEN, LangFR;
 	@UiField Hyperlink categoriesTab, productsTab, customersTab, invoicesTab;
 	
@@ -76,24 +78,27 @@ public class MainViewImpl extends Composite implements MainView {
 		changeLanguage("fr_FR");
 	}
 	// END LANG PANEL
+
+	
+	@UiHandler("messagesCloseLabel")
+	protected void messagesCloseClicked(ClickEvent event) {
+		messagesPanel.setVisible(false);
+	}
 	
 	@Override
-	public void setActiveTab(Hyperlink hyperlink) {
-		if(hyperlink != null) {
-			for(Hyperlink h: menuTab)
-				h.setStyleName("menuItem");
-
-			hyperlink.setStyleName("menuItem-selected");
-		}			
+	public void setActiveTab(Integer item) {
+		for(Hyperlink h: menuTab)
+			h.setStyleName("menuItem");
+				
+		try {
+			menuTab.get(item).setStyleName("menuItem-selected");
+		} catch(Exception e) {}
+		
 	}
 
 	@Override
-	public HasWidgets getContent() {
-		return content;
+	public HasWidgets getContentPanel() {
+		return contentPanel;
 	}
-
-	@Override
-	public List<Hyperlink> getMenuTab() {
-		return menuTab;
-	}
+	
 }

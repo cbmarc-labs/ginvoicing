@@ -80,11 +80,13 @@ public class CategoriesEditPresenter
 	 * 
 	 */
 	private void doLoad(String id) {
+		view.getFormPanel().setVisible(false);
 		service.selectById(id, new AppAsyncCallback<Category>() {
 
 			@Override
 			public void onSuccess(Category result) {
 				category = result;
+				view.getFormPanel().setVisible(true);
 				updateDisplayFromData();
 			}
 			
@@ -109,9 +111,9 @@ public class CategoriesEditPresenter
 	
 	public void updateDisplayFromData() {
 		view.reset();
-		
 		view.getName().setValue(category.getName());
 		view.getDescription().setValue(category.getDescription());
+		view.focus();
 	}
 
 	@Override

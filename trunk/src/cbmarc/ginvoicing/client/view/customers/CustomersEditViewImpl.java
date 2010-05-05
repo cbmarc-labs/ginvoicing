@@ -11,7 +11,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
-import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -25,16 +25,17 @@ public class CustomersEditViewImpl extends Composite
 	@UiTemplate("CustomersEditView.ui.xml")
 	interface uiBinder extends UiBinder<Widget, CustomersEditViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
-		
+
+	@UiField Panel formPanel;
 	@UiField TextBox name;
-	@UiField TextBox contact;
-	@UiField TextBox address;
-	@UiField TextBox city;
-	@UiField TextBox country;
-	@UiField TextBox phone;
-	@UiField TextBox fax;
-	@UiField TextBox email;
-	@UiField TextArea notes;
+	@UiField HasValue<String> contact;
+	@UiField HasValue<String> address;
+	@UiField HasValue<String> city;
+	@UiField HasValue<String> country;
+	@UiField HasValue<String> phone;
+	@UiField HasValue<String> fax;
+	@UiField HasValue<String> email;
+	@UiField HasValue<String> notes;
 	
 	private Presenter presenter = null;
 	
@@ -139,6 +140,11 @@ public class CustomersEditViewImpl extends Composite
 	@Override
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
+	}
+
+	@Override
+	public Panel getFormPanel() {
+		return formPanel;
 	}
 	
 }

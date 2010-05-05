@@ -11,6 +11,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -25,6 +26,7 @@ public class CategoriesEditViewImpl extends Composite
 	interface uiBinder extends UiBinder<Widget, CategoriesEditViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 	
+	@UiField Panel formPanel;
 	@UiField TextBox name;
 	@UiField HasValue<String> description;
 	
@@ -89,6 +91,11 @@ public class CategoriesEditViewImpl extends Composite
 	@Override
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
+	}
+
+	@Override
+	public Panel getFormPanel() {
+		return formPanel;
 	}
 	
 }

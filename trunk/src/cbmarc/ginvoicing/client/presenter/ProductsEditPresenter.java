@@ -106,11 +106,13 @@ public class ProductsEditPresenter
 	 * 
 	 */
 	private void doLoad(String id) {
+		view.getFormPanel().setVisible(false);
 		service.selectById(id, new AppAsyncCallback<Product>() {
 
 			@Override
 			public void onSuccess(Product result) {
 				product = result;
+				view.getFormPanel().setVisible(true);
 				updateDisplayFromData();
 			}
 			
@@ -134,11 +136,11 @@ public class ProductsEditPresenter
 	
 	public void updateDisplayFromData() {
 		view.reset();
-		
 		view.getName().setValue(product.getName());
 		view.getDescription().setValue(product.getDescription());
 		updateCategoryList();
 		view.getPrice().setValue(product.getPrice().toString());
+		view.focus();
 	}
 
 	@Override

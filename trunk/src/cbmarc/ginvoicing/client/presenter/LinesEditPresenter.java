@@ -113,10 +113,10 @@ public class LinesEditPresenter implements Presenter, LinesEditView.Presenter {
 	 */
 	public void updateDisplayFromData() {
 		view.reset();
-		
 		view.getQuantity().setValue(line.getQuantity().toString());
 		updateProductsList();
 		view.getPrice().setValue(line.getPrice().toString());
+		view.focus();
 	}
 	
 	private void updateProductsList() {

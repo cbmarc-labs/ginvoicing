@@ -19,6 +19,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -31,7 +32,8 @@ public class LinesEditViewImpl extends Composite implements LinesEditView {
 	@UiTemplate("LinesEditView.ui.xml")
 	interface uiBinder extends UiBinder<Widget, LinesEditViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
-		
+
+	@UiField Panel formPanel;
 	@UiField TextBox quantity;
 	@UiField ListBox productList;
 	@UiField HasValue<String> price;
@@ -165,6 +167,11 @@ public class LinesEditViewImpl extends Composite implements LinesEditView {
 	@Override
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
+	}
+
+	@Override
+	public Panel getFormPanel() {
+		return formPanel;
 	}
 	
 }

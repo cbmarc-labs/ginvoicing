@@ -17,6 +17,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -33,8 +34,8 @@ public class CategoriesListViewImpl extends Composite
 	
 	private CategoriesConstants constants = CategoriesEventBus.getConstants();
 	
-	@UiField ListFlexTable listContent;
 	@UiField HasText listHeaderLabel;
+	@UiField ListFlexTable listTable;
 	
 	private Presenter presenter = null;
 	
@@ -43,19 +44,19 @@ public class CategoriesListViewImpl extends Composite
 	}
 	
 	public void setData(List<EntityDisplay> data) {
-		listContent.removeAllRows();
-		listContent.addData(new String[] {constants.listName(),
+		listTable.removeAllRows();
+		listTable.addData(new String[] {constants.listName(),
 				constants.listDescription(), constants.listProducts()});
 
 		setListHeaderLabel(constants.noData());
-		if(data == null || data.isEmpty()) return;
-		
-		for(EntityDisplay i : data) {
-			String d[] = i.getData();
-			listContent.addData(new String[] {d[1], d[2], d[3]});
-		}
+		if(data != null && !data.isEmpty()) {
+			for(EntityDisplay i : data) {
+				String d[] = i.getData();
+				listTable.addData(new String[] {d[1], d[2], d[3]});
+			}
 			
-		setListHeaderLabel(data.size() + " " + constants.itemsLabel());
+			setListHeaderLabel(data.size() + " " + constants.itemsLabel());
+		}
 	}
 	
 	@UiHandler("reloadButton")
@@ -75,14 +76,14 @@ public class CategoriesListViewImpl extends Composite
 	@UiHandler("deleteButton")
 	protected void deleteClicked(ClickEvent event) {
 	    if(presenter != null) {
-	    	presenter.onDeleteButtonClicked(listContent.getSelectedRows());
+	    	presenter.onDeleteButtonClicked(listTable.getSelectedRows());
 	    }
 	}
 	
-	@UiHandler("listContent")
+	@UiHandler("listTable")
 	protected void listContentClicked(ClickEvent event) {
 	    if(presenter != null) {
-	    	int row = listContent.getClickedRow(event);
+	    	int row = listTable.getClickedRow(event);
 	    	
 	    	presenter.onItemClicked(row);
 	    }
@@ -100,6 +101,11 @@ public class CategoriesListViewImpl extends Composite
 	@Override
 	public void setListHeaderLabel(String text) {
 		listHeaderLabel.setText(text);
+	}
+
+	@Override
+	public FlexTable getListTable() {
+		return listTable;
 	}
 	
 }

@@ -35,7 +35,6 @@ public class InvoicesListPresenter
 	
 	public InvoicesListPresenter(InvoicesListView view) {
 		this.view = view;
-
 		view.setPresenter(this);
 	}
 	
@@ -65,27 +64,33 @@ public class InvoicesListPresenter
 			}
 		}
 	}
-
-	@Override
-	public void go(final HasWidgets container) {
-		container.clear();
-		container.add(view.asWidget());
-		
-		updateDisplayFromData();
-		updateCategoriesList();
-	}
 	
-	private void updateDisplayFromData() {
+	private void doLoad() {
 		view.setListHeaderLabel(constants.loading());
+		view.getListTable().setVisible(false);
 		service.selectDisplay(filter, 
 				new AppAsyncCallback<List<EntityDisplay>>() {
 
 			@Override
 			public void onSuccess(List<EntityDisplay> result) {
 				list = result;
-				view.setData(list);
+				view.getListTable().setVisible(true);
+				updateDisplayFromData();
 			}
 		});
+	}
+
+	@Override
+	public void go(final HasWidgets container) {
+		container.clear();
+		container.add(view.asWidget());
+		
+		doLoad();
+		updateCategoriesList();
+	}
+	
+	private void updateDisplayFromData() {
+		view.setData(list);
 	}
 	
 	private void updateCategoriesList() {
@@ -132,7 +137,7 @@ public class InvoicesListPresenter
 	public void onReloadButtonClicked() {
 		this.filter = null;
 		
-		updateDisplayFromData();
+		doLoad();
 		updateCategoriesList();
 	}
 

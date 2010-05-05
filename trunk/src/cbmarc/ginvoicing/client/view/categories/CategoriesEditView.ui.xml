@@ -16,7 +16,7 @@
 		</g:HorizontalPanel>
 	</g:VerticalPanel>
 
-	<g:VerticalPanel styleName="formPanel">
+	<g:VerticalPanel ui:field="formPanel" styleName="formPanel">
 		<g:HTMLPanel>
   	
 		<table>
@@ -25,16 +25,16 @@
 		</table>
 
 		</g:HTMLPanel>
-	</g:VerticalPanel>
 
-	<g:VerticalPanel styleName="buttonsPanel">
-  		<g:HorizontalPanel spacing="5">
+		<g:VerticalPanel styleName="buttonsPanel">
+  			<g:HorizontalPanel spacing="5">
 
-  			<ginvoicing:SexyButton ui:field="submitButton" text="{cnt.submitButton}" resource="{res.okIcon}" />
-  			<ginvoicing:SexyButton ui:field="cancelButton" text="{cnt.cancelButton}" resource="{res.cancelIcon}" />
-  			<ginvoicing:SexyButton ui:field="resetButton" text="{cnt.resetButton}" resource="{res.resetIcon}" />
+  				<ginvoicing:SexyButton ui:field="submitButton" text="{cnt.submitButton}" resource="{res.okIcon}" />
+  				<ginvoicing:SexyButton ui:field="cancelButton" text="{cnt.cancelButton}" resource="{res.cancelIcon}" />
+  				<ginvoicing:SexyButton ui:field="resetButton" text="{cnt.resetButton}" resource="{res.resetIcon}" />
   			
-		</g:HorizontalPanel>
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
 	</g:VerticalPanel>
 
 	</g:HTMLPanel>

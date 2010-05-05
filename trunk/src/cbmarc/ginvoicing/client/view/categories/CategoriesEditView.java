@@ -4,6 +4,7 @@
 package cbmarc.ginvoicing.client.view.categories;
 
 import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -18,6 +19,7 @@ public interface CategoriesEditView {
 		void onCancelButtonClicked();
 	}
 	
+	Panel getFormPanel();
 	HasValue<String> getName();
 	HasValue<String> getDescription();
 	
