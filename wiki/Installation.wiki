@@ -1,4 +1,4 @@
-#summary Loacl mode installation instructions.
+#summary Local mode installation instructions.
 #labels Phase-Deploy
 
 = Ginvoicing local mode installation instructions =
