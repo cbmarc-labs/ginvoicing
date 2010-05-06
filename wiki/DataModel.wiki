@@ -5,49 +5,51 @@
 This page explain the datamodel of ginvoicing project.
 
 = Datamodel =
-|| *Categories||||||||
-||id||String||PK||Encoded primary key||
+|| *Category||||||extends EntityBase||
 ||name||String||*||Category name||
 ||description||String||*||Category description||
 
-|| *Customers||||||||
-||id||String||PK||Encoded primary key||
-||name||String||*||Customer name||
-||address||String||*||Customer address||
-||country||String||*||Customer country||
-||phone||String||*||Customer phone||
-||email||String||*||Customer email||
+|| *Contact||||||extends EntityBase||
+||name||String||*||Contact name||
+||address||String||*||Contact address||
+||city||String||*||Contact city||
+||country||String||*||Contact country||
+||phone||String||*||Contact phone||
+||email||String||*||Contact email||
+
+|| *Customer||||||extends Contact||
+||contact||String||*||Customer contact||
+||fax||String||*||Customer fax||
 ||notes||String||*||Customer general notes||
 ||enabled||Boolean||*||Customer enabled||
 
-|| *Invoices||||||||
-||id||String||PK||Encoded primary key||
-||customer||Customers||*||Invoice customer object||
+|| *EntityBase||||||||
+||id||String||*||Entity identification||
+
+|| *EntityDisplay||||||||
+||data||String||*||Data||
+
+|| *Invoice||||||extends EntityBase||
 ||date||Date||*||Invoice created date||
+||customer||Customer||*||Invoice customer id||
+||lines||List||*||List of lines objects||
+||notes||String||*||Notes about this invoice||
 ||amount||Float||*||Total amount of the invoice||
-||invoicesLine||List||*||List of the invoicesLines object||
 
-|| *InvoicesLines||||||||
-||id||String||PK||Encoded primary key||
-||product||Products||*||Invoice product object||
+|| *Line||||||extends EntityBase||
+||quantity||Float||*||Quantity of products||
+||product||String||*||Product id||
+||productName||String||*||Product name (Not persistent)||
 ||price||Float||*||Unit price of the product||
-||quantity||Integer||*||Quantity of products||
 
-|| *Products||||||||
-||id||String||PK||Encoded primary key||
+|| *Products||||||extends EntityBase||
 ||name||String||*||Product name||
 ||description||String||*||Product description||
 ||price||Float||*||Product unit price||
-||category||Categories||*||Product category object||
-||supplier||Suppliers||*||Product supplier object||
+||category||String||*||Product category id||
 
-|| *Suppliers||||||||
-||id||String||PK||Encoded primary key||
-||name||String||*||Supplier name||
-||address||String||*||Supplier address||
-||country||String||*||Supplier country||
-||phone||String||*||Supplier phone||
-||email||String||*||Supplier email||
-||notes||String||*||Supplier general notes||
+|| *Supplier||||||extends EntityBase||
+||contact||String||*||Supplier contact||
+||fax||String||*||Supplier fax||
 ||payment||String||*||Supplier payment terms||
 ||enabled||Boolean||*||Supplier enabled||
