@@ -26,6 +26,7 @@ public class CategoriesEditViewImpl extends Composite
 	interface uiBinder extends UiBinder<Widget, CategoriesEditViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 	
+	@UiField Panel loadingPanel;
 	@UiField Panel formPanel;
 	@UiField TextBox name;
 	@UiField HasValue<String> description;
@@ -96,6 +97,11 @@ public class CategoriesEditViewImpl extends Composite
 	@Override
 	public Panel getFormPanel() {
 		return formPanel;
+	}
+
+	@Override
+	public Panel getLoadingPanel() {
+		return loadingPanel;
 	}
 	
 }

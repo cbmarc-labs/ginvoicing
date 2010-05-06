@@ -60,14 +60,15 @@ public class CategoriesListPresenter
 	}
 	
 	private void doLoad() {
-		view.setListHeaderLabel(constants.loading());
-		view.getListTable().setVisible(false);
+		view.getLoadingPanel().setVisible(true);
+		view.getListPanel().setVisible(false);
 		service.selectDisplay(new AppAsyncCallback<List<EntityDisplay>>() {
 			
 			@Override
 			public void onSuccess(List<EntityDisplay> result) {
 				list = result;
-				view.getListTable().setVisible(true);
+				view.getListPanel().setVisible(true);
+				view.getLoadingPanel().setVisible(false);
 				updateDisplayFromData();
 			}
 			

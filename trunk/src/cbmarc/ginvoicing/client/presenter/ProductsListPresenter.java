@@ -35,7 +35,6 @@ public class ProductsListPresenter
 	
 	public ProductsListPresenter(ProductsListView view) {
 		this.view = view;
-		
 		view.setPresenter(this);
 	}
 	
@@ -64,14 +63,16 @@ public class ProductsListPresenter
 	}
 	
 	private void doLoad() {
-		view.setListHeaderLabel(constants.loading());
-		view.getListTable().setVisible(false);
+		view.getLoadingPanel().setVisible(true);
+		view.getListPanel().setVisible(false);
 		service.selectDisplay(filter, 
 				new AppAsyncCallback<List<EntityDisplay>>() {
 			
 			@Override
 			public void onSuccess(List<EntityDisplay> result) {
 				list = result;
+				view.getListPanel().setVisible(true);
+				view.getLoadingPanel().setVisible(false);
 				updateDisplayFromData();
 			}
 			
@@ -82,7 +83,6 @@ public class ProductsListPresenter
 	public void go(final HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget());
-		view.getListTable().removeAllRows();
 
 		doLoad();
 		updateCategoriesList();
@@ -93,12 +93,14 @@ public class ProductsListPresenter
 	}
 	
 	private void updateCategoriesList() {
+		view.getFilterBox().setEnabled(false);
 		CategoriesEventBus.getService().selectDisplay(
 				new AppAsyncCallback<List<EntityDisplay>>() {
 
 					@Override
 					public void onSuccess(List<EntityDisplay> result) {
 						view.setFilterBox(result);
+						view.getFilterBox().setEnabled(true);
 					}
 			
 		});

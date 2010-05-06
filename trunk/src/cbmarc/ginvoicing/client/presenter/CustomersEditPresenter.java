@@ -81,12 +81,14 @@ public class CustomersEditPresenter
 	 */
 	private void doLoad(String id) {
 		view.getFormPanel().setVisible(false);
+		view.getLoadingPanel().setVisible(true);
 		service.selectById(id, new AppAsyncCallback<Customer>() {
 
 			@Override
 			public void onSuccess(Customer result) {
 				customer = result;
 				view.getFormPanel().setVisible(true);
+				view.getLoadingPanel().setVisible(false);
 				updateDisplayFromData();
 			}
 			

@@ -17,8 +17,8 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -33,7 +33,9 @@ public class CategoriesListViewImpl extends Composite
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 	
 	private CategoriesConstants constants = CategoriesEventBus.getConstants();
-	
+
+	@UiField Panel loadingPanel;
+	@UiField Panel listPanel;
 	@UiField HasText listHeaderLabel;
 	@UiField ListFlexTable listTable;
 	
@@ -104,8 +106,13 @@ public class CategoriesListViewImpl extends Composite
 	}
 
 	@Override
-	public FlexTable getListTable() {
-		return listTable;
+	public Panel getLoadingPanel() {
+		return loadingPanel;
+	}
+
+	@Override
+	public Panel getListPanel() {
+		return listPanel;
 	}
 	
 }

@@ -47,6 +47,9 @@ public interface Resources extends ClientBundle {
 	@Source("erase.png")
 	ImageResource resetIcon();
 	
+	@Source("ajax-loader.gif")
+	ImageResource loadingIcon();
+	
 	//@Source("calendar.png") 
 	//public ImageResource calendar(); 
 }

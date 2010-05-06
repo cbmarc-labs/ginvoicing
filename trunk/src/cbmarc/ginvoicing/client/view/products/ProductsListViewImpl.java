@@ -18,9 +18,9 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -36,6 +36,8 @@ public class ProductsListViewImpl extends Composite
 	
 	private ProductsConstants constants = ProductsEventBus.getConstants();
 
+	@UiField Panel loadingPanel;
+	@UiField Panel listPanel;
 	@UiField ListBox filterBox;
 	@UiField ListFlexTable listTable;
 	@UiField HasText listHeaderLabel;
@@ -135,7 +137,17 @@ public class ProductsListViewImpl extends Composite
 	}
 
 	@Override
-	public FlexTable getListTable() {
-		return listTable;
+	public ListBox getFilterBox() {
+		return filterBox;
+	}
+
+	@Override
+	public Panel getLoadingPanel() {
+		return loadingPanel;
+	}
+
+	@Override
+	public Panel getListPanel() {
+		return listPanel;
 	}
 }

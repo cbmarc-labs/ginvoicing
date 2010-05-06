@@ -26,6 +26,7 @@ public class CustomersEditViewImpl extends Composite
 	interface uiBinder extends UiBinder<Widget, CustomersEditViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 
+	@UiField Panel loadingPanel;
 	@UiField Panel formPanel;
 	@UiField TextBox name;
 	@UiField HasValue<String> contact;
@@ -145,6 +146,11 @@ public class CustomersEditViewImpl extends Composite
 	@Override
 	public Panel getFormPanel() {
 		return formPanel;
+	}
+
+	@Override
+	public Panel getLoadingPanel() {
+		return loadingPanel;
 	}
 	
 }

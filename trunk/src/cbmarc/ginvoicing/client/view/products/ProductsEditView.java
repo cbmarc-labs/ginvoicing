@@ -25,6 +25,7 @@ public interface ProductsEditView {
 		void onCategoriesReloadButtonClicked();
 	}
 
+	Panel getLoadingPanel();
 	Panel getFormPanel();
 	HasValue<String> getName();
 	HasValue<String> getDescription();

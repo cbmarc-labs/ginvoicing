@@ -7,7 +7,7 @@ import java.util.List;
 
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
-import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -24,7 +24,8 @@ public interface InvoicesListView {
 		void onFilterBoxChanged(String item);
 	}
 
-	FlexTable getListTable();
+	Panel getLoadingPanel();
+	Panel getListPanel();
 	void setFilterBox(List<EntityDisplay> data);
 	void setListHeaderLabel(String text);
 	void setData(List<EntityDisplay> data);

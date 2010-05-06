@@ -81,12 +81,14 @@ public class CategoriesEditPresenter
 	 */
 	private void doLoad(String id) {
 		view.getFormPanel().setVisible(false);
+		view.getLoadingPanel().setVisible(true);
 		service.selectById(id, new AppAsyncCallback<Category>() {
 
 			@Override
 			public void onSuccess(Category result) {
 				category = result;
 				view.getFormPanel().setVisible(true);
+				view.getLoadingPanel().setVisible(false);
 				updateDisplayFromData();
 			}
 			

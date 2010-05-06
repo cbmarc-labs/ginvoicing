@@ -26,6 +26,7 @@ public interface InvoicesEditView {
 		void onCustomersReloadButtonClicked();
 	}
 
+	Panel getLoadingPanel();
 	Panel getFormPanel();
 	String getCustomer();
 	void setCustomerList(List<EntityDisplay> items, String selected);

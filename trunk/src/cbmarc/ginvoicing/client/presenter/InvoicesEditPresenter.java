@@ -100,12 +100,14 @@ public class InvoicesEditPresenter
 	 */
 	private void doLoad(String id) {	
 		view.getFormPanel().setVisible(false);	
+		view.getLoadingPanel().setVisible(true);
 		service.selectById(id, new AppAsyncCallback<Invoice>() {
 
 			@Override
 			public void onSuccess(Invoice result) {				
 				invoice = result;
 				view.getFormPanel().setVisible(true);
+				view.getLoadingPanel().setVisible(false);
 				updateDisplayFromData();
 			}
 			

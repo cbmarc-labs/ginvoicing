@@ -19,6 +19,7 @@ public interface CustomersEditView {
 		void onCancelButtonClicked();
 	}
 
+	Panel getLoadingPanel();
 	Panel getFormPanel();
 	HasValue<String> getName();
 	HasValue<String> getContact();

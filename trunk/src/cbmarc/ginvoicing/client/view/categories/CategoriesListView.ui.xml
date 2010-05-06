@@ -9,25 +9,34 @@
 
 	<g:HTMLPanel>
 	
-	<g:VerticalPanel styleName="toolbarPanel">
-		<g:HorizontalPanel spacing="5">
+		<g:VerticalPanel styleName="toolbarPanel">
+			<g:HorizontalPanel spacing="5">
+			
+				<ginvoicing:SexyButton ui:field="reloadButton" text="{cnt.reloadButton}" resource="{res.reloadIcon}" />
+	  			<ginvoicing:SexyButton ui:field="addButton" text="{cnt.addButton}" resource="{res.addIcon}" />
+	  			<ginvoicing:SexyButton ui:field="deleteButton" text="{cnt.delButton}" resource="{res.deleteIcon}" />
+	  			
+	  		</g:HorizontalPanel>
+	  	</g:VerticalPanel>
 		
-			<ginvoicing:SexyButton ui:field="reloadButton" text="{cnt.reloadButton}" resource="{res.reloadIcon}" />
-  			<ginvoicing:SexyButton ui:field="addButton" text="{cnt.addButton}" resource="{res.addIcon}" />
-  			<ginvoicing:SexyButton ui:field="deleteButton" text="{cnt.delButton}" resource="{res.deleteIcon}" />
-  			
-  		</g:HorizontalPanel>
-  	</g:VerticalPanel>
-	
-	<g:VerticalPanel styleName="listPanel">
-		<g:HorizontalPanel styleName="listHeader">
+		<g:VerticalPanel ui:field="loadingPanel" styleName="loadingPanel" visible="false" width="100%">
 			<g:cell horizontalAlignment='ALIGN_RIGHT'>
-				<g:Label ui:field="listHeaderLabel" />
+				<g:HorizontalPanel spacing="10">
+					<g:cell verticalAlignment="ALIGN_MIDDLE"><g:Image resource="{res.loadingIcon}" /></g:cell>
+					<g:cell><g:Label text="{cnt.loading}" /></g:cell>
+				</g:HorizontalPanel>
 			</g:cell>
-		</g:HorizontalPanel>
-		
-		<ginvoicing:ListFlexTable ui:field="listTable" />
-  	</g:VerticalPanel>
+		</g:VerticalPanel>
+	
+		<g:VerticalPanel ui:field="listPanel" styleName="listPanel">
+			<g:HorizontalPanel styleName="listHeader">
+				<g:cell horizontalAlignment='ALIGN_RIGHT'>
+					<g:Label ui:field="listHeaderLabel" />
+				</g:cell>
+			</g:HorizontalPanel>
+			
+			<ginvoicing:ListFlexTable ui:field="listTable" />
+	  	</g:VerticalPanel>
   	
   </g:HTMLPanel>
 </ui:UiBinder>

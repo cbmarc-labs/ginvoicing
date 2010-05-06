@@ -7,7 +7,7 @@
   
     <ui:with field="res" type="cbmarc.ginvoicing.client.ui.Resources"/>
 	<ui:with field="cnt" type="cbmarc.ginvoicing.client.i18n.CategoriesConstants"/>
-  
+  	
 	<g:HTMLPanel>
   
 	<g:VerticalPanel styleName="toolbarPanel">
@@ -15,15 +15,22 @@
 			<ginvoicing:SexyButton ui:field="listButton" text="{cnt.listButton}" resource="{res.listIcon}" />
 		</g:HorizontalPanel>
 	</g:VerticalPanel>
+		
+	<g:VerticalPanel ui:field="loadingPanel" styleName="loadingPanel" visible="false" width="100%">
+		<g:cell horizontalAlignment='ALIGN_RIGHT'>
+			<g:HorizontalPanel spacing="10">
+				<g:cell verticalAlignment="ALIGN_MIDDLE"><g:Image resource="{res.loadingIcon}" /></g:cell>
+				<g:cell><g:Label text="{cnt.loading}" /></g:cell>
+			</g:HorizontalPanel>
+		</g:cell>
+	</g:VerticalPanel>
 
 	<g:VerticalPanel ui:field="formPanel" styleName="formPanel">
 		<g:HTMLPanel>
-  	
-		<table>
-		<tr><td><g:Label text="{cnt.formName}" /></td><td><g:TextBox ui:field="name" /></td></tr>
-		<tr><td><g:Label text="{cnt.formDescription}" /></td><td><g:TextBox ui:field="description" width="20em" /></td></tr>
-		</table>
-
+			<table>
+			<tr><td><g:Label text="{cnt.formName}" /></td><td><g:TextBox ui:field="name" /></td></tr>
+			<tr><td><g:Label text="{cnt.formDescription}" /></td><td><g:TextBox ui:field="description" width="20em" /></td></tr>
+			</table>
 		</g:HTMLPanel>
 
 		<g:VerticalPanel styleName="buttonsPanel">

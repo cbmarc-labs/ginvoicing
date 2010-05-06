@@ -233,6 +233,10 @@ h1, h2, h3, p { font-size: 150%; }
 
 
 	/* PANELSSSSSSSSSSSSSSSSS */
+	.loadingPanel {
+		color: #a44;
+	}
+	
 	.toolbarPanel {
 		background: #d9e7f8;
 		width: 100%;

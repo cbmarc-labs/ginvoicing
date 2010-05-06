@@ -19,6 +19,7 @@ public interface CategoriesEditView {
 		void onCancelButtonClicked();
 	}
 	
+	Panel getLoadingPanel();
 	Panel getFormPanel();
 	HasValue<String> getName();
 	HasValue<String> getDescription();

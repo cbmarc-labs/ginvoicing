@@ -7,7 +7,7 @@ import java.util.List;
 
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
-import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -22,8 +22,9 @@ public interface CategoriesListView {
 		void onDeleteButtonClicked(List<Integer> items);
 		void onItemClicked(int item);
 	}
-	
-	FlexTable getListTable();
+
+	Panel getLoadingPanel();
+	Panel getListPanel();
 	void setListHeaderLabel(String text);
 	void setData(List<EntityDisplay> data);
 	

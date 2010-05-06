@@ -31,6 +31,7 @@ public class InvoicesEditViewImpl extends Composite
 	interface uiBinder extends UiBinder<Widget, InvoicesEditViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 
+	@UiField Panel loadingPanel;
 	@UiField Panel formPanel;
 	@UiField ListBox customerList;
 	@UiField HasValue<String> notes; 
@@ -138,6 +139,11 @@ public class InvoicesEditViewImpl extends Composite
 	@Override
 	public Panel getFormPanel() {
 		return formPanel;
+	}
+
+	@Override
+	public Panel getLoadingPanel() {
+		return loadingPanel;
 	}
 	
 }
