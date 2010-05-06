@@ -1,7 +1,7 @@
-#summary Installation instructions.
+#summary Loacl mode installation instructions.
 #labels Phase-Deploy
 
-= Ginvoicing installation instructions =
+= Ginvoicing local mode installation instructions =
 
 To build and install local mode application from package:
   * Requirements:
