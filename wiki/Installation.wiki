@@ -1,0 +1,21 @@
+#summary Installation instructions.
+#labels Phase-Deploy
+
+= Ginvoicing installation instructions =
+
+To build and install local mode application from package:
+  * Requirements:
+    * Eclipse 3.5 (Galileo) +
+    * Google Plugin for Eclipse
+
+  * Download package from (http://code.google.com/p/ginvoicing/downloads/list)
+
+  * Decompress package and import in eclipse:
+    * File > Import > General > Existing Projects into Workspace
+    * Select folder application.
+
+  * Compile with icon: GWT Compile Project
+
+  * Run > Run as > Web Application
+
+  * Go to: http://127.0.0.1:8888/Ginvoicing.html?gwt.codesvr=127.0.0.1:9997
