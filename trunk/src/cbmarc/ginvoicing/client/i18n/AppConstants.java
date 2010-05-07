@@ -41,4 +41,6 @@ public interface AppConstants extends Constants {
 	String noData();
 	
 	String itemsLabel();
+	
+	String about();
 }

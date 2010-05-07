@@ -8,11 +8,13 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -51,10 +53,10 @@ public class MainViewImpl extends Composite implements MainView {
 	}
 	
 	protected void changeLanguage(String lang) {
-		Window.alert("Work in progress ...");
-		//UrlBuilder builder = Location.createUrlBuilder()
-		//	.setParameter("locale", lang);
-		//Window.Location.replace(builder.buildString());
+		//Window.alert("Work in progress ...");
+		UrlBuilder builder = Location.createUrlBuilder()
+			.setParameter("locale", lang);
+		Window.Location.replace(builder.buildString());
 	}
 	
 	// BEGIN LANG PANEL

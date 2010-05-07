@@ -66,7 +66,7 @@
 			<g:cell horizontalAlignment='ALIGN_CENTER'>
 				<g:HorizontalPanel>
 					<g:Label text="Ginvoicing&nbsp;&nbsp;-&nbsp;&nbsp;"></g:Label>
-					<g:Hyperlink targetHistoryToken="main/about" text="About" />
+					<g:Hyperlink targetHistoryToken="main/about" text="{cnt.about}" />
 				</g:HorizontalPanel>
 			</g:cell>
 		</g:VerticalPanel>
