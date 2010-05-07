@@ -1,4 +1,4 @@
-#summary datamodel of ginvoicing
+#summary Ginvoicing Datamodel
 
 = Introduction =
 
