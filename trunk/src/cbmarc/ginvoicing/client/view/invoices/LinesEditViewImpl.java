@@ -173,5 +173,10 @@ public class LinesEditViewImpl extends Composite implements LinesEditView {
 	public Panel getFormPanel() {
 		return formPanel;
 	}
+
+	@Override
+	public ListBox getProductList() {
+		return productList;
+	}
 	
 }

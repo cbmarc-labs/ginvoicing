@@ -5,6 +5,7 @@ package cbmarc.ginvoicing.client.view.products;
 
 import java.util.List;
 
+import cbmarc.ginvoicing.client.ui.LoadingPanel;
 import cbmarc.ginvoicing.shared.entity.Category;
 
 import com.google.gwt.core.client.GWT;
@@ -31,7 +32,7 @@ public class ProductsEditViewImpl extends Composite
 	interface uiBinder extends UiBinder<Widget, ProductsEditViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 
-	@UiField Panel loadingPanel;
+	@UiField LoadingPanel loadingPanel;
 	@UiField Panel formPanel;
 	@UiField TextBox name;
 	@UiField HasValue<String> description;
@@ -150,7 +151,12 @@ public class ProductsEditViewImpl extends Composite
 	}
 
 	@Override
-	public Panel getLoadingPanel() {
+	public LoadingPanel getLoadingPanel() {
 		return loadingPanel;
+	}
+
+	@Override
+	public ListBox getCategoryList() {
+		return categoryList;
 	}
 }

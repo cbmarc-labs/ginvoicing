@@ -5,6 +5,7 @@ package cbmarc.ginvoicing.client.view.products;
 
 import java.util.List;
 
+import cbmarc.ginvoicing.client.ui.LoadingPanel;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.user.client.ui.ListBox;
@@ -25,7 +26,7 @@ public interface ProductsListView {
 		void onFilterBoxChanged(String item);
 	}
 
-	Panel getLoadingPanel();
+	LoadingPanel getLoadingPanel();
 	Panel getListPanel();
 	void setFilterBox(List<EntityDisplay> data);
 	ListBox getFilterBox();

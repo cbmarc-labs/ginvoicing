@@ -120,12 +120,16 @@ public class LinesEditPresenter implements Presenter, LinesEditView.Presenter {
 	}
 	
 	private void updateProductsList() {
+		view.getProductList().setEnabled(false);
 		ProductsEventBus.getService().selectDisplay(null, 
 				new AppAsyncCallback<List<EntityDisplay>>() {
 					
 					@Override
 					public void onSuccess(List<EntityDisplay> result) {
-						view.setProductList(result, line.getProduct());
+						if(!result.isEmpty()) {
+							view.getProductList().setEnabled(false);
+							view.setProductList(result, line.getProduct());
+						}
 						
 						// no update price if is a modification
 						if(line.getProduct() != null)

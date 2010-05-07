@@ -3,6 +3,8 @@
  */
 package cbmarc.ginvoicing.client.view.customers;
 
+import cbmarc.ginvoicing.client.ui.LoadingPanel;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -26,7 +28,7 @@ public class CustomersEditViewImpl extends Composite
 	interface uiBinder extends UiBinder<Widget, CustomersEditViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 
-	@UiField Panel loadingPanel;
+	@UiField LoadingPanel loadingPanel;
 	@UiField Panel formPanel;
 	@UiField TextBox name;
 	@UiField HasValue<String> contact;
@@ -149,7 +151,7 @@ public class CustomersEditViewImpl extends Composite
 	}
 
 	@Override
-	public Panel getLoadingPanel() {
+	public LoadingPanel getLoadingPanel() {
 		return loadingPanel;
 	}
 	

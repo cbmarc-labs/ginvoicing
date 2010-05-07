@@ -3,6 +3,8 @@
  */
 package cbmarc.ginvoicing.client.view.customers;
 
+import cbmarc.ginvoicing.client.ui.LoadingPanel;
+
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
@@ -19,7 +21,7 @@ public interface CustomersEditView {
 		void onCancelButtonClicked();
 	}
 
-	Panel getLoadingPanel();
+	LoadingPanel getLoadingPanel();
 	Panel getFormPanel();
 	HasValue<String> getName();
 	HasValue<String> getContact();

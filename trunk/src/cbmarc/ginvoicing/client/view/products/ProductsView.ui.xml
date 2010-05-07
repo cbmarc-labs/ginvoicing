@@ -5,7 +5,6 @@
     xmlns:ginvoicing="urn:import:cbmarc.ginvoicing.client.ui">
    
 	<g:HTMLPanel>
-		<g:HorizontalPanel width="100%" ui:field="content">
-		</g:HorizontalPanel>
+		<g:HorizontalPanel width="100%" ui:field="content" />
 	</g:HTMLPanel>
 </ui:UiBinder>

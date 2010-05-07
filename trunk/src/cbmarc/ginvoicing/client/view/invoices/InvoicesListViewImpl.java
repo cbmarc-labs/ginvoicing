@@ -8,6 +8,7 @@ import java.util.List;
 import cbmarc.ginvoicing.client.event.InvoicesEventBus;
 import cbmarc.ginvoicing.client.i18n.InvoicesConstants;
 import cbmarc.ginvoicing.client.ui.ListFlexTable;
+import cbmarc.ginvoicing.client.ui.LoadingPanel;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.core.client.GWT;
@@ -36,7 +37,7 @@ public class InvoicesListViewImpl extends Composite
 	
 	private InvoicesConstants constants = InvoicesEventBus.getConstants();
 
-	@UiField Panel loadingPanel;
+	@UiField LoadingPanel loadingPanel;
 	@UiField Panel listPanel;
 	@UiField ListBox filterBox;
 	@UiField ListFlexTable listTable;
@@ -114,17 +115,13 @@ public class InvoicesListViewImpl extends Composite
 	@Override
 	public void setFilterBox(List<EntityDisplay> data) {
 		filterBox.clear();
-		
-		filterBox.setEnabled(false);
 		filterBox.addItem("", "");
+		
 		for(EntityDisplay item: data) {
 			String[] d = item.getData();
 			
 			filterBox.addItem(d[1], d[0]);
 		}
-		
-		if(filterBox.getItemCount() > 1)
-			filterBox.setEnabled(true);
 	}
 
 	@Override
@@ -138,13 +135,18 @@ public class InvoicesListViewImpl extends Composite
 	}
 
 	@Override
-	public Panel getLoadingPanel() {
+	public LoadingPanel getLoadingPanel() {
 		return loadingPanel;
 	}
 
 	@Override
 	public Panel getListPanel() {
 		return listPanel;
+	}
+
+	@Override
+	public ListBox getFilterBox() {
+		return filterBox;
 	}
 	
 }

@@ -5,8 +5,10 @@ package cbmarc.ginvoicing.client.view.invoices;
 
 import java.util.List;
 
+import cbmarc.ginvoicing.client.ui.LoadingPanel;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -24,9 +26,10 @@ public interface InvoicesListView {
 		void onFilterBoxChanged(String item);
 	}
 
-	Panel getLoadingPanel();
+	LoadingPanel getLoadingPanel();
 	Panel getListPanel();
 	void setFilterBox(List<EntityDisplay> data);
+	ListBox getFilterBox();
 	void setListHeaderLabel(String text);
 	void setData(List<EntityDisplay> data);
 	

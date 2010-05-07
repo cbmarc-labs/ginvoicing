@@ -8,6 +8,7 @@ import java.util.List;
 import cbmarc.ginvoicing.client.event.ProductsEventBus;
 import cbmarc.ginvoicing.client.i18n.ProductsConstants;
 import cbmarc.ginvoicing.client.ui.ListFlexTable;
+import cbmarc.ginvoicing.client.ui.LoadingPanel;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.core.client.GWT;
@@ -36,7 +37,7 @@ public class ProductsListViewImpl extends Composite
 	
 	private ProductsConstants constants = ProductsEventBus.getConstants();
 
-	@UiField Panel loadingPanel;
+	@UiField LoadingPanel loadingPanel;
 	@UiField Panel listPanel;
 	@UiField ListBox filterBox;
 	@UiField ListFlexTable listTable;
@@ -142,7 +143,7 @@ public class ProductsListViewImpl extends Composite
 	}
 
 	@Override
-	public Panel getLoadingPanel() {
+	public LoadingPanel getLoadingPanel() {
 		return loadingPanel;
 	}
 

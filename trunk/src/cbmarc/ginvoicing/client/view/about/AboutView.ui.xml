@@ -3,6 +3,8 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
     
+    <ui:with field="cnt" type="cbmarc.ginvoicing.client.i18n.AboutConstants"/>
+    
 	<ui:style>
 	.about {
 		padding: 0 1em;
@@ -14,13 +16,13 @@
 	</ui:style>
     
 	<g:HTMLPanel styleName="{style.about}">
-
-	<h2>Ginvoicing - Invoicing system</h2>
-	<h3>Overview</h3>
-	<p>Ginvoicing provides a invoicing interface that makes it easy to create, modify, delete invoices.</p>
 	
-	<h3>Sources</h3>
-	<p>You can Browse the sources at: <a href="http://code.google.com/p/ginvoicing">code.google.com/p/ginvoicing</a></p>
+	<h2>Ginvoicing - Invoicing system</h2>
+	<h3><g:HTML text="{cnt.overview}" /></h3>
+	<p><g:HTML text="{cnt.overviewDescription}" /></p>
+	
+	<h3><g:HTML text="{cnt.sources}" /></h3>
+	<p><g:HTML text="{cnt.sourcesDescription}" /><a href="http://code.google.com/p/ginvoicing">code.google.com/p/ginvoicing</a></p>
 	
 	</g:HTMLPanel>
 

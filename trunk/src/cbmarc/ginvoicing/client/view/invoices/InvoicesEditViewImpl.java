@@ -5,6 +5,7 @@ package cbmarc.ginvoicing.client.view.invoices;
 
 import java.util.List;
 
+import cbmarc.ginvoicing.client.ui.LoadingPanel;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.core.client.GWT;
@@ -31,7 +32,7 @@ public class InvoicesEditViewImpl extends Composite
 	interface uiBinder extends UiBinder<Widget, InvoicesEditViewImpl> {}
 	private static uiBinder uiBinder = GWT.create(uiBinder.class);
 
-	@UiField Panel loadingPanel;
+	@UiField LoadingPanel loadingPanel;
 	@UiField Panel formPanel;
 	@UiField ListBox customerList;
 	@UiField HasValue<String> notes; 
@@ -104,7 +105,6 @@ public class InvoicesEditViewImpl extends Composite
 	public void setCustomerList(List<EntityDisplay> items, String selected) {
 		int index = 0;
 		
-		customerList.setEnabled(false);
 		customerList.clear();
 		for(EntityDisplay item : items) {
 			String data[] = item.getData();
@@ -116,9 +116,6 @@ public class InvoicesEditViewImpl extends Composite
 			
 			index ++;
 		}
-		
-		if(customerList.getItemCount() > 0)
-			customerList.setEnabled(true);
 	}
 
 	@Override
@@ -142,8 +139,13 @@ public class InvoicesEditViewImpl extends Composite
 	}
 
 	@Override
-	public Panel getLoadingPanel() {
+	public LoadingPanel getLoadingPanel() {
 		return loadingPanel;
+	}
+
+	@Override
+	public ListBox getCustomerList() {
+		return customerList;
 	}
 	
 }

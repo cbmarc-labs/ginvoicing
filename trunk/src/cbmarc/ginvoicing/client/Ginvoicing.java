@@ -16,7 +16,7 @@ public class Ginvoicing implements EntryPoint {
 
 	    appViewer.go(RootPanel.get());
 	    
-	    // FOR DEBUGING PURPOSES
+	    // FOR DEBUGING PURPOSES ONLY
 	    //RootPanel.get().add(new Label(RootPanel.get().toString()));
 	}
 	

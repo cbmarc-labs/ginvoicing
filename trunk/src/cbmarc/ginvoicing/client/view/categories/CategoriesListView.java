@@ -5,6 +5,7 @@ package cbmarc.ginvoicing.client.view.categories;
 
 import java.util.List;
 
+import cbmarc.ginvoicing.client.ui.LoadingPanel;
 import cbmarc.ginvoicing.shared.entity.EntityDisplay;
 
 import com.google.gwt.user.client.ui.Panel;
@@ -23,7 +24,7 @@ public interface CategoriesListView {
 		void onItemClicked(int item);
 	}
 
-	Panel getLoadingPanel();
+	LoadingPanel getLoadingPanel();
 	Panel getListPanel();
 	void setListHeaderLabel(String text);
 	void setData(List<EntityDisplay> data);

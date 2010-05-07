@@ -46,6 +46,7 @@ public class ProductsEditPresenter
 	}
 	
 	private void updateCategoryList() {
+		view.getCategoryList().setEnabled(false);
 		CategoriesEventBus.getService().select(null, 
 				new AppAsyncCallback<List<Category>>() {
 

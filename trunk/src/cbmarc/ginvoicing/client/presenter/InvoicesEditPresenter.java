@@ -50,12 +50,16 @@ public class InvoicesEditPresenter
 	}
 	
 	private void updateCustomerList() {
+		view.getCustomerList().setEnabled(false);
 		CustomersEventBus.getService().selectDisplay( 
 				new AppAsyncCallback<List<EntityDisplay>>() {
 					
 					@Override
 					public void onSuccess(List<EntityDisplay> result) {
-						view.setCustomerList(result, invoice.getCustomer());
+						if(!result.isEmpty()) {
+							view.getCustomerList().setEnabled(true);
+							view.setCustomerList(result, invoice.getCustomer());
+						}
 					}
 					
 		});

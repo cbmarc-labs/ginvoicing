@@ -95,12 +95,16 @@ public class InvoicesListPresenter
 	}
 	
 	private void updateCategoriesList() {
+		view.getFilterBox().setEnabled(false);
 		CustomersEventBus.getService().selectDisplay(
 				new AppAsyncCallback<List<EntityDisplay>>() {
 	
 					@Override
 					public void onSuccess(List<EntityDisplay> result) {
-						view.setFilterBox(result);
+						if(!result.isEmpty()) {
+							view.getFilterBox().setEnabled(true);
+							view.setFilterBox(result);
+						}
 					}
 				
 		});
