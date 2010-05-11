@@ -122,7 +122,7 @@ public class ProductsListPresenter
 		if(!item.isEmpty())
 			this.filter = item;
 		
-		updateDisplayFromData();
+		doLoad();
 	}
 
 	@Override

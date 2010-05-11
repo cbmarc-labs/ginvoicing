@@ -126,7 +126,7 @@ public class InvoicesListPresenter
 		if(!item.isEmpty())
 			this.filter = item;
 		
-		updateDisplayFromData();
+		doLoad();
 	}
 
 	@Override
