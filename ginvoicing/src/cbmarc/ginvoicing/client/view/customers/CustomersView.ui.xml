@@ -1,0 +1,10 @@
+<!-- View.ui.xml -->
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+	<g:HorizontalPanel width="100%">
+		<g:SimplePanel ui:field="content" />
+	</g:HorizontalPanel>
+
+</ui:UiBinder>
