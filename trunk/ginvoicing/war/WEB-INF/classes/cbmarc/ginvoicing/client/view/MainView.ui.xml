@@ -1,0 +1,78 @@
+<!-- View.ui.xml -->
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+    
+    <ui:with field="res" type="cbmarc.ginvoicing.client.ui.Resources"/>
+    <ui:with field="cnt" type="cbmarc.ginvoicing.client.i18n.AppConstants"/>
+
+	<ui:style>
+	.langTab {
+		cursor: pointer;
+		cursor: hand;
+	}
+	</ui:style>
+
+	<g:HTMLPanel>
+	
+	<g:VerticalPanel styleName="langPanel" width="100%">
+		<g:cell horizontalAlignment='ALIGN_RIGHT' width="100%">
+			<g:HTMLPanel>
+			
+				<g:Anchor styleName="{style.langTab}" ui:field="LangCA">Català</g:Anchor>&nbsp;|&nbsp;
+				<g:Anchor styleName="{style.langTab}" ui:field="LangES">Español</g:Anchor>&nbsp;|&nbsp;
+				<g:Anchor styleName="{style.langTab}" ui:field="LangEN">English</g:Anchor>&nbsp;|&nbsp;
+				<g:Anchor styleName="{style.langTab}" ui:field="LangFR">Français</g:Anchor>&nbsp;
+				
+			</g:HTMLPanel>				
+		</g:cell>
+	</g:VerticalPanel>
+  	
+	<div id="header-wrapper">
+		<div id="header">
+			<g:Image resource="{res.logo}"></g:Image>
+			GInvoicing - Invoicing system
+		</div>
+	</div>
+	
+	<div id="container">
+		<div id="center" class="column"> 
+		
+			<g:VerticalPanel styleName="menuPanel" horizontalAlignment='ALIGN_RIGHT'>
+				<g:HorizontalPanel>
+				
+				<g:Hyperlink ui:field="invoicesTab" styleName="menuItem" targetHistoryToken="main/invoices" text="{cnt.menuInvoices}" />
+				<g:Hyperlink ui:field="customersTab" styleName="menuItem" targetHistoryToken="main/customers" text="{cnt.menuCustomers}" />
+				<g:Hyperlink ui:field="productsTab" styleName="menuItem" targetHistoryToken="main/products" text="{cnt.menuProducts}" />
+				<g:Hyperlink ui:field="categoriesTab" styleName="menuItem" targetHistoryToken="main/categories" text="{cnt.menuCategories}" />
+				
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+			
+			<g:HorizontalPanel ui:field="messagesPanel" styleName="messagesPanel" width="100%">
+				<g:Label ui:field="messagesCloseLabel" text="close"></g:Label>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel ui:field="contentPanel" styleName="contentPanel" width="100%" />
+			
+		</div>
+				
+		<div id="left" class="column"></div>
+		<div id="right" class="column"></div>
+	</div>
+	
+	<div id="footer-wrapper">
+		<div id="footer">
+		<g:VerticalPanel width="100%">
+			<g:cell horizontalAlignment='ALIGN_CENTER'>
+				<g:HorizontalPanel>
+					<g:Label text="Ginvoicing&nbsp;&nbsp;-&nbsp;&nbsp;"></g:Label>
+					<g:Hyperlink targetHistoryToken="main/about" text="{cnt.about}" />
+				</g:HorizontalPanel>
+			</g:cell>
+		</g:VerticalPanel>
+		</div>
+	</div>
+
+  </g:HTMLPanel>
+  
+</ui:UiBinder>
