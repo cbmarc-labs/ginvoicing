@@ -48,6 +48,9 @@ This page explain the datamodel of ginvoicing project.
 ||price||Float||||Product unit price||
 ||category||String||||Product category id||
 
+
+
+NOT IMPLEMENTED
 || *Supplier||||||extends EntityBase||
 ||contact||String||||Supplier contact||
 ||fax||String||||Supplier fax||
